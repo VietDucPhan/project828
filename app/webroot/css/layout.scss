@@ -1,0 +1,34 @@
+.head{
+  width:100%;
+  position:fixed;
+  top:0;
+  height:42px;
+  overflow:hidden;
+  background:$backgroundColor;
+  border-bottom:1px solid darken($backgroundColor,10%);
+  .box{
+   width:49%;
+   float:left; 
+  }
+}
+.wrapper{
+  width:990px;
+  height:auto;
+  margin:0 auto;
+}
+.mainWrapper{
+  //background:$secondaryBackgroundColor;
+  //padding:5px;
+  margin-top:50px;
+  @include rounded_corners(10px);
+  .rightSection{
+    width:280px;
+    float:right;
+  }
+  .leftSection{
+    width:700px;
+    .post{
+      padding:0 5px;
+    }
+  }
+}

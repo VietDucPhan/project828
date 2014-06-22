@@ -1,0 +1,105 @@
+//google font --------------------
+
+//clearfix -----------------------
+.clearfix {
+  zoom:1;
+  &:before, &:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    overflow: hidden;
+  }
+  &:after {
+    clear: both;
+  }
+}
+// font-family --------------------
+$font: Arial,Helvetica,sans-serif;
+
+//Color variables --------------------
+$backgroundColor:#2c4762;
+$secondaryBackgroundColor:white;
+$borderColor:#e5e5e5;
+$boldColor:#444;
+$lightColor:#333;
+$aColor:#3b5998;
+// font-size ------------------------
+$normalFontSize:14px;
+// page Width -------------------------------
+$minWidth:976px;
+
+// mixin ------------------------------
+
+@mixin rounded_corners($radius) {
+  border-radius: $radius;
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+}
+
+@mixin box_shadow($shadow){
+  box-shadow: $shadow;
+  -moz-box-shadow: $shadow;
+  -webkit-box-shadow: $shadow;
+}
+
+@mixin background_size($size){
+  -webkit-background-size: $size;
+  -moz-background-size: $size;
+  -o-background-size: $size;
+  background-size: $size;
+}
+
+@mixin align_center{
+  margin:0 auto;
+  padding:0;
+}
+
+@mixin transition_mod($transtion){
+  -webkit-transition:$transtion;
+  -moz-transition:$transtion;
+  -ms-transition:$transtion;
+  -o-transition:$transtion;
+  transition:$transtion;
+}
+// body ---------------------------
+body{
+  font-family:$font;
+  background-color:$backgroundColor;
+  font-size:$normalFontSize;
+}
+// h -------------------------------
+h1{}
+h2{}
+h3{}
+
+// p -------------------------------
+p{
+  font-size:$normalFontSize;
+  color:$lightColor;
+  padding:5px;
+  line-height: 15px;
+}
+
+// a ------------------------------
+
+a{
+  color:$aColor;
+  &:hover{
+    text-decoration:underline;
+  }
+}
+
+
+//strong ---------------------------
+strong{
+  font-weight:bold;
+}
+
+// span ----------------------------
+span{}
+
+// input, select, textarea ---------
+input{
+  height:20px;
+  @include rounded_corners(5px);
+}
