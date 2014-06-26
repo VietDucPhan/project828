@@ -8,6 +8,7 @@
 /build
 /dist
 /tags
+/app/webroot/css/.sass-cache/
 
 # OS generated files #
 ######################
