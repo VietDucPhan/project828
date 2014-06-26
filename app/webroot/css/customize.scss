@@ -5,24 +5,34 @@ a{
   background:$topbar-bg-color;
 }
 .mainContent{
-  margin-top:$topbar-height;
+  margin-top:$topbar-height + 10;
   .post_container{
-    margin-bottom:15px;
     .avatar_container{}
     .content_container{
       padding-top:10px;
       padding-bottom:10px;
+      margin-bottom:15px;
       background:white;
       @include radius($global-radius);
-      .image_container{
-        
+      .detail_post_container{
+        margin:10px 0;
         img{
-          margin:10px 0;
+          margin-bottom:5px;
           display:block;
           width:100%;
         }
       }
       
+    }
+  }
+  .session_right{
+    @include radius($global-radius);
+    background:white;
+    a{
+      color:$body-font-color;
+    }
+    .side-nav li a{
+      color:$body-font-color;
     }
   }
 }

@@ -21,23 +21,12 @@
               <div class="row">
                 <div class="large-12 small-12 columns">
                   <input class="radius" type="text" placeholder="Find Stuff">
-                  <ul id="drop2" class="f-dropdown" data-dropdown-content>
-                <li>
-                  <a href="#">This is a link</a>
-                </li>
-                <li>
-                  <a href="#">This is another</a>
-                </li>
-                <li>
-                  <a href="#">Yet another</a>
-                </li>
-              </ul>
                 </div>
               </div>
             </li>
           </ul>
           <!-- Right Nav Section -->
-          <?php echo $this->element('mainNav/default_not_signin'); ?>
+          <?php echo $this->element('mainNav/mainNav_not_signin'); ?>
         </section>
       </nav>
     </div>
