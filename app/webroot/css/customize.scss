@@ -6,4 +6,23 @@ a{
 }
 .mainContent{
   margin-top:$topbar-height;
+  .post_container{
+    margin-bottom:15px;
+    .avatar_container{}
+    .content_container{
+      padding-top:10px;
+      padding-bottom:10px;
+      background:white;
+      @include radius($global-radius);
+      .image_container{
+        
+        img{
+          margin:10px 0;
+          display:block;
+          width:100%;
+        }
+      }
+      
+    }
+  }
 }

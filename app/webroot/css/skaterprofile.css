@@ -395,7 +395,7 @@ body {
   font-size: 100%; }
 
 body {
-  background: white;
+  background: #f2f2f2;
   color: #222222;
   padding: 0;
   margin: 0;
@@ -460,7 +460,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 75rem; }
+  max-width: 61.25rem; }
   .row:before, .row:after {
     content: " ";
     display: table; }
@@ -5063,7 +5063,7 @@ meta.foundation-mq-topbar {
       background: #333333; }
 
   .contain-to-grid .top-bar {
-    max-width: 75rem;
+    max-width: 61.25rem;
     margin: 0 auto;
     margin-bottom: 0; }
 
@@ -5784,3 +5784,14 @@ a {
 
 .mainContent {
   margin-top: 45px; }
+  .mainContent .post_container {
+    margin-bottom: 15px; }
+    .mainContent .post_container .content_container {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      background: white;
+      border-radius: 3px; }
+      .mainContent .post_container .content_container .image_container img {
+        margin: 10px 0;
+        display: block;
+        width: 100%; }

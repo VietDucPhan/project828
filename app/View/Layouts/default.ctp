@@ -15,15 +15,12 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
-$cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework');
 ?>
 <!DOCTYPE html>
 <html>
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo $cakeDescription ?>:
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
@@ -43,12 +40,12 @@ $cakeDescription = __d('cake_dev', 'CakePHP: the rapid development php framework
 <body>
   <?php echo $this->element('mainNav/default'); ?>
   <div class="mainContent row">
-    <div class="large-9 columns">
+    <div class="large-8 columns">
       <?php echo $this->fetch('content'); ?>
       <?php echo $this->element('sql_dump'); ?>
     </div>
-    <div class="large-3 columns">
-      
+    <div class="large-4 columns">
+      &nbsp;
     </div>
     
   </div>
