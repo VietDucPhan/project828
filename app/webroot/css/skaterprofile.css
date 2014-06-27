@@ -392,11 +392,11 @@ html, body {
 
 html,
 body {
-  font-size: 100%; }
+  font-size: 15px; }
 
 body {
   background: #f2f2f2;
-  color: #222222;
+  color: #444444;
   padding: 0;
   margin: 0;
   font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
@@ -460,7 +460,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 61.25rem; }
+  max-width: 56.25rem; }
   .row:before, .row:after {
     content: " ";
     display: table; }
@@ -4435,7 +4435,7 @@ abbr,
 acronym {
   text-transform: uppercase;
   font-size: 90%;
-  color: #222222;
+  color: #444444;
   border-bottom: 1px dotted #dddddd;
   cursor: help; }
 
@@ -5063,7 +5063,7 @@ meta.foundation-mq-topbar {
       background: #333333; }
 
   .contain-to-grid .top-bar {
-    max-width: 61.25rem;
+    max-width: 56.25rem;
     margin: 0 auto;
     margin-bottom: 0; }
 
@@ -5782,24 +5782,41 @@ a {
 .backgroundColor {
   background: #333333; }
 
+.shadow {
+  box-shadow: 0 1px 2px 0 #aaaaaa; }
+
 .mainContent {
   margin-top: 55px; }
-  .mainContent .post_container .content_container {
-    padding-top: 10px;
-    padding-bottom: 10px;
+  .mainContent .content_container {
     margin-bottom: 15px;
     background: white;
     border-radius: 3px; }
-    .mainContent .post_container .content_container .detail_post_container {
-      margin: 10px 0; }
-      .mainContent .post_container .content_container .detail_post_container img {
+    .mainContent .content_container .detail_post_container {
+      margin: 0.9375rem 0; }
+      .mainContent .content_container .detail_post_container img {
         margin-bottom: 5px;
         display: block;
         width: 100%; }
+    .mainContent .content_container .detail_poster_container {
+      padding: 0.9375rem;
+      background: #f2f2f2; }
+    .mainContent .content_container .description_container {
+      margin-bottom: 0.9375rem; }
   .mainContent .session_right {
     border-radius: 3px;
     background: white; }
     .mainContent .session_right a {
-      color: #222222; }
+      color: #444444; }
     .mainContent .session_right .side-nav li a {
-      color: #222222; }
+      color: #444444; }
+  .mainContent .session_right .side-nav {
+    font-weight: bold; }
+    .mainContent .session_right .side-nav li {
+      margin-bottom: 0; }
+      .mainContent .session_right .side-nav li.divider {
+        border-top-color: #dddddd; }
+      .mainContent .session_right .side-nav li.title {
+        margin-top: 10px;
+        text-transform: uppercase;
+        color: #aaaaaa;
+        padding: 0.4375rem 0.875rem 0; }

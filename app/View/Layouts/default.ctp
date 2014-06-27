@@ -40,11 +40,11 @@
 <body>
   <?php echo $this->element('mainNav/mainNav'); ?>
   <div class="mainContent row">
-    <div class="large-9 columns">
+    <div class="large-8 columns">
       <?php echo $this->fetch('content'); ?>
       <?php echo $this->element('sql_dump'); ?>
     </div>
-    <div class="large-3 columns">
+    <div class="large-4 columns">
       <?php echo $this->element("rightColumn/rightColumn"); ?>
     </div>
     <?php echo $this->element('footer/footer'); ?>
