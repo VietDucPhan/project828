@@ -5783,15 +5783,23 @@ a {
   background: #333333; }
 
 .mainContent {
-  margin-top: 45px; }
-  .mainContent .post_container {
-    margin-bottom: 15px; }
-    .mainContent .post_container .content_container {
-      padding-top: 10px;
-      padding-bottom: 10px;
-      background: white;
-      border-radius: 3px; }
-      .mainContent .post_container .content_container .image_container img {
-        margin: 10px 0;
+  margin-top: 55px; }
+  .mainContent .post_container .content_container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    background: white;
+    border-radius: 3px; }
+    .mainContent .post_container .content_container .detail_post_container {
+      margin: 10px 0; }
+      .mainContent .post_container .content_container .detail_post_container img {
+        margin-bottom: 5px;
         display: block;
         width: 100%; }
+  .mainContent .session_right {
+    border-radius: 3px;
+    background: white; }
+    .mainContent .session_right a {
+      color: #222222; }
+    .mainContent .session_right .side-nav li a {
+      color: #222222; }
