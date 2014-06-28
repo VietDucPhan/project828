@@ -18,44 +18,36 @@
 ?>
 <!DOCTYPE html>
 <html>
-  <head>
-    <?php echo $this -> Html -> charset(); ?>
-    <title><?php echo $title_for_layout; ?></title>
-    <?php 
-    echo $this -> Html -> meta('icon');
-    echo $this->Html->css("skaterprofile");
-    ?>
-  </head>
-  <body>
-    <div class="head">
-      <div class="wrapper">
-      <div class="box">
-        <form>
-          <input type="text" placeholder="search" />
-        </form>
-      </div>
-      <div class="box"></div>
-      </div>
+<head>
+	<?php echo $this->Html->charset(); ?>
+	<title>
+		<?php echo $title_for_layout; ?>
+	</title>
+	<?php
+		echo $this->Html->meta('icon');
+    echo $this->fetch('meta');
+		echo $this->Html->css('skaterprofile');
+    echo $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
+    echo $this->Html->script('modernizr');
+    echo $this->Html->script('foundation.min');
+	?>
+	<script>
+	  $(document).ready(function(){
+	    $(document).foundation();
+	  });
+	</script>
+</head>
+<body>
+  <?php echo $this->element('mainNav/mainNav'); ?>
+  <div class="mainContent row">
+    <div class="large-8 columns">
+      <?php echo $this->fetch('content'); ?>
+      <?php echo $this->element('sql_dump'); ?>
     </div>
-    <div class="wrapper">
-      <div class="mainWrapper">
-        <div class="leftSection">
-          <div class="post">
-            <div class="postImage">
-              <img src="https://38.media.tumblr.com/814c113b912c42b242f6e12121ccb57e/tumblr_mpzvrpcQfz1rkbo6ho1_400.gif" />
-            </div>
-            <div class="postDetail">
-              <h2>caption goes here</h2>
-              <p>post by <a>Some one</a> about 1 minutes ago</p>
-            </div>
-          </div>
-        </div>
-        <div class="rightSection"></div>
-        <div style="height:1000px;"></div>
-      </div>
+    <div class="large-4 columns">
+      <?php echo $this->element("rightColumn/rightColumn"); ?>
     </div>
-    <?php echo $this -> Session -> flash(); ?>
-    <?php echo $this -> fetch('content'); ?>
-    <?php echo $this -> element('sql_dump'); ?>
-  </body>
+    <?php echo $this->element('footer/footer'); ?>
+  </div>
+</body>
 </html>
