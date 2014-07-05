@@ -18,12 +18,14 @@ class UtilityComponent extends Component {
   public function sendConfirmationEmail($to,$body){
     $from = NOREPLY_EMAIL;
     $subject = 'User confirmation';
+    //declare email class
     $email = new CakeEmail();
-          $email->from($from);
-          $email->to($this->request->data['email']);
-          $email->addBcc(BCC,'Admin');
-          $email->subject($subject . ' - ' . SITENAME);
-          $email->send($body);
+    //config email
+    $email->from($from);
+    $email->to($this->request->data['email']);
+    $email->addBcc(BCC,'Admin');
+    $email->subject($subject . ' - ' . SITENAME);
+    $email->send($body);
   }
 }
 ?>

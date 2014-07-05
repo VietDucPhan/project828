@@ -27,6 +27,7 @@ Cache::config('default', array('engine' => 'File'));
 define('NOREPLY_EMAIL', 'no_reply@skaterprofile.com');
 define('SITENAME', 'SkaterProfile');
 define('BCC', 'joomdaily@gmail.com');
+define('HEROKU_URL', parse_url(getenv("CLEARDB_DATABASE_URL")));
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
