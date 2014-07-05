@@ -60,27 +60,14 @@
  * For Sql Server : http://msdn.microsoft.com/en-us/library/ms190356.aspx
  */
 class DATABASE_CONFIG {
-  public $url = HEROKU_URL;
+  function __construct() {
 
-	public $default = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => $this->url["host"],
-		'login' => $this->url['user'],
-		'password' => $this->url['pass'],
-		'database' => substr($this->url["path"],1),
-		'prefix' => '',
-		//'encoding' => 'utf8',
-	);
+    $url = parse_url(getenv('CLEARDB_DATABASE_URL'));
 
-	public $test = array(
-		'datasource' => 'Database/Mysql',
-		'persistent' => false,
-		'host' => 'localhost',
-		'login' => 'user',
-		'password' => 'password',
-		'database' => 'test_database_name',
-		'prefix' => '',
-		//'encoding' => 'utf8',
-	);
+    $this -> default = array('datasource' => 'Database/Mysql', 'persistent' => false, 'host' => $url['host'], 'login' => $url['user'], 'password' => $url['pass'], 'database' => substr($url['path'], 1), 'prefix' => '',
+    //'encoding' => 'utf8',
+    );
+
+  }
+
 }
