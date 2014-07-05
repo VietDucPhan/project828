@@ -24,7 +24,9 @@
 
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
-
+define('NOREPLY_EMAIL', 'no_reply@skaterprofile.com');
+define('SITENAME', 'SkaterProfile');
+define('BCC', 'joomdaily@gmail.com');
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *
