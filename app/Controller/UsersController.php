@@ -20,7 +20,7 @@ class UsersController extends AppController {
       if($this->User->validates()){
         //data is safe to insert to databse
         if($this->User->save($this->request->data)){
-          
+          $this->Utility->sendConfirmationEmail($this->request->data['email'],'abc');
         }
       } else {
         //data is invalid show error

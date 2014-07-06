@@ -22,7 +22,7 @@ class UtilityComponent extends Component {
     $email = new CakeEmail();
     //config email
     $email->from($from);
-    $email->to($this->request->data['email']);
+    $email->to($to);
     $email->addBcc(BCC,'Admin');
     $email->subject($subject . ' - ' . SITENAME);
     $email->send($body);
