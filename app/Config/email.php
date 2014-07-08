@@ -38,27 +38,27 @@
  *
  */
 class EmailConfig {
-
-	public $default = array(
-		'transport' => 'Mail',
-		'from' => 'joomdaily@gmail.com',
-		//'charset' => 'utf-8',
-		//'headerCharset' => 'utf-8',
-	);
-
-	public $smtp = array(
-		'transport' => 'Smtp',
-		'from' => array('site@localhost' => 'My Site'),
-		'host' => 'localhost',
-		'port' => 25,
-		'timeout' => 30,
-		'username' => 'user',
-		'password' => 'secret',
-		'client' => null,
-		'log' => false,
-		//'charset' => 'utf-8',
-		//'headerCharset' => 'utf-8',
-	);
+  public $smtp = array();
+  
+  public function __construct(){
+    $config = array(
+    'transport' => 'Smtp',
+    'from' => array(MAILFROM => 'no-reply'),
+    'sender' => array(MAILFROM => 'no-reply'),
+    'bcc' => array(BCC),
+    'host' => 'ssl://smtp.zoho.com',
+    'port' => 465,
+    'timeout' => 30,
+    'username' => 'no-reply@skaterprofile.com',
+    'password' => getenv('NOREPLY'),
+    'client' => null,
+    'log' => false,
+    //'charset' => 'utf-8',
+    //'headerCharset' => 'utf-8',
+  );
+    $this->smtp = $config;
+  }
+	
 
 	public $fast = array(
 		'from' => 'you@localhost',

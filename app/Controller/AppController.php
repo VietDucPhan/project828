@@ -22,8 +22,6 @@
 App::uses('Controller', 'Controller');
 //import Security class
 App::uses('Security', 'Utility');
-//import cake email
-App::uses('CakeEmail', 'Network/Email');
 
 /**
  * Application Controller
@@ -35,5 +33,5 @@ App::uses('CakeEmail', 'Network/Email');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-  public $components = array('Utility');
+  public $components = array('Utility','Email','Session');
 }

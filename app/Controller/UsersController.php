@@ -20,7 +20,13 @@ class UsersController extends AppController {
       if($this->User->validates()){
         //data is safe to insert to databse
         if($this->User->save($this->request->data)){
-          $this->Utility->sendConfirmationEmail($this->request->data['email'],'abc');
+          
+          $activateLink = Router::url(array('controller' => 'users',
+                                            'action' => 'activate',
+                                            $this->request->data['activation']
+                                            ),true);
+          //send email                                  
+          $this->Email->confirmEmail($this->request->data['email'],$activateLink);
         }
       } else {
         //data is invalid show error
@@ -31,5 +37,11 @@ class UsersController extends AppController {
       $this->redirect($url);
     }
     
+  }
+  /**
+   * Method to activate a user
+   */
+  public function activate($code = ''){
+    print_r($code);
   }
 }

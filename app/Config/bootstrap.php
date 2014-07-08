@@ -24,7 +24,9 @@
 
 // Setup a 'default' cache configuration for use in the application.
 Cache::config('default', array('engine' => 'File'));
-define('NOREPLY_EMAIL', 'joomdaily@gmail.com');
+define('LIVESITE', 'http://skaterprofile.herokuapp.com/');
+define('MAILFROM', 'no-reply@skaterprofile.com');
+define('FROMNAME', 'Skater Profile');
 define('SITENAME', 'SkaterProfile');
 define('BCC', 'joomdaily@gmail.com');
 /**
