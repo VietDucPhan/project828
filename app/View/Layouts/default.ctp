@@ -23,6 +23,7 @@
 	<title>
 		<?php echo $title_for_layout; ?>
 	</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php
 		echo $this->Html->meta('icon');
     echo $this->fetch('meta');
@@ -40,7 +41,9 @@
 <body>
   <?php echo $this->element('mainNav/mainNav'); ?>
   <div class="mainContent row">
+    <div class="dummyDiv"></div>
     <div class="large-8 columns">
+      <?php echo $this->Session->flash(); ?>
       <?php echo $this->fetch('content'); ?>
       <?php echo $this->element('sql_dump'); ?>
     </div>
