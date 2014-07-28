@@ -65,6 +65,12 @@ class User extends AppModel {
         'required' => 'create',
         'message' => 'Password must be entered and at leat 6 characters'
       )
-    )
+    ),
+    'resetCode' => array(
+      'reset-rule-1' => array(
+        'rule' => array('allowEmpty',false),
+        'message' => 'Your reset code was not matched'
+      )
+    ),
   );
 }
