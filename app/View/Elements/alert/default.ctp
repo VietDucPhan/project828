@@ -1,4 +1,4 @@
-<div data-alert="" class="alert-box <?php echo $class; ?>">
+<div data-alert="" class="alert-box radius <?php echo $class; ?>">
   <?php if(is_array($message)): ?>
     <ul>
     <?php foreach($message as $key => $val): ?>

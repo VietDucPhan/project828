@@ -35,6 +35,16 @@
 	<script>
 	  $(document).ready(function(){
 	    $(document).foundation();
+	    //show remind form, hide login form
+	    $('.showRemindPass').click(function(){
+	      $('#loginForm').css('display','none');
+	      $('#remindPass').css('display','block');
+	    });
+	    //show login form, hide remind form
+	    $('.showLoginForm').click(function(){
+        $('#remindPass').css('display','none');
+        $('#loginForm').css('display','block');
+      });
 	  });
 	</script>
 </head>
