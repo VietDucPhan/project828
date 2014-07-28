@@ -1,1 +1,0 @@
-<?php echo $this->element("rightColumn/rightNav/rightNav"); ?>

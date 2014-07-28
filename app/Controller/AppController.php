@@ -33,5 +33,23 @@ App::uses('Security', 'Utility');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
-  public $components = array('Utility','Email','Session');
+  public $components = array(
+    'Utility', 
+    'Email', 
+    'Session', 
+    'Auth' => array(
+      'loginRedirect' => array(
+        'controller' => 'pages', 
+        'action' => 'logged'), 
+      'logoutRedirect' => array('controller' => 'pages', 'action' => 'display'), 
+      'authenticate' => array(
+        'Form' => array('passwordHasher' => 'Blowfish')
+      )
+    )
+  );
+
+  public function beforeFilter() {
+    $this -> Auth -> allow('display', 'view');
+  }
+
 }

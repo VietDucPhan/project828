@@ -26,7 +26,7 @@
             </li>
           </ul>
           <!-- Right Nav Section -->
-          <?php echo $this->element('mainNav/mainNav_not_signin'); ?>
+          <?php echo $this->element('mainNav/notSignIn/default'); ?>
         </section>
       </nav>
     </div>

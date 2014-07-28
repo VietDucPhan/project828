@@ -1,6 +1,7 @@
+<?php print_r(AuthComponent::user()); ?>
 <div class="large-12 medium-12 small-12 columns shadow content_container">
   <div class="detail_poster_container row">
-    Information
+    Information <?php echo AuthComponent::user('id'); ?>
   </div>
   <div class="detail_post_container">
     <p>

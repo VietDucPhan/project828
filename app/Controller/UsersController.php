@@ -3,6 +3,40 @@
 App::uses('AppController', 'Controller');
 
 class UsersController extends AppController {
+  public function beforeSave($options = array()) {
+    if (isset($this -> data[$this -> alias]['password'])) {
+      $passwordHasher = new SimplePasswordHasher();
+      $this -> data[$this -> alias]['password'] = $passwordHasher -> hash($this -> data[$this -> alias]['password']);
+    }
+    return true;
+  }
+
+  /**
+   * Method to authorize access
+   */
+  public function beforeFilter() {
+    $this -> Auth -> allow('login');
+  }
+
+  /**
+   * Controller method to login a user
+   */
+  public function login() {
+    if ($this -> request -> is('post')) {
+      if ($this -> Auth -> login()) {
+        return $this -> redirect($this -> Auth -> redirectUrl());
+        // Prior to 2.3 use
+        // `return $this->redirect($this->Auth->redirect());`
+      } else {
+        $this -> Session -> setFlash(__('Username or password is incorrect'), 'alert/default', array('class' => 'alert'));
+      }
+    }
+  }
+
+  public function logout() {
+    return $this -> redirect($this -> Auth -> logout());
+  }
+
   /**
    * Controller function to register a user
    */
@@ -10,13 +44,13 @@ class UsersController extends AppController {
     //only working with post data
     $url = Router::url('/', true);
     if ($this -> request -> is('post')) {
-      
+
       //set data to user model
       $this -> User -> set($this -> request -> data);
       //attempt to validate data
       if ($this -> User -> validates()) {
         //hash password with sha1
-        $this -> request -> data['password'] = Security::hash($this -> request -> data['password'], 'sha1', true);
+        $this -> request -> data['password'] = Security::hash($this -> request -> data['password'], 'blowfish', false);
         $this -> request -> data['registerDate'] = $this -> Utility -> dateToSql();
         $this -> request -> data['activation'] = Security::hash($this -> Utility -> uniqueSeed());
         //data is safe to insert to databse
@@ -106,36 +140,36 @@ class UsersController extends AppController {
    */
   public function recover($code = '') {
     $url = Router::url('/', true);
-    
-    if($this -> request -> is('post')){
+
+    if ($this -> request -> is('post')) {
       $this -> User -> set($this -> request -> data['User']);
       $conditions = array('User.resetCode' => $this -> request -> data['User']['resetCode'], 'User.lastResetTime <' => 'date_sub(now(), 24 hours)');
-      if($userData = $this -> User -> find('first',array('conditions' => $conditions))){
-        if($this->User->validates(array('fieldList' => array('password','resetCode')))){
+      if ($userData = $this -> User -> find('first', array('conditions' => $conditions))) {
+        if ($this -> User -> validates(array('fieldList' => array('password', 'resetCode')))) {
           $data['id'] = $userData['User']['id'];
           $data['password'] = Security::hash($this -> request -> data['User']['password'], 'sha1', true);
           $data['resetCode'] = '';
           $data['lastResetTime'] = '0000-00-00 00:00:00';
-        
+
           //save data
-          if($this -> User -> save($data)){
-            
+          if ($this -> User -> save($data)) {
+
             $this -> Session -> setFlash(__('Congratulation, you have successfully updated your password'), 'alert/default', array('class' => 'notice'));
-            $this->redirect($url);
+            $this -> redirect($url);
             return true;
           }
         } else {
           $this -> Session -> setFlash(__('Please input the correct password or use the correct link'), 'alert/default', array('class' => 'alert'));
-          $this->redirect($url);
+          $this -> redirect($url);
           return false;
         }
       } else {
         $this -> Session -> setFlash(__('Sorry your request can\'t be procceded, Please request another code'), 'alert/default', array('class' => 'alert'));
-        $this->redirect($url);
+        $this -> redirect($url);
         return false;
       }
     } else {
-      $this -> set('code',$code);
+      $this -> set('code', $code);
       return true;
     }
   }

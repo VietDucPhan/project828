@@ -8,5 +8,5 @@
   </li>
   <li class="divider "></li>
 </ul>
-<?php echo $this->element('mainNav/mainNav_signin_modal'); ?>
-<?php echo $this->element('mainNav/mainNav_signup_modal'); ?>
+<?php echo $this->element('mainNav/notSignIn/default_signin_modal'); ?>
+<?php echo $this->element('mainNav/notSignIn/default_signup_modal'); ?>

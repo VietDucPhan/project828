@@ -49,7 +49,7 @@
 	</script>
 </head>
 <body>
-  <?php echo $this->element('mainNav/mainNav'); ?>
+  <?php echo $this->element('mainNav/default'); ?>
   <div class="mainContent row">
     <div class="dummyDiv"></div>
     <div class="large-8 columns">
@@ -58,9 +58,9 @@
       <?php echo $this->element('sql_dump'); ?>
     </div>
     <div class="large-4 columns">
-      <?php echo $this->element("rightColumn/rightColumn"); ?>
+      <?php echo $this->element("rightColumn/default"); ?>
     </div>
-    <?php echo $this->element('footer/footer'); ?>
+    <?php echo $this->element('footer/default'); ?>
   </div>
 </body>
 </html>
