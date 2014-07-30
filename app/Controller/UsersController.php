@@ -9,14 +9,47 @@ class UsersController extends AppController {
    */
   public function beforeFilter() {
     parent::beforeFilter();
-    $this -> Auth -> allow('login','add','changePass','reset','logout','activate');
+    $this -> loadModel('Skater');
+    $this -> Auth -> allow('login','add','changePass','reset','logout','activate','skater');
+  }
+  
+  /**
+   * Method to show a skater profile
+   */
+  public function skater($id = ''){
+    $url = Router::url('/',true);
+    if(!empty($id)){
+      $isOwned['isOwned'] = false;
+      $skaterData = $this -> Skater -> findById($id);
+      if(empty($skaterData)){
+        $this -> Session -> setFlash(__('Skater is not exist'), 'alert/default', array('class' => 'alert'));
+        return $this->redirect($url);
+      }
+      
+      if($this -> Auth -> user('skater_id') === $id){
+        $isOwned['isOwned'] = true;
+      }
+      //merge array toghether
+      $data = array_merge($skaterData,
+                          $isOwned
+                          );
+      //set data for view
+      $this -> set('skaterData',$data);
+    } elseif($this -> Auth -> user('id')) {//if user logedin redirect to their skater profile
+      if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
+        $this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
+        $url = Router::url(array('controller' => 'users','action' => 'skater', $skaterData['Skater']['id']),true);
+      }
+      return $this -> redirect($url);
+    } else {//if not logedin user rediret them to homepage
+      return $this -> redirect($url);
+    }
   }
 
   /**
    * Controller method to login a user
    */
   public function login() {
-    $this -> loadModel('Skater');
     if ($this -> request -> is('post')) {
       $conditions = array('User.block' => 0, 'User.activation' => '0');
       if($this -> User -> find ('count',array('conditions' => $conditions)) === 1) {
@@ -24,6 +57,7 @@ class UsersController extends AppController {
           //add to session username if exist
           if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
             $this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
+            $this -> Session -> write('Auth.User.skater_id',$skaterData['Skater']['id']);
           }
           
           $loginData = array();

@@ -18,49 +18,41 @@
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-	<?php echo $this->Html->charset(); ?>
-	<title>
-		<?php echo $title_for_layout; ?>
-	</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<?php
-		echo $this->Html->meta('icon');
-    echo $this->fetch('meta');
-		echo $this->Html->css('skaterprofile');
-    echo $this->Html->script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
-    echo $this->Html->script('modernizr');
-    echo $this->Html->script('foundation.min');
-	?>
-	<script>
-	  $(document).ready(function(){
-	    $(document).foundation();
-	    //show remind form, hide login form
-	    $('.showRemindPass').click(function(){
-	      $('#loginForm').css('display','none');
-	      $('#remindPass').css('display','block');
-	    });
-	    //show login form, hide remind form
-	    $('.showLoginForm').click(function(){
-        $('#remindPass').css('display','none');
-        $('#loginForm').css('display','block');
+  <head>
+    <?php echo $this -> Html -> charset(); ?>
+    <title><?php echo $title_for_layout; ?></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <?php echo $this -> Html -> meta('icon');
+    echo $this -> fetch('meta');
+    echo $this -> Html -> css('skaterprofile');
+    echo $this -> Html -> script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
+    echo $this -> Html -> script('modernizr');
+    echo $this -> Html -> script('foundation.min');
+    ?>
+    <script>
+      $(document).ready(function() {
+        $(document).foundation();
+        //show remind form, hide login form
+        $('.showRemindPass').click(function() {
+          $('#loginForm').css('display', 'none');
+          $('#remindPass').css('display', 'block');
+        });
+        //show login form, hide remind form
+        $('.showLoginForm').click(function() {
+          $('#remindPass').css('display', 'none');
+          $('#loginForm').css('display', 'block');
+        });
       });
-	  });
-	</script>
-</head>
-<body>
-  <?php echo $this->element('mainNav/default'); ?>
-  <div class="mainContent row">
-    <div class="dummyDiv"></div>
-    <div class="large-8 columns">
-      <?php echo $this->Session->flash(); ?>
-      <?php echo $this->fetch('content'); ?>
-      <?php echo $this->element('sql_dump'); ?>
+    </script>
+  </head>
+  <body>
+    <?php echo $this -> element('mainNav/default'); ?>
+    <div class="mainContent row">
+      <div class="dummyDiv"></div>
+      <?php echo $this -> Session -> flash(); ?>
+      <?php echo $this -> fetch('content'); ?>
+      <?php echo $this -> element('sql_dump'); ?>
+      <?php echo $this -> element('footer/default'); ?>
     </div>
-    <div class="large-4 columns">
-      <?php echo $this->element("rightColumn/default"); ?>
-    </div>
-    <?php echo $this->element('footer/default'); ?>
-  </div>
-</body>
+  </body>
 </html>
