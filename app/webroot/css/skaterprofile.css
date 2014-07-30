@@ -5782,6 +5782,23 @@ body .backgroundColor {
   background: #333333; }
 body .shadow {
   box-shadow: 0 1px 2px 0 #aaaaaa; }
+body nav.top-bar .usermenu li ul {
+  border-radius: 3px;
+  overflow: hidden;
+  width: 100%; }
+  body nav.top-bar .usermenu li ul li {
+    width: 100%; }
+    body nav.top-bar .usermenu li ul li a {
+      color: #444444;
+      background: white !important; }
+      body nav.top-bar .usermenu li ul li a:hover, body nav.top-bar .usermenu li ul li a:focus {
+        background: rgba(0, 0, 0, 0.025) !important;
+        color: #444444; }
+body nav.top-bar .usermenu li.plusOne .plusOneButton {
+  font-size: 22px;
+  font-weight: bold; }
+body nav.top-bar .usermenu li #plusOnePanel {
+  border-radius: 3px; }
 body .reveal-modal .close-reveal-modal {
   font-size: 1.5rem; }
 body .reveal-modal #remindPass {

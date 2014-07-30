@@ -29,33 +29,15 @@ App::uses('AppModel', 'Model');
  *
  * @package       app.Model
  */
-class User extends AppModel {
+class Skater extends AppModel {
   //Table name
-  public $name = 'users';
+  public $name = 'skaters';
   public $validate = array(
-    'email' => array(
-      'email-rule-1' => array(
-        'rule' => 'email',
-        'required' => 'create',
-        'message' => 'Invalid email.'
-      ),
-      'email-rule-2' => array(
+    'username' => array(
+      'username-rule-1' => array(
         'rule' => 'isUnique',
-        'message' => 'This email already registered.'
+        'message' => 'this username is already taken'
       ),
-    ),
-    'password' => array(
-      'password-rule-1' => array(
-        'rule' => array('minLength',6),
-        'required' => 'create',
-        'message' => 'Password must be entered and at leat 6 characters'
-      )
-    ),
-    'resetCode' => array(
-      'reset-rule-1' => array(
-        'rule' => array('allowEmpty',false),
-        'message' => 'Your reset code was not matched'
-      )
-    ),
+    )
   );
 }

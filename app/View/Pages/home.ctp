@@ -1,4 +1,6 @@
-<?php print_r(AuthComponent::user()); ?>
+<?php //print_r(AuthComponent::user()); ?>
+<?php //print_r($this->Session->read()); ?>
+<?php //print_r(Security::hash('!Fuckusohard)5','blowfish')); ?>
 <div class="large-12 medium-12 small-12 columns shadow content_container">
   <div class="detail_poster_container row">
     Information <?php echo AuthComponent::user('id'); ?>

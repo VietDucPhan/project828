@@ -1,31 +1,22 @@
-<?php echo $this -> Form -> create(null, array('url' => array('controller' => 'users', 'action' => 'add'), 'data-abide')); ?>
+<?php echo $this -> Form -> create('User', array('url' => array('controller' => 'users', 'action' => 'add'), 'data-abide')); ?>
     <div class="row">
       <div class="large-12">
-        
-        <label> <?php echo __('Username'); ?>:
-          <input data-tooltip class="has-tip" data-options="disable_for_touch:true" title="<?php echo __('Don\'t worry, you can change it later.'); ?>"  required name="data[username]" type="text" />
-        </label>
-        <small class="error"><?php echo __('Please enter your username'); ?></small>
+        <?php echo $this -> Form -> input('email', array('label' => __('Email:'), 'required' => 'required', 'div' => false,'data-options'=>'disable_for_touch:true','class' => 'has-tip',' data-tooltip','title' => __('What is your email address?'))); ?>
+        <small class="error"><?php echo __('Doesn\'t look like an email address'); ?></small>
       </div>
       <div class="large-12">
-        <label> <?php echo __('Email'); ?>:
-          <input data-tooltip class="has-tip" data-options="disable_for_touch:true" title="<?php echo __('What is your email address?'); ?>" required name="data[email]" type="email" />
-          <small class="error"><?php echo __('Doesn\'t look like an email address'); ?></small>
-        </label>
+        <?php echo $this -> Form -> input('email', array('label' => __('Re-type your email:'), 'required' => 'required', 'div' => false,'data-options'=>'disable_for_touch:true','class' => 'has-tip',' data-tooltip','title' => __('Please re-type your email'),'id' => 'retypeEmail','data-equalto' => 'email')); ?>
+        <small class="error"><?php echo __('Please type your email again'); ?></small>
       </div>
       <div class="row">
-      <div class="large-6 columns">
-        <label> <?php echo __('Choose a password'); ?>:
-          <input data-tooltip class="has-tip" data-options="disable_for_touch:true" title="<?php echo __('6 characters or more!'); ?>" required id="password" name="data[password]" type="password" />
-          <small class="error"><?php echo __('Password must at least 6 characters'); ?></small>
-        </label>
-      </div>
-      <div class="large-6 columns">
-        <label> <?php echo __('Re-Type password'); ?>:
-          <input data-tooltip class="has-tip" data-options="disable_for_touch:true" title="<?php echo __('Type your password again!'); ?>" data-equalto="password" name="data[repassword]" type="password" />
-        </label>
-        <small class="error"><?php echo __('Please enter password again'); ?></small>
-      </div>
+        <div class="large-6 columns">
+          <?php echo $this -> Form -> input('password', array('label' => __('Password:'), 'required' => 'required', 'div' => false,'data-options'=>'disable_for_touch:true','class' => 'has-tip',' data-tooltip','title' => __('6 characters or more!'))); ?>
+        <small class="error"><?php echo __('Please enter your password'); ?></small>
+        </div>
+        <div class="large-6 columns">
+          <?php echo $this -> Form -> input('password', array('label' => __('Re-type your password:'), 'required' => 'required', 'div' => false,'data-options'=>'disable_for_touch:true','class' => 'has-tip',' data-tooltip','title' => __('Type your password again'),'id' => 'rePassword','data-equalto' => 'password')); ?>
+        <small class="error"><?php echo __('Please enter your password again'); ?></small>
+        </div>
       </div>
       <div class="large-12 text-right">
         <button class="tiny radius">
@@ -34,4 +25,4 @@
         </label>
       </div>
     </div>
-  <?php echo $this -> Form -> end(); ?>
+<?php echo $this -> Form -> end(); ?>

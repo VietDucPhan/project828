@@ -1,4 +1,4 @@
-<?php echo $this -> Form -> create(null, array('url' => array('controller' => 'users', 'action' => 'reset'), 'data-abide')); ?>
+<?php echo $this -> Form -> create('User', array('url' => array('controller' => 'users', 'action' => 'reset'), 'data-abide')); ?>
     <div class="row">
       <div class="large-12">
         <label> <?php echo __('Email'); ?>:

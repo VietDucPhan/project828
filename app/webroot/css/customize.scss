@@ -8,7 +8,40 @@ body{
   .shadow{
     box-shadow: 0 1px 2px 0 darken($hr-border-color,20%);
   }
-  
+  nav{
+    &.top-bar{
+      .usermenu{
+        li{
+          ul{
+              border-radius:$global-radius;
+              overflow:hidden;
+              width:100%;
+              li{
+                width:100%;
+                a{
+                  color:$body-font-color;
+                  background:white !important;
+                  &:hover, &:focus{
+                    background: $side-nav-link-bg-hover !important;
+                    color:$body-font-color;
+                  }
+                }
+              }
+            }
+          &.plusOne{
+            .plusOneButton{
+              font-size:22px;
+              font-weight:bold;
+            }
+          }
+          #plusOnePanel{
+            border-radius:$global-radius;
+            
+          }
+        }
+      }
+    }
+  }
   .reveal-modal{
     .close-reveal-modal{
       font-size:1.5rem;

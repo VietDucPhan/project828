@@ -3,32 +3,39 @@
 App::uses('AppController', 'Controller');
 
 class UsersController extends AppController {
-  public function beforeSave($options = array()) {
-    if (isset($this -> data[$this -> alias]['password'])) {
-      $passwordHasher = new SimplePasswordHasher();
-      $this -> data[$this -> alias]['password'] = $passwordHasher -> hash($this -> data[$this -> alias]['password']);
-    }
-    return true;
-  }
 
   /**
    * Method to authorize access
    */
   public function beforeFilter() {
-    $this -> Auth -> allow('login');
+    parent::beforeFilter();
+    $this -> Auth -> allow('login','add','changePass','reset','logout','activate');
   }
 
   /**
    * Controller method to login a user
    */
   public function login() {
+    $this -> loadModel('Skater');
     if ($this -> request -> is('post')) {
-      if ($this -> Auth -> login()) {
-        return $this -> redirect($this -> Auth -> redirectUrl());
-        // Prior to 2.3 use
-        // `return $this->redirect($this->Auth->redirect());`
+      $conditions = array('User.block' => 0, 'User.activation' => '0');
+      if($this -> User -> find ('count',array('conditions' => $conditions)) === 1) {
+        if ($this -> Auth -> login()) {
+          //add to session username if exist
+          if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
+            $this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
+          }
+          
+          $loginData = array();
+          $loginData ['User'] ['id'] = $this -> Auth -> user ('id');
+          $loginData ['User'] ['lastvisitDate'] = $this -> Utility -> dateToSql();
+          $this -> User ->save($loginData);
+          return $this -> redirect($this -> Auth -> redirectUrl());
+        } else {
+          $this -> Session -> setFlash(__('Username or password is incorrect'), 'alert/default', array('class' => 'alert'));
+        }
       } else {
-        $this -> Session -> setFlash(__('Username or password is incorrect'), 'alert/default', array('class' => 'alert'));
+        return $this -> redirect($this -> Auth -> redirectUrl());
       }
     }
   }
@@ -41,6 +48,7 @@ class UsersController extends AppController {
    * Controller function to register a user
    */
   public function add() {
+    $skaterData = array('Skater');
     //only working with post data
     $url = Router::url('/', true);
     if ($this -> request -> is('post')) {
@@ -49,16 +57,24 @@ class UsersController extends AppController {
       $this -> User -> set($this -> request -> data);
       //attempt to validate data
       if ($this -> User -> validates()) {
+
         //hash password with sha1
-        $this -> request -> data['password'] = Security::hash($this -> request -> data['password'], 'blowfish', false);
-        $this -> request -> data['registerDate'] = $this -> Utility -> dateToSql();
-        $this -> request -> data['activation'] = Security::hash($this -> Utility -> uniqueSeed());
+        $this -> request -> data ['User'] ['password'] = Security::hash($this -> request -> data ['User'] ['password'], 'blowfish', false);
+        $this -> request -> data ['User'] ['registerDate'] = $this -> Utility -> dateToSql();
+        $this -> request -> data ['User'] ['activation'] = Security::hash($this -> Utility -> uniqueSeed());
+        //prevent unwanted user data
+        unset($this -> request -> data ['User'] ['block']);
+        unset($this -> request -> data ['User'] ['sendEmail']);
         //data is safe to insert to databse
         if ($this -> User -> save($this -> request -> data)) {
-
-          $activateLink = Router::url(array('controller' => 'users', 'action' => 'activate', $this -> request -> data['activation']), true);
+          $username = explode('@', $this -> request -> data ['User'] ['email']);
+          $skaterData ['Skater'] ['isOwnedBy'] = $this -> User -> getInsertID();
+          $skaterData ['Skater'] ['username'] = $username[0];
+          $skaterData ['Skater'] ['created_date'] = $this -> Utility -> dateToSql();
+          $this -> Skater -> save($skaterData);
+          $activateLink = Router::url(array('controller' => 'users', 'action' => 'activate', $this -> request -> data ['User'] ['activation']), true);
           //send email
-          $this -> Email -> confirm($this -> request -> data['email'], $activateLink);
+          $this -> Email -> confirm($this -> request -> data ['User'] ['email'], $activateLink);
         }
       } else {
         //data is invalid show error
@@ -81,14 +97,14 @@ class UsersController extends AppController {
     //is post
     if ($this -> request -> is('post')) {
 
-      if ($this -> Utility -> validateEmail($email = $this -> request -> data['email'])) {
+      if ($this -> Utility -> validateEmail($email = $this -> request -> data ['User'] ['email'])) {
 
         if ($userData = $this -> User -> findByEmail($email)) {
           $resetData['id'] = $userData['User']['id'];
           $resetData['resetCode'] = Security::hash($this -> Utility -> uniqueSeed(), 'md5', true);
           $resetData['lastResetTime'] = $this -> Utility -> dateToSql();
 
-          $resetLink = Router::url(array('controller' => 'users', 'action' => 'recover', $resetData['resetCode']), true);
+          $resetLink = Router::url(array('controller' => 'users', 'action' => 'changePass', $resetData['resetCode']), true);
 
           if ($this -> User -> save($resetData)) {
             $this -> Email -> reset($userData['User']['email'], $resetLink);
@@ -123,7 +139,7 @@ class UsersController extends AppController {
     $url = Router::url('/', true);
     if ($userData = $this -> User -> findByActivation($code)) {
       $editUser['id'] = $userData['User']['id'];
-      $editUser['activation'] = '0';
+      $editUser['activation'] = 0;
       if ($this -> User -> save($editUser)) {
         $this -> Session -> setFlash(__('Congratulation, Your account have been activated!'), 'alert/default', array('class' => 'notice'));
         $this -> redirect($url);
@@ -138,16 +154,16 @@ class UsersController extends AppController {
   /**
    * Method to change password
    */
-  public function recover($code = '') {
+  public function changePass($code = '') {
     $url = Router::url('/', true);
 
     if ($this -> request -> is('post')) {
-      $this -> User -> set($this -> request -> data['User']);
+      $this -> User -> set($this -> request -> data);
       $conditions = array('User.resetCode' => $this -> request -> data['User']['resetCode'], 'User.lastResetTime <' => 'date_sub(now(), 24 hours)');
       if ($userData = $this -> User -> find('first', array('conditions' => $conditions))) {
         if ($this -> User -> validates(array('fieldList' => array('password', 'resetCode')))) {
           $data['id'] = $userData['User']['id'];
-          $data['password'] = Security::hash($this -> request -> data['User']['password'], 'sha1', true);
+          $data['password'] = Security::hash($this -> request -> data['User']['password'], 'blowfish', false);
           $data['resetCode'] = '';
           $data['lastResetTime'] = '0000-00-00 00:00:00';
 

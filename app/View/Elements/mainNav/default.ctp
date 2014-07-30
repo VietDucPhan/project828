@@ -4,7 +4,7 @@
       <nav class="top-bar" data-topbar>
         <ul class="title-area">
           <li class="name">
-            <h1><a href="<?php echo $this->webroot; ?>">Friendsthatclick</a></h1>
+            <h1><a href="<?php echo $this -> webroot; ?>">Friendsthatclick</a></h1>
           </li>
           <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
           <li class="toggle-topbar menu-icon">
@@ -26,7 +26,11 @@
             </li>
           </ul>
           <!-- Right Nav Section -->
-          <?php echo $this->element('mainNav/notSignIn/default'); ?>
+          <?php if($this -> Session -> check('Auth.User')): ?>
+            <?php echo $this -> element('mainNav/signedIn/default'); ?>
+          <?php else: ?>
+            <?php echo $this -> element('mainNav/notSignIn/default'); ?>
+          <?php endif; ?>
         </section>
       </nav>
     </div>
