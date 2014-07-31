@@ -5,7 +5,7 @@
   </li>
   <li class="divider "></li>
   <li>
-    <a href="<?php echo Router::url(array('controller'=>'users','action'=>'skater',AuthComponent::user('skater_id'))); ?>">#<?php echo AuthComponent::user('username'); ?></a>
+    <a href="<?php echo Router::url(array('controller'=>'skaters','action'=>'profile',AuthComponent::user('skater_id'))); ?>">#<?php echo AuthComponent::user('username'); ?></a>
   </li>
   <li class="divider "></li>
   <li>

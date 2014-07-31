@@ -5782,6 +5782,8 @@ body .backgroundColor {
   background: #333333; }
 body .shadow {
   box-shadow: 0 1px 2px 0 #aaaaaa; }
+body select.birthdate {
+  width: 31%; }
 body nav.top-bar .usermenu li ul {
   border-radius: 3px;
   overflow: hidden;

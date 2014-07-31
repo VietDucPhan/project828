@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 29, 2014 at 09:34 AM
+-- Generation Time: Jul 31, 2014 at 09:42 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.16
 
@@ -28,7 +28,6 @@ USE `project828`;
 -- Table structure for table `skaters`
 --
 
-DROP TABLE IF EXISTS `skaters`;
 CREATE TABLE IF NOT EXISTS `skaters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `firstname` varchar(15) DEFAULT NULL,
@@ -36,9 +35,10 @@ CREATE TABLE IF NOT EXISTS `skaters` (
   `lastname` varchar(15) DEFAULT NULL,
   `username` varchar(30) NOT NULL,
   `birthdate` date DEFAULT NULL,
+  `profile_img` int(11) unsigned DEFAULT NULL,
   `stance` tinyint(3) unsigned DEFAULT NULL,
   `status` tinyint(3) unsigned DEFAULT NULL,
-  `isOwnedBy` int(11) unsigned DEFAULT NULL,
+  `is_owned_by` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
@@ -48,7 +48,23 @@ CREATE TABLE IF NOT EXISTS `skaters` (
 -- Dumping data for table `skaters`
 --
 
-INSERT INTO `skaters` VALUES(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, NULL, NULL, NULL, '2014-07-29 08:57:31');
+INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `username`, `birthdate`, `profile_img`, `stance`, `status`, `is_owned_by`, `created_date`) VALUES
+(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, 0, NULL, NULL, 15, '2014-07-29 08:57:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skater_images`
+--
+
+CREATE TABLE IF NOT EXISTS `skater_images` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `file_url` varchar(255) NOT NULL,
+  `created_by` int(11) unsigned NOT NULL,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `desc` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -56,7 +72,6 @@ INSERT INTO `skaters` VALUES(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, NULL, NUL
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
@@ -77,8 +92,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` VALUES(15, 'joomdaily@gmail.com', '$2a$10$R1wOGsrLGHAIm9KKbGzVROBukgJj/UMxFiOqpd7pu2hf.Gqr8WbYK', 0, 0, '2014-07-21 15:21:48', '0000-00-00 00:00:00', '7041d283d4376704700e7b756157691c5ef64ba8', '', '0000-00-00 00:00:00', '');
-INSERT INTO `users` VALUES(23, 'viet_duc_phan@yahoo.com', '$2a$10$pkqMKrw2cNXRdJV1X5hch.Y1fkrTilat.CLr.OH7kWLxFBuvGzkHi', 0, 0, '2014-07-29 08:57:31', '2014-07-29 09:11:08', '0', '', '0000-00-00 00:00:00', '');
+INSERT INTO `users` (`id`, `email`, `password`, `block`, `sendEmail`, `registerDate`, `lastvisitDate`, `activation`, `resetCode`, `lastResetTime`, `config`) VALUES
+(15, 'joomdaily@gmail.com', '$2a$10$R1wOGsrLGHAIm9KKbGzVROBukgJj/UMxFiOqpd7pu2hf.Gqr8WbYK', 0, 0, '2014-07-21 15:21:48', '2014-07-31 00:55:16', '7041d283d4376704700e7b756157691c5ef64ba8', '', '0000-00-00 00:00:00', ''),
+(23, 'viet_duc_phan@yahoo.com', '$2a$10$pkqMKrw2cNXRdJV1X5hch.Y1fkrTilat.CLr.OH7kWLxFBuvGzkHi', 0, 0, '2014-07-29 08:57:31', '2014-07-29 09:11:08', '0', '', '0000-00-00 00:00:00', '');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
