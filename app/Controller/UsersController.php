@@ -37,7 +37,7 @@ class UsersController extends AppController {
       $this -> set('skaterData',$data);
     } elseif($this -> Auth -> user('id')) {//if user logedin redirect to their skater profile
       if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
-        $this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
+        //$this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
         $url = Router::url(array('controller' => 'users','action' => 'skater', $skaterData['Skater']['id']),true);
       }
       return $this -> redirect($url);

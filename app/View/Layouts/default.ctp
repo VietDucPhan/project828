@@ -28,6 +28,7 @@
     echo $this -> Html -> script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js');
     echo $this -> Html -> script('modernizr');
     echo $this -> Html -> script('foundation.min');
+    echo $this -> Html -> script('script');
     ?>
     <script>
       $(document).ready(function() {

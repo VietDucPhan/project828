@@ -37,6 +37,7 @@ class AppController extends Controller {
     'Utility', 
     'Email', 
     'Session', 
+    'RequestHandler', 
     'Auth' => array(
       'loginRedirect' => array(
         'controller' => 'pages', 

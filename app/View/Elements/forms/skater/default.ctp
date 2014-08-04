@@ -44,7 +44,10 @@
   <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
     <div class="row collapse">
         <div class="small-10 columns">
-          <input type="text" placeholder="Search for company or brand">
+          <input type="hidden" class="notIn" name="sponsored" value="1" />
+          <input type="hidden" class="notIn" name="sponsored" value="2" />
+          <input type="hidden" class="notIn" name="sponsored" value="3" />
+          <?php echo $this -> Form -> input('sponsor', array('label' => false, 'div' => false,'data-dropdown'=>"getCompanies",'class'=>'dropdown')); ?>
         </div>
         <div class="small-2 columns">
           <a href="#" class="button postfix">add</a>
