@@ -49,17 +49,8 @@
     <div class="row collapse">
         <div class="small-10 columns">
           <?php echo $this -> Form -> input('sponsor', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchCompanyPanel')); ?>
-          <ul id="searchCompanyPanel" class="f-dropdown" data-dropdown-content>
-            <li>
-              <div class="row">
-                <div class="nameSponsor small-8 columns">
-                  Nike Sb
-                </div>
-                <div class="addButtonSponsor small-4 columns">
-                  <a class="button radius" href="#"><?php echo __('add'); ?></a>
-                </div>
-              </div>
-            </li>
+          <ul id="searchCompanyPanel" class="" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
+            
           </ul>
         
         </div>

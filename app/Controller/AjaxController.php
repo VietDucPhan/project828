@@ -19,28 +19,29 @@ class AjaxController extends AppController {
    * Method to get all companies
    */
   public function getCompanies(){
+    $errorMessage = __('No results');
     if($this -> request -> is('get')){
       //print_r($this -> request);
       // return false;
-      $conditions = array('Company.company_name LIKE' => '%'.$this->request->query['name'].'%');
-      $fields = array('Company.id','Company.company_name','Company.created_date');
+      $conditions = array('Company.name LIKE' => '%'.$this->request->query['name'].'%');
+      $fields = array('Company.id','Company.name','Company.created_date');
       if(!empty($this->request->query['notIn'])){
         $notIn['NOT'] = $this->request->query['notIn'];
         $conditions = array_merge($conditions,$notIn);
       }
       //print_r($conditions);
       //print_r($this->request->query);
-      if($companies = $this -> Company -> find('list', array('conditions'=>$conditions,'fields'=>$fields))){
-        $result = array();
-        foreach($companies as $k => $v){
-          $result[] = array('id' => $k, 'name' => $v);
+      try{
+        $companies = $this -> Company -> find('all', array('conditions'=>$conditions,'fields'=>$fields));
+        if(empty($companies)){
+          $companies = $errorMessage;
         }
         $this -> set('results',$companies);
-      } else {
-        $this -> set('results','Could not find what you are looking for');
+      } catch(Exception $e){
+        $this -> set('results',$errorMessage);
       }
     } else {
-      $this -> set('results','Could not find what you are looking for');
+      $this -> set('results',$errorMessage);
     }
   }
 }
