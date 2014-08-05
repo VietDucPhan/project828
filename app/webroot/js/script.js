@@ -1,5 +1,5 @@
 $('document').ready(function(){
-  $('#SkaterSponsor').keyup(function(){
+  function getCompanies (){
     var brand_company = $('#SkaterSponsor').val();
     var notIn = [];
     var $i = 0;
@@ -11,7 +11,21 @@ $('document').ready(function(){
       url:"/project828/ajax/getCompanies",
       data:{name:brand_company,notIn:notIn}
     }).done(function(content){
+      // var result = JSON.parse(content);
+      // for (var key in result) {
+        // if (result.hasOwnProperty(key)) {
+          // alert(result[key].id);
+          // alert(result[key].msg);
+        // }
+      // }
       console.log(content);
     });
+  }
+  $('#SkaterSponsor').keyup(function(){
+    getCompanies();
+  });
+  $('#searchCompany').click(function(){
+    getCompanies();
+    event.preventDefault();
   });
 });

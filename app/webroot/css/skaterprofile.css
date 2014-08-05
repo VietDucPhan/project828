@@ -5784,6 +5784,27 @@ body .shadow {
   box-shadow: 0 1px 2px 0 #aaaaaa; }
 body select.birthdate {
   width: 31%; }
+body #searchCompanyPanel {
+  max-width: 100%;
+  padding: 5px; }
+  body #searchCompanyPanel li {
+    height: 45px;
+    overflow: hidden; }
+  body #searchCompanyPanel .logoSponsor {
+    text-align: left; }
+  body #searchCompanyPanel .nameSponsor {
+    text-align: left;
+    padding: 0.9375rem; }
+  body #searchCompanyPanel .addButtonSponsor {
+    text-align: right;
+    padding: 0.9375rem; }
+  body #searchCompanyPanel a {
+    color: white;
+    display: inline; }
+  body #searchCompanyPanel img {
+    margin-bottom: 0;
+    max-width: 66px;
+    display: inline; }
 body nav.top-bar .usermenu li ul {
   border-radius: 3px;
   overflow: hidden;

@@ -11,6 +11,34 @@ body{
   select.birthdate{
     width:31%;
   }
+  #searchCompanyPanel{
+    max-width:100%;
+    padding:5px;
+    li{
+      height:45px;
+      overflow:hidden;
+    }
+    .logoSponsor{
+      text-align:left;
+    }
+    .nameSponsor{
+      text-align:left;
+      padding:$column-gutter/2;
+    }
+    .addButtonSponsor{
+      text-align:right;
+      padding:$column-gutter/2;
+    }
+    a{
+      color:white;
+      display:inline;
+    }
+    img{
+      margin-bottom:0;
+      max-width:66px;
+      display:inline;
+    }
+  }
   nav{
     &.top-bar{
       .usermenu{
