@@ -11,12 +11,42 @@ body{
   select.birthdate{
     width:31%;
   }
-  #searchCompanyPanel{
+  .close_x{
+    @include reveal-close;
+    font-size:1.5rem;
+    top:0;
+    right:0;
+  }
+  #searchCompanyPanel, #searchVideoPartPanel{
     max-width:100%;
     padding:5px;
     li{
       height:45px;
+      position:relative;
       overflow:hidden;
+      .name{
+        float:left;
+        margin:14px 0 0 10px;
+      }
+      .addButton{
+        position:absolute;
+        top:7px;
+        right:10px;
+        margin:0;
+      }
+      .imgContainer{
+        float:left;
+        height: 45px;
+        width: 45px;
+        line-height: 45px;
+        text-align: center;
+        img{
+          display: inline-block;
+          max-width: 45px;
+          max-height: 45px;
+          vertical-align: middle;
+        }
+      }
     }
     .logoSponsor{
       text-align:left;
@@ -97,6 +127,31 @@ body{
             margin-bottom:5px;
             display:block;
             width:100%;
+          }
+          #sponsorshipContainer,#videoPartContainer{
+            list-style-type:none;
+            margin:0;
+            li{
+              text-align:left;
+              position:relative;
+              vertical-align:top;
+              .name{
+                margin-left:10px;
+                display:inline;
+                position: absolute;
+                top: 0;
+              }
+              .imgContainer{
+                width:66px;
+                height:66px;
+                overflow:hidden;
+                display:inline;
+                img{
+                  max-width:66px;
+                  display:inline;
+                }
+              }
+            }
           }
         }
         .detail_poster_container{

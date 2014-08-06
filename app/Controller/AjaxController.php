@@ -13,20 +13,21 @@ class AjaxController extends AppController {
     parent::beforeFilter();
     $this -> layout = 'ajax';
     $this -> loadModel('Company');
-    $this -> Auth -> allow('getCompanies');
+    $this -> loadModel('Video');
+    $this -> Auth -> allow('getCompanies','getVideos');
   }
   /**
    * Method to get all companies
    */
   public function getCompanies(){
     $errorMessage = __('No results');
-    if($this -> request -> is('get')){
+    if($this -> request -> is('post')){
       //print_r($this -> request);
       // return false;
-      $conditions = array('Company.name LIKE' => '%'.$this->request->query['name'].'%');
+      $conditions = array('Company.name LIKE' => '%'.$this->request->data['name'].'%');
       $fields = array('Company.id','Company.name','Company.created_date');
-      if(!empty($this->request->query['notIn'])){
-        $notIn['NOT'] = $this->request->query['notIn'];
+      if(!empty($this->request->data['notIn'])){
+        $notIn['NOT']['Company.id'] = $this->request->data['notIn'];
         $conditions = array_merge($conditions,$notIn);
       }
       //print_r($conditions);
@@ -37,6 +38,35 @@ class AjaxController extends AppController {
           $companies = $errorMessage;
         }
         $this -> set('results',$companies);
+      } catch(Exception $e){
+        $this -> set('results',$errorMessage);
+      }
+    } else {
+      $this -> set('results',$errorMessage);
+    }
+  }
+  /**
+   * Method to get all video
+   */
+  public function getVideos(){
+    $errorMessage = __('No results');
+    if($this -> request -> is('post')){
+      //print_r($this -> request);
+      // return false;
+      $conditions = array('Video.name LIKE' => '%'.$this->request->data['name'].'%');
+      $fields = array('Video.id','Video.name');
+      if(!empty($this->request->data['notIn'])){
+        $notIn['NOT']['Video.id'] = $this->request->data['notIn'];
+        $conditions = array_merge($conditions,$notIn);
+      }
+      //print_r($conditions);
+      //print_r($this->request->query);
+      try{
+        $videos = $this -> Video -> find('all', array('conditions'=>$conditions,'fields'=>$fields));
+        if(empty($videos)){
+          $videos = $errorMessage;
+        }
+        $this -> set('results',$videos);
       } catch(Exception $e){
         $this -> set('results',$errorMessage);
       }

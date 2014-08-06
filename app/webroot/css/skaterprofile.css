@@ -5784,24 +5784,56 @@ body .shadow {
   box-shadow: 0 1px 2px 0 #aaaaaa; }
 body select.birthdate {
   width: 31%; }
-body #searchCompanyPanel {
+body .close_x {
+  font-size: 2.5rem;
+  line-height: 1;
+  position: absolute;
+  top: 0.5rem;
+  right: 0.6875rem;
+  color: #aaaaaa;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.5rem;
+  top: 0;
+  right: 0; }
+body #searchCompanyPanel, body #searchVideoPartPanel {
   max-width: 100%;
   padding: 5px; }
-  body #searchCompanyPanel li {
+  body #searchCompanyPanel li, body #searchVideoPartPanel li {
     height: 45px;
+    position: relative;
     overflow: hidden; }
-  body #searchCompanyPanel .logoSponsor {
+    body #searchCompanyPanel li .name, body #searchVideoPartPanel li .name {
+      float: left;
+      margin: 14px 0 0 10px; }
+    body #searchCompanyPanel li .addButton, body #searchVideoPartPanel li .addButton {
+      position: absolute;
+      top: 7px;
+      right: 10px;
+      margin: 0; }
+    body #searchCompanyPanel li .imgContainer, body #searchVideoPartPanel li .imgContainer {
+      float: left;
+      height: 45px;
+      width: 45px;
+      line-height: 45px;
+      text-align: center; }
+      body #searchCompanyPanel li .imgContainer img, body #searchVideoPartPanel li .imgContainer img {
+        display: inline-block;
+        max-width: 45px;
+        max-height: 45px;
+        vertical-align: middle; }
+  body #searchCompanyPanel .logoSponsor, body #searchVideoPartPanel .logoSponsor {
     text-align: left; }
-  body #searchCompanyPanel .nameSponsor {
+  body #searchCompanyPanel .nameSponsor, body #searchVideoPartPanel .nameSponsor {
     text-align: left;
     padding: 0.9375rem; }
-  body #searchCompanyPanel .addButtonSponsor {
+  body #searchCompanyPanel .addButtonSponsor, body #searchVideoPartPanel .addButtonSponsor {
     text-align: right;
     padding: 0.9375rem; }
-  body #searchCompanyPanel a {
+  body #searchCompanyPanel a, body #searchVideoPartPanel a {
     color: white;
     display: inline; }
-  body #searchCompanyPanel img {
+  body #searchCompanyPanel img, body #searchVideoPartPanel img {
     margin-bottom: 0;
     max-width: 66px;
     display: inline; }
@@ -5838,6 +5870,26 @@ body .mainContent .content_container {
       margin-bottom: 5px;
       display: block;
       width: 100%; }
+    body .mainContent .content_container .detail_post_container #sponsorshipContainer, body .mainContent .content_container .detail_post_container #videoPartContainer {
+      list-style-type: none;
+      margin: 0; }
+      body .mainContent .content_container .detail_post_container #sponsorshipContainer li, body .mainContent .content_container .detail_post_container #videoPartContainer li {
+        text-align: left;
+        position: relative;
+        vertical-align: top; }
+        body .mainContent .content_container .detail_post_container #sponsorshipContainer li .name, body .mainContent .content_container .detail_post_container #videoPartContainer li .name {
+          margin-left: 10px;
+          display: inline;
+          position: absolute;
+          top: 0; }
+        body .mainContent .content_container .detail_post_container #sponsorshipContainer li .imgContainer, body .mainContent .content_container .detail_post_container #videoPartContainer li .imgContainer {
+          width: 66px;
+          height: 66px;
+          overflow: hidden;
+          display: inline; }
+          body .mainContent .content_container .detail_post_container #sponsorshipContainer li .imgContainer img, body .mainContent .content_container .detail_post_container #videoPartContainer li .imgContainer img {
+            max-width: 66px;
+            display: inline; }
   body .mainContent .content_container .detail_poster_container {
     padding: 0.9375rem;
     background: #f2f2f2; }
