@@ -1,8 +1,12 @@
 <?php
 
 App::uses('Component', 'Controller');
-
+App::uses('Security', 'Utility');
+App::uses('Session', 'Utility');
+App::import('Vendor', 'aws-autoloader', array('file' => 'aws' . DS . 'aws-autoloader.php'));
+use Aws\Common\Aws;
 class UtilityComponent extends Component {
+  public $components = array('Session');
   /**
    * Create a random seed
    * @return int
@@ -10,15 +14,44 @@ class UtilityComponent extends Component {
   public function uniqueSeed() {
     return uniqid(mt_rand(), true);
   }
-  
-  
+
+  /**
+   * Method to upload image to amazon s3
+   * @return image s3 url
+   */
+  public function uploadImage($name, $tmp_name, $size, $limitsize = 4000000, $allowedExtension = array('jpg','gif','png')) {
+    $aws = Aws::factory(array('key' => AWS_ACCESS_KEY_ID, 'secret' => AWS_BUCKET_KEY));
+    $s3Client = $aws -> get('S3');
+    
+    $arrayName = explode('.', $name);
+    $fileExtension = $arrayName[1];
+    $name = Security::hash($this->uniqueSeed(),'sha1').'.'.$fileExtension;
+    
+    if(!in_array($fileExtension, $allowedExtension)){
+      $this -> Session -> setFlash(__('File type is not supported'), 'alert/default', array('class' => 'alert'));
+      return false;
+    }
+    
+    if($size > $limitsize){
+      $this -> Session -> setFlash(__('File size is too big'), 'alert/default', array('class' => 'alert'));
+      return false;
+    }
+    
+    
+    if($upload = $s3Client -> putObject(array('Bucket' => AWS_BUCKET_KEY, 'Key' => $name, 'Body' => fopen($tmp_name, 'rb'), 'ACL' => 'public-read'))){
+      return htmlspecialchars($upload -> get('ObjectURL'));
+    }
+    
+    return false;
+  }
+
   /**
    * Method to return datetime sql format
    * @param string $time string of date to convert
    * @return string in sql format datetime Y-m-d H:i:s
    */
-  public function dateToSql($time = 'now'){
-    return date('Y-m-d H:i:s',strtotime($time));
+  public function dateToSql($time = 'now') {
+    return date('Y-m-d H:i:s', strtotime($time));
   }
 
   /**
@@ -93,7 +126,7 @@ class UtilityComponent extends Component {
     else
       return false;
   }
-  
+
   /**
    * Method to limit number of words
    * @param string $string of words

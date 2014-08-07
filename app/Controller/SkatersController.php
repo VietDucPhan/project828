@@ -50,7 +50,8 @@ class SkatersController extends AppController {
    */
   public function add(){
     if($this -> request -> is('post')){
-      
+      echo $this -> Utility -> uploadImage($this->request ->data['Skater']['profile_image']['name'],$this->request ->data['Skater']['profile_image']['tmp_name'],$this->request ->data['Skater']['profile_image']['size']);
+      //print_r($this->request ->data);
     }
   }
 
