@@ -58,37 +58,38 @@ class SkatersController extends AppController {
       $this -> request -> data['Skater']['alias'] = $this -> Utility -> stringUrlSafe($alias);
       $this -> Skater -> set($this -> request -> data);
       if($this -> Skater -> validates()){
-        $profile_img = null;
-        $image = $this -> request -> data['Skater']['profile_image'];
-        if(!empty($image)){
+        if(!empty($this -> request -> data['Skater']['profile_image'])){
+          $image = $this -> request -> data['Skater']['profile_image'];
           if($url_img = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'))){
             $postImageData = array();
             $postImageData['SkaterPostImage']['url'] = $url_img;
             $postImageData['SkaterPostImage']['is_owned_by_skater'] = null;
             $postImageData['SkaterPostImage']['posted_by_skater'] = $isCreatedBy;
+            $postImageData['SkaterPostImage']['created_date'] = $this -> Utility -> dateToSql();
             if($this -> SkaterPostImage -> save($postImageData)){
-              $profile_img = $this -> SkaterPostImage -> getInsertID();
+              $this -> request -> data['Skater']['profile_img'] = $this -> SkaterPostImage -> getInsertID();
             }
           }
         }
         if($this -> Skater -> save($this -> request -> data)){
           //insert sponsors
-          $sponsors = array_unique($this -> request -> data['Skater']['sponsors']);
-          if(!empty($sponsors)){
+          
+          if(!empty($this -> request -> data['Skater']['sponsors'])){
+            $sponsors = array_unique($this -> request -> data['Skater']['sponsors']);
             foreach($sponsors as $k => $v){
               $sponsorData = array();
               $sponsorData['SkaterSponsor']['id'] = 0;
               $sponsorData['SkaterSponsor']['company_id'] = $v;
               $sponsorData['SkaterSponsor']['is_created_by_skater'] = $isCreatedBy;
               $sponsorData['SkaterSponsor']['skater_id'] = $this -> Skater -> getInsertID();
-              $sponsorData['SkaterSponsor']['profile_img'] = $profile_img;
               $sponsorData['SkaterSponsor']['created_date'] = $this -> Utility -> dateToSql();
               $this -> SkaterSponsor -> save($sponsorData);
             }
           }
           //insert videos
-          $videos = array_unique($this -> request -> data['Skater']['videos']);
-          if(!empty($videos)){
+          
+          if(!empty($this -> request -> data['Skater']['videos'])){
+            $videos = array_unique($this -> request -> data['Skater']['videos']);
             foreach($sponsors as $key => $val){
               $videoData = array();
               $videoData['SkaterVideo']['id'] = 0;
@@ -109,7 +110,7 @@ class SkatersController extends AppController {
         $this -> Session -> setFlash($this -> Skater -> validationErrors, 'alert/default', array('class' => 'alert'));
         return false;
       }
-      print_r($this -> request -> data);
+      //print_r($this -> request -> data);
       //echo $this -> Utility -> upload($this->request ->data['Skater']['profile_image']['name'],$this->request ->data['Skater']['profile_image']['tmp_name'],$this->request ->data['Skater']['profile_image']['size']);
       //print_r($this->request ->data);
     }

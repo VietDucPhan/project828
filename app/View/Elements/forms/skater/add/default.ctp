@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-      <?php echo $this -> Form -> input('profile_image', array('type' => 'file', 'label' => __('Photo:'), 'div' => false)); ?>
+      <?php echo $this -> Form -> input('profile_image', array('type' => 'file', 'label' => __('Photo:(<4MB and .jpg, .png only)'), 'div' => false)); ?>
     </div>
   </div>
 </div>

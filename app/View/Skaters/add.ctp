@@ -1,1 +1,1 @@
-<?php echo $this -> element('forms/skater/default'); ?>
+<?php echo $this -> element('forms/skater/add/default'); ?>
