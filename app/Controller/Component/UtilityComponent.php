@@ -12,23 +12,45 @@ class UtilityComponent extends Component {
    * @return int
    */
   public function uniqueSeed() {
-    return uniqid(mt_rand(), true);
+    return uniqid(mt_rand().time(), true);
+  }
+  
+  /**
+   * This method processes a string and replaces all accented UTF-8 characters by unaccented
+   * ASCII-7 "equivalents", whitespaces are replaced by hyphens and the string is lowercase.
+   *
+   * @param   string  $string  String to process
+   *
+   * @return  string  Processed string
+   */
+  public static function stringURLSafe($string) {
+    $unwanted_array = array('á' => 'a', 'à' => 'a', 'ả' => 'a', 'ã' => 'a', 'ạ' => 'a', 'â' => 'a', 'ấ' => 'a', 'ầ' => 'a', 'ẩ' => 'a', 'ẫ' => 'a', 'ậ' => 'a', 'ă' => 'a', 'ắ' => 'a', 'ằ' => 'a', 'ẳ' => 'a', 'ẵ' => 'a', 'ặ' => 'a', 'đ' => 'd', 'é' => 'e', 'è' => 'e', 'ẻ' => 'e', 'ẽ' => 'e', 'ẹ' => 'e', 'ê' => 'e', 'ế' => 'e', 'ề' => 'e', 'ể' => 'e', 'ễ' => 'e', 'ệ' => 'e', 'í' => 'i', 'ì' => 'i', 'ỉ' => 'i', 'ĩ' => 'i', 'ị' => 'i', 'ó' => 'o', 'ò' => 'o', 'ỏ' => 'o', 'õ' => 'o', 'ọ' => 'o', 'ô' => 'o', 'ố' => 'o', 'ồ' => 'o', 'ổ' => 'o', 'ỗ' => 'o', 'ộ' => 'o', 'ơ' => 'o', 'ớ' => 'o', 'ờ' => 'o', 'ở' => 'o', 'ỡ' => 'o', 'ợ' => 'o', 'ú' => 'u', 'ù' => 'u', 'ủ' => 'u', 'ũ' => 'u', 'ụ' => 'u', 'ư' => 'u', 'ứ' => 'u', 'ừ' => 'u', 'ử' => 'u', 'ữ' => 'u', 'ự' => 'u', 'ý' => 'y', 'ỳ' => 'y', 'ỷ' => 'y', 'ỹ' => 'y', 'ỵ' => 'y', 'Á' => 'A', 'À' => 'A', 'Ả' => 'A', 'Ã' => 'A', 'Ạ' => 'A', 'Â' => 'A', 'Ấ' => 'A', 'Ầ' => 'A', 'Ẩ' => 'A', 'Ẫ' => 'A', 'Ậ' => 'A', 'Ă' => 'A', 'Ắ' => 'A', 'Ằ' => 'A', 'Ẳ' => 'A', 'Ẵ' => 'A', 'Ặ' => 'A', 'Đ' => 'D', 'É' => 'E', 'È' => 'E', 'Ẻ' => 'E', 'Ẽ' => 'E', 'Ẹ' => 'E', 'Ê' => 'E', 'Ế' => 'E', 'Ề' => 'E', 'Ể' => 'E', 'Ễ' => 'E', 'Ệ' => 'E', 'Í' => 'I', 'Ì' => 'I', 'Ỉ' => 'I', 'Ĩ' => 'I', 'Ị' => 'I', 'Ó' => 'O', 'Ò' => 'O', 'Ỏ' => 'O', 'Õ' => 'O', 'Ọ' => 'O', 'Ô' => 'O', 'Ố' => 'O', 'Ồ' => 'O', 'Ổ' => 'O', 'Ỗ' => 'O', 'Ộ' => 'O', 'Ơ' => 'O', 'Ớ' => 'O', 'Ờ' => 'O', 'Ở' => 'O', 'Ỡ' => 'O', 'Ợ' => 'O', 'Ú' => 'U', 'Ù' => 'U', 'Ủ' => 'U', 'Ũ' => 'U', 'Ụ' => 'U', 'Ư' => 'U', 'Ứ' => 'U', 'Ừ' => 'U', 'Ử' => 'U', 'Ữ' => 'U', 'Ự' => 'U', 'Ý' => 'Y', 'Ỳ' => 'Y', 'Ỷ' => 'Y', 'Ỹ' => 'Y', 'Ỵ' => 'Y');
+    //$string = str_replace('_', ' ', $string);
+    $str = strtr($string, $unwanted_array);
+    $str = trim(strtolower($str));
+    $str = preg_replace('/(\s|[^A-Za-z0-9\_])+/', '', $str);
+    $str = trim($str, '-');
+    $str = trim($str, '_');
+    return $str;
   }
 
   /**
    * Method to upload image to amazon s3
    * @return image s3 url
    */
-  public function uploadImage($name, $tmp_name, $size, $limitsize = 4000000, $allowedExtension = array('jpg','gif','png')) {
-    $aws = Aws::factory(array('key' => AWS_ACCESS_KEY_ID, 'secret' => AWS_BUCKET_KEY));
+  public function upload($name, $tmp_name, $size, $allowedExtension = array('jpg','gif','png'), $limitsize = 4000000) {
+    $regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
+    $aws = Aws::factory(array('key' => KEY_ID, 'secret' => SECRET_ACCESS_KEY));
     $s3Client = $aws -> get('S3');
     
-    $arrayName = explode('.', $name);
-    $fileExtension = $arrayName[1];
-    $name = Security::hash($this->uniqueSeed(),'sha1').'.'.$fileExtension;
+    $name = rtrim($name, '.');
+    $name = preg_replace($regex, '', $name);
+    $dot = strrpos($name, '.') + 1;
+    $fileExtension = substr($name, $dot);
+    $name = Security::hash($this->uniqueSeed(),'sha1') . '_' . Security::hash($this->uniqueSeed(),'sha1'). '.' .$fileExtension;
     
     if(!in_array($fileExtension, $allowedExtension)){
-      $this -> Session -> setFlash(__('File type is not supported'), 'alert/default', array('class' => 'alert'));
+      $this -> Session -> setFlash(__("File type: $fileExtension is not supported"), 'alert/default', array('class' => 'alert'));
       return false;
     }
     
@@ -38,10 +60,10 @@ class UtilityComponent extends Component {
     }
     
     
-    if($upload = $s3Client -> putObject(array('Bucket' => AWS_BUCKET_KEY, 'Key' => $name, 'Body' => fopen($tmp_name, 'rb'), 'ACL' => 'public-read'))){
+    if($upload = $s3Client -> putObject(array('Bucket' => BUCKET_KEY, 'Key' => $name, 'Body' => fopen($tmp_name, 'rb'), 'ACL' => 'public-read'))){
       return htmlspecialchars($upload -> get('ObjectURL'));
     }
-    
+    $this -> Session -> setFlash(__('An error occured while uploading photo please try again latter.'), 'alert/default', array('class' => 'alert'));
     return false;
   }
 

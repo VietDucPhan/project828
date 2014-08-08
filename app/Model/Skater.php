@@ -33,11 +33,61 @@ class Skater extends AppModel {
   //Table name
   public $name = 'skaters';
   public $validate = array(
-    'username' => array(
-      'username-rule-1' => array(
+    'alias' => array(
+      'alias-rule-1' => array(
         'rule' => 'isUnique',
-        'message' => 'this username is already taken'
+        'required' => true,
+        'allowEmpty' => false,
+        'message' => 'this skater is already exist'
+      )
+    ),
+    'firstname' => array(
+      'firstname-rule-1' => array(
+        'rule' => 'notEmpty',
+        'required' => true,
+        'allowEmpty' => false,
+        'message' => 'First name must be provided'
       ),
-    )
+      'firstname-rule-1' => array(
+        'rule' => 'alphaNumeric',
+        'message' => 'First name can not have special characters'
+      )
+    ),
+    'middlename' => array(
+      'middlename-rule-2' => array(
+        'rule' => 'alphaNumeric',
+        'message' => 'Middle name can not have special characters'
+      )
+    ),
+    'lastname' => array(
+      'lastname-rule-1' => array(
+        'rule' => 'notEmpty',
+        'required' => true,
+        'allowEmpty' => false,
+        'message' => 'Last name must be provided'
+      ),
+      'lastname-rule-2' => array(
+        'rule' => 'alphaNumeric',
+        'message' => 'Last name can not have special characters'
+      )
+    ),
+    'stance' => array(
+      'stance-rule-1' => array(
+        'rule' => 'numeric',
+        'message' => 'Please specifize your stance'
+      )
+    ),
+    'birthdate' => array(
+      'birthdate-rule-1' => array(
+        'rule' => array('date', 'ymd'),
+        'message' => 'Please enter your birthdate'
+      )
+    ),
+    'status' => array(
+      'status-rule-1' => array(
+        'rule' => 'numeric',
+        'message' => 'Please specifize your status'
+      )
+    ),
   );
 }

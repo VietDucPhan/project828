@@ -27,7 +27,7 @@ $('document').ready(function(){
         var count = result.length;
         
         for(var i = 0; i < count; i++){
-          html += '<li id="li-' + i + '"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + result[i].Company.name + '</strong></div><a data-value="' + i + '" class="addButton addCompany button radius" href="#">add</a></li>';
+          html += '<li id="li-sponsor-' + i + '"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + result[i].Company.name + '</strong></div><a data-value="' + i + '" class="addButton addCompany button radius" href="#">add</a></li>';
         }
         $("#searchCompanyPanel").html(html);
       }
@@ -61,7 +61,7 @@ $('document').ready(function(){
         var count = result.length;
         
         for(var i = 0; i < count; i++){
-          html += '<li id="li-' + i + '"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + result[i].Video.name + '</strong></div><a data-value="' + i + '" class="addButton addVideo button radius" href="#">add</a></li>';
+          html += '<li id="li-video-' + i + '"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + result[i].Video.name + '</strong></div><a data-value="' + i + '" class="addButton addVideo button radius" href="#">add</a></li>';
         }
         $("#searchVideoPartPanel").html(html);
       }
@@ -77,8 +77,8 @@ $('document').ready(function(){
     var val = $(e).data('value');
     $result = window.resultCompany;
     
-    var html = '<li id="sponsor-'+$result[val].Company.id+'"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+$result[val].Company.name+'</strong></div><input class="notIn" type="hidden" name="[Skater][sponsors][]" value="'+$result[val].Company.id+'" /><span data-removeid="'+$result[val].Company.id+'" class="close_x removeButton">×</span></li>';
-    $('#li-'+val).fadeOut('fast');
+    var html = '<li id="sponsor-'+$result[val].Company.id+'"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+$result[val].Company.name+'</strong></div><input class="notIn" type="hidden" name="data[Skater][sponsors][]" value="'+$result[val].Company.id+'" /><span data-removeid="'+$result[val].Company.id+'" class="close_x removeButton">×</span></li>';
+    $('#li-sponsor-'+val).fadeOut('fast');
     $('#sponsorshipContainer').append(html).promise().done(function(){
       flag = false;
     });
@@ -91,8 +91,8 @@ $('document').ready(function(){
     var val = $(e).data('value');
     var result = window.resultVideo;
     
-    var html = '<li id="video-'+result[val].Video.id+'"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+result[val].Video.name+'</strong></div><input class="notInVideo" type="hidden" name="[Skater][videos][]" value="'+result[val].Video.id+'" /><span data-removeid="'+result[val].Video.id+'" class="close_x removeButton">×</span></li>';
-    $('#li-'+val).fadeOut('fast');
+    var html = '<li id="video-'+result[val].Video.id+'"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+result[val].Video.name+'</strong></div><input class="notInVideo" type="hidden" name="data[Skater][videos][]" value="'+result[val].Video.id+'" /><span data-removeid="'+result[val].Video.id+'" class="close_x removeButton">×</span></li>';
+    $('#li-video-'+val).fadeOut('fast');
     $('#videoPartContainer').append(html).promise().done(function(){
       flag = false;
     });

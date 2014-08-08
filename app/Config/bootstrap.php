@@ -29,6 +29,10 @@ define('MAILFROM', 'no-reply@skaterprofile.com');
 define('FROMNAME', 'Skater Profile');
 define('SITENAME', 'SkaterProfile');
 define('BCC', 'joomdaily@gmail.com');
+define('KEY_ID', AWS_ACCESS_KEY_ID);
+define('SECRET_ACCESS_KEY', AWS_SECRET_ACCESS_KEY);
+define('BUCKET_KEY', AWS_BUCKET_KEY);
+
 /**
  * The settings below can be used to set additional paths to models, views and controllers.
  *

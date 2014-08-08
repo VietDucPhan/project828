@@ -9,6 +9,9 @@ class SkatersController extends AppController {
    */
   public function beforeFilter() {
     parent::beforeFilter();
+    $this -> loadModel('SkaterSponsor');
+    $this -> loadModel('SkaterVideo');
+    $this -> loadModel('SkaterPostImage');
     $this -> Auth -> allow('profile','add');
   }
   
@@ -36,7 +39,6 @@ class SkatersController extends AppController {
       $this -> set('skaterData',$data);
     } elseif($this -> Auth -> user('id')) {//if user logedin redirect to their skater profile
       if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
-        $this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
         $url = Router::url(array('controller' => 'users','action' => 'profile', $skaterData['Skater']['id']),true);
       }
       return $this -> redirect($url);
@@ -49,8 +51,66 @@ class SkatersController extends AppController {
    * Method to create skater
    */
   public function add(){
+    $url = Router::url('/',true);
     if($this -> request -> is('post')){
-      echo $this -> Utility -> uploadImage($this->request ->data['Skater']['profile_image']['name'],$this->request ->data['Skater']['profile_image']['tmp_name'],$this->request ->data['Skater']['profile_image']['size']);
+      $isCreatedBy = null;
+      $alias = $this -> request -> data['Skater']['firstname'] . '_' . $this -> request -> data['Skater']['lastname'];
+      $this -> request -> data['Skater']['alias'] = $this -> Utility -> stringUrlSafe($alias);
+      $this -> Skater -> set($this -> request -> data);
+      if($this -> Skater -> validates()){
+        $profile_img = null;
+        $image = $this -> request -> data['Skater']['profile_image'];
+        if(!empty($image)){
+          if($url_img = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'))){
+            $postImageData = array();
+            $postImageData['SkaterPostImage']['url'] = $url_img;
+            $postImageData['SkaterPostImage']['is_owned_by_skater'] = null;
+            $postImageData['SkaterPostImage']['posted_by_skater'] = $isCreatedBy;
+            if($this -> SkaterPostImage -> save($postImageData)){
+              $profile_img = $this -> SkaterPostImage -> getInsertID();
+            }
+          }
+        }
+        if($this -> Skater -> save($this -> request -> data)){
+          //insert sponsors
+          $sponsors = array_unique($this -> request -> data['Skater']['sponsors']);
+          if(!empty($sponsors)){
+            foreach($sponsors as $k => $v){
+              $sponsorData = array();
+              $sponsorData['SkaterSponsor']['id'] = 0;
+              $sponsorData['SkaterSponsor']['company_id'] = $v;
+              $sponsorData['SkaterSponsor']['is_created_by_skater'] = $isCreatedBy;
+              $sponsorData['SkaterSponsor']['skater_id'] = $this -> Skater -> getInsertID();
+              $sponsorData['SkaterSponsor']['profile_img'] = $profile_img;
+              $sponsorData['SkaterSponsor']['created_date'] = $this -> Utility -> dateToSql();
+              $this -> SkaterSponsor -> save($sponsorData);
+            }
+          }
+          //insert videos
+          $videos = array_unique($this -> request -> data['Skater']['videos']);
+          if(!empty($videos)){
+            foreach($sponsors as $key => $val){
+              $videoData = array();
+              $videoData['SkaterVideo']['id'] = 0;
+              $videoData['SkaterVideo']['video_id'] = $v;
+              $videoData['SkaterVideo']['is_created_by_skater'] = $isCreatedBy;
+              $videoData['SkaterVideo']['skater_id'] = $this -> Skater -> getInsertID();
+              $videoData['SkaterVideo']['created_date'] = $this -> Utility -> dateToSql();
+              $this -> SkaterVideo -> save($videoData);
+            }
+          }
+          //set image belong to the skater just created
+          if($url_img){
+            $this -> SkaterPostImage -> save(array('SkaterPostImage'=>array('is_owned_by_skater'=>$this -> Skater -> getInsertID())));
+          }
+        }
+      } else {
+        //data is invalid show error
+        $this -> Session -> setFlash($this -> Skater -> validationErrors, 'alert/default', array('class' => 'alert'));
+        return false;
+      }
+      print_r($this -> request -> data);
+      //echo $this -> Utility -> upload($this->request ->data['Skater']['profile_image']['name'],$this->request ->data['Skater']['profile_image']['tmp_name'],$this->request ->data['Skater']['profile_image']['size']);
       //print_r($this->request ->data);
     }
   }

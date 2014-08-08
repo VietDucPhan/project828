@@ -55,8 +55,8 @@ class UsersController extends AppController {
       if($this -> User -> find ('count',array('conditions' => $conditions)) === 1) {
         if ($this -> Auth -> login()) {
           //add to session username if exist
-          if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
-            $this -> Session -> write('Auth.User.username',$skaterData['Skater']['username']);
+          if($skaterData = $this -> Skater -> findByIsOwnedByUser($this -> Auth -> user ('id'))){
+            $this -> Session -> write('Auth.User.alias',$skaterData['Skater']['alias']);
             $this -> Session -> write('Auth.User.skater_id',$skaterData['Skater']['id']);
           }
           
@@ -102,8 +102,8 @@ class UsersController extends AppController {
         //data is safe to insert to databse
         if ($this -> User -> save($this -> request -> data)) {
           $username = explode('@', $this -> request -> data ['User'] ['email']);
-          $skaterData ['Skater'] ['isOwnedBy'] = $this -> User -> getInsertID();
-          $skaterData ['Skater'] ['username'] = $username[0];
+          $skaterData ['Skater'] ['is_owned_by_user'] = $this -> User -> getInsertID();
+          $skaterData ['Skater'] ['alias'] = $this->Utility -> stringUrlSafe($username[0]);
           $skaterData ['Skater'] ['created_date'] = $this -> Utility -> dateToSql();
           $this -> Skater -> save($skaterData);
           $activateLink = Router::url(array('controller' => 'users', 'action' => 'activate', $this -> request -> data ['User'] ['activation']), true);
@@ -113,8 +113,7 @@ class UsersController extends AppController {
       } else {
         //data is invalid show error
         $this -> Session -> setFlash($this -> User -> validationErrors, 'alert/default', array('class' => 'alert'));
-        $this -> redirect($url);
-        return false;
+        return $this -> redirect($url);
       }
     } else {
       $this -> Session -> setFlash(__('There is something happened while register, Please do it again later'), 'alert/default', array('class' => 'alert'));

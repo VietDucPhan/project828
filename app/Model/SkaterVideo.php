@@ -29,35 +29,7 @@ App::uses('AppModel', 'Model');
  *
  * @package       app.Model
  */
-class User extends AppModel {
+class SkaterVideo extends AppModel {
   //Table name
-  public $name = 'users';
-  public $validate = array(
-    'email' => array(
-      'email-rule-1' => array(
-        'rule' => 'email',
-        'required' => true,
-        'allowEmpty' => false,
-        'message' => 'Invalid email.'
-      ),
-      'email-rule-2' => array(
-        'rule' => 'isUnique',
-        'message' => 'This email already registered.'
-      ),
-    ),
-    'password' => array(
-      'password-rule-1' => array(
-        'rule' => array('minLength',6),
-        'required' => true,
-        'allowEmpty' => false,
-        'message' => 'Password must be entered and at leat 6 characters'
-      )
-    ),
-    'resetCode' => array(
-      'reset-rule-1' => array(
-        'rule' => 'notEmpty',
-        'message' => 'Your reset code was not matched'
-      )
-    ),
-  );
+  public $name = 'skater_videos';
 }
