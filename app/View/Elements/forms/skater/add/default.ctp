@@ -9,8 +9,7 @@
         <small class="error"><?php echo __('Please enter your first name'); ?></small>
       </div>
       <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-        <?php echo $this -> Form -> input('middlename', array('label' => __('Middle name:'), 'required' => 'required', 'div' => false, 'data-options' => 'disable_for_touch:true', 'class' => 'has-tip', ' data-tooltip', 'title' => __('What is your middle name?'))); ?>
-        <small class="error"><?php echo __('Please enter your middle name'); ?></small>
+        <?php echo $this -> Form -> input('middlename', array('label' => __('Middle name:'), 'required' => false, 'div' => false, 'data-options' => 'disable_for_touch:true', 'class' => 'has-tip', ' data-tooltip', 'title' => __('What is your middle name?'))); ?>
       </div>
       <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
         <?php echo $this -> Form -> input('lastname', array('label' => __('Last name:'), 'required' => 'required', 'div' => false, 'data-options' => 'disable_for_touch:true', 'class' => 'has-tip', ' data-tooltip', 'title' => __('What is your last name?'))); ?>
@@ -49,7 +48,7 @@
   <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
     <div class="row collapse">
         <div class="small-10 columns">
-          <?php echo $this -> Form -> input('sponsor', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchCompanyPanel')); ?>
+          <?php echo $this -> Form -> input('sponsor', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchCompanyPanel','autocomplete' => 'off')); ?>
           <ul id="searchCompanyPanel" class="" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
             
           </ul>
@@ -75,7 +74,7 @@
   <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
     <div class="row collapse">
         <div class="small-10 columns">
-          <?php echo $this -> Form -> input('videoPart', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchVideoPartPanel')); ?>
+          <?php echo $this -> Form -> input('videoPart', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchVideoPartPanel','autocomplete' => 'off')); ?>
           <ul id="searchVideoPartPanel" class="" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
             
           </ul>

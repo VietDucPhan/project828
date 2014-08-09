@@ -54,8 +54,9 @@ class Skater extends AppModel {
       )
     ),
     'middlename' => array(
-      'middlename-rule-2' => array(
+      'middlename-rule-1' => array(
         'rule' => 'alphaNumeric',
+        'allowEmpty' => true,
         'message' => 'Middle name can not have special characters'
       )
     ),
