@@ -16,7 +16,7 @@ $('document').ready(function(){
     //console.log(notIn);
     $.ajax({
       type:"post",
-      url:"/project828/ajax/getCompanies",
+      url:"/ajax/getCompanies",
       data:{name:brand_company,notIn:notIn}
     }).done(function(content){
       var html = '';
@@ -49,12 +49,12 @@ $('document').ready(function(){
     //console.log(notIn);
     $.ajax({
       type:"post",
-      url:"/project828/ajax/getVideos",
+      url:"/ajax/getVideos",
       data:{name:videopart,notIn:notIn}
     }).done(function(content){
       var html = '';
       try {
-        console.log(content);
+        //console.log(content);
         //console.log(content);
         window.resultVideo = JSON.parse(content);
         var result = window.resultVideo;
