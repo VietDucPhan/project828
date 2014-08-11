@@ -10,6 +10,12 @@ class CompaniesController extends AppController {
   public function beforeFilter() {
     parent::beforeFilter();
     $this -> loadModel('Skater');
-    $this -> Auth -> allow('ajaxCompanies');
+    $this -> Auth -> allow('add');
+  }
+  /**
+   * Method to add more company to database
+   */
+  public function add(){
+    
   }
 }

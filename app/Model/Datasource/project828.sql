@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 06, 2014 at 09:58 AM
--- Server version: 5.6.12-log
+-- Generation Time: Aug 11, 2014 at 04:02 PM
+-- Server version: 5.1.41-community-log
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,25 +28,24 @@ USE `project828`;
 -- Table structure for table `companies`
 --
 
+DROP TABLE IF EXISTS `companies`;
 CREATE TABLE IF NOT EXISTS `companies` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `name_in_system` varchar(30) NOT NULL,
-  `desc` text NOT NULL,
-  `logo` int(11) DEFAULT NULL,
-  `isOwnedBy` int(11) unsigned NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `alias` varchar(30) NOT NULL,
+  `launched_year` year(4) DEFAULT NULL,
+  `closed_year` year(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `companies`
 --
 
-INSERT INTO `companies` (`id`, `name`, `name_in_system`, `desc`, `logo`, `isOwnedBy`, `created_date`) VALUES
-(1, 'Nike Sb', 'nikesb', 'nike sb is a company not owned by skater', NULL, 15, '2014-08-28 00:00:00'),
-(2, 'adidas', 'adidas', 'adidas', NULL, 0, '0000-00-00 00:00:00'),
-(3, 'DVS', 'DVS', 'DVS', NULL, 0, '0000-00-00 00:00:00');
+INSERT INTO `companies` (`id`, `name`, `alias`, `launched_year`, `closed_year`, `created_date`) VALUES
+(1, 'Nike SB', 'nikesb', 0000, 0000, '0000-00-00 00:00:00'),
+(2, 'DVS', 'dvs', 0000, 0000, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -54,12 +53,13 @@ INSERT INTO `companies` (`id`, `name`, `name_in_system`, `desc`, `logo`, `isOwne
 -- Table structure for table `skaters`
 --
 
+DROP TABLE IF EXISTS `skaters`;
 CREATE TABLE IF NOT EXISTS `skaters` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `firstname` varchar(15) DEFAULT NULL,
+  `firstname` varchar(14) DEFAULT NULL,
   `middlename` varchar(20) DEFAULT NULL,
   `lastname` varchar(15) DEFAULT NULL,
-  `username` varchar(30) NOT NULL,
+  `alias` varchar(30) NOT NULL,
   `birthdate` date DEFAULT NULL,
   `profile_img` int(11) unsigned DEFAULT NULL,
   `stance` tinyint(3) unsigned DEFAULT NULL,
@@ -67,30 +67,92 @@ CREATE TABLE IF NOT EXISTS `skaters` (
   `is_owned_by` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+  UNIQUE KEY `username` (`alias`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `skaters`
 --
 
-INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `username`, `birthdate`, `profile_img`, `stance`, `status`, `is_owned_by`, `created_date`) VALUES
-(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, 0, NULL, NULL, 15, '2014-07-29 08:57:31');
+INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `alias`, `birthdate`, `profile_img`, `stance`, `status`, `is_owned_by`, `created_date`) VALUES
+(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, 0, NULL, NULL, 15, '2014-07-29 08:57:31'),
+(6, 'Duca', '', 'Phan', 'duca_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
+(7, 'don', 'Viet', 'Phan', 'don_phan', NULL, 1, 0, 3, NULL, '0000-00-00 00:00:00'),
+(8, 'dona', 'Viet', 'Phan', 'dona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
+(9, 'Ducdon', 'Viet', 'Phan', 'ducdon_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
+(10, 'Ducdona', 'Viet', 'Phan', 'ducdona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `skater_images`
+-- Table structure for table `skater_post_images`
 --
 
-CREATE TABLE IF NOT EXISTS `skater_images` (
+DROP TABLE IF EXISTS `skater_post_images`;
+CREATE TABLE IF NOT EXISTS `skater_post_images` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `file_url` varchar(255) NOT NULL,
-  `created_by` int(11) unsigned NOT NULL,
-  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `url` varchar(255) NOT NULL,
   `desc` text NOT NULL,
+  `is_owned_by_skater` int(11) unsigned DEFAULT NULL,
+  `posted_by_skater` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `skater_post_images`
+--
+
+INSERT INTO `skater_post_images` (`id`, `url`, `desc`, `is_owned_by_skater`, `posted_by_skater`, `created_date`) VALUES
+(1, 'https://skaterprofile.s3.amazonaws.com/324ef046287cc0f3f6f2a3f09a7f8e41a6d3de16_a6e6ea6c1efe5352b8ceba94451aad9792aec7b6.png', '', 7, NULL, '2014-08-09 06:04:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skater_sponsors`
+--
+
+DROP TABLE IF EXISTS `skater_sponsors`;
+CREATE TABLE IF NOT EXISTS `skater_sponsors` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `company_id` int(11) NOT NULL,
+  `skater_id` int(11) NOT NULL,
+  `is_created_by_skater` int(11) DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `skater_sponsors`
+--
+
+INSERT INTO `skater_sponsors` (`id`, `company_id`, `skater_id`, `is_created_by_skater`, `created_date`) VALUES
+(2, 1, 6, NULL, '2014-08-09 04:22:30'),
+(3, 1, 7, NULL, '2014-08-09 06:04:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `skater_videos`
+--
+
+DROP TABLE IF EXISTS `skater_videos`;
+CREATE TABLE IF NOT EXISTS `skater_videos` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `video_id` int(11) unsigned NOT NULL,
+  `skater_id` int(11) unsigned NOT NULL,
+  `is_created_by_skater` int(11) unsigned DEFAULT NULL,
+  `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `skater_videos`
+--
+
+INSERT INTO `skater_videos` (`id`, `video_id`, `skater_id`, `is_created_by_skater`, `created_date`) VALUES
+(2, 1, 6, NULL, '2014-08-09 04:22:30'),
+(3, 1, 7, NULL, '2014-08-09 06:04:00');
 
 -- --------------------------------------------------------
 
@@ -98,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `skater_images` (
 -- Table structure for table `users`
 --
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
@@ -119,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `block`, `sendEmail`, `registerDate`, `lastvisitDate`, `activation`, `resetCode`, `lastResetTime`, `config`) VALUES
-(15, 'joomdaily@gmail.com', '$2a$10$R1wOGsrLGHAIm9KKbGzVROBukgJj/UMxFiOqpd7pu2hf.Gqr8WbYK', 0, 0, '2014-07-21 15:21:48', '2014-08-01 08:02:28', '7041d283d4376704700e7b756157691c5ef64ba8', '', '0000-00-00 00:00:00', ''),
+(15, 'joomdaily@gmail.com', '$2a$10$R1wOGsrLGHAIm9KKbGzVROBukgJj/UMxFiOqpd7pu2hf.Gqr8WbYK', 0, 0, '2014-07-21 15:21:48', '2014-07-31 00:55:16', '7041d283d4376704700e7b756157691c5ef64ba8', '', '0000-00-00 00:00:00', ''),
 (23, 'viet_duc_phan@yahoo.com', '$2a$10$pkqMKrw2cNXRdJV1X5hch.Y1fkrTilat.CLr.OH7kWLxFBuvGzkHi', 0, 0, '2014-07-29 08:57:31', '2014-07-29 09:11:08', '0', '', '0000-00-00 00:00:00', '');
 
 -- --------------------------------------------------------
@@ -128,20 +191,20 @@ INSERT INTO `users` (`id`, `email`, `password`, `block`, `sendEmail`, `registerD
 -- Table structure for table `videos`
 --
 
+DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `alias` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `videos`
 --
 
-INSERT INTO `videos` (`id`, `name`, `alias`) VALUES
-(1, 'fully flared', 0),
-(2, 'debacle', 0);
+INSERT INTO `videos` (`id`, `name`) VALUES
+(1, 'Fully flared'),
+(2, 'Dirty Head');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

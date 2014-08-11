@@ -14,7 +14,8 @@ class AjaxController extends AppController {
     $this -> layout = 'ajax';
     $this -> loadModel('Company');
     $this -> loadModel('Video');
-    $this -> Auth -> allow('getCompanies','getVideos');
+    $this -> loadModel('Skater');
+    $this -> Auth -> allow('getCompanies','getVideos','getSkaters');
   }
   /**
    * Method to get all companies
@@ -67,6 +68,35 @@ class AjaxController extends AppController {
           $videos = $errorMessage;
         }
         $this -> set('results',$videos);
+      } catch(Exception $e){
+        $this -> set('results',$errorMessage);
+      }
+    } else {
+      $this -> set('results',$errorMessage);
+    }
+  }
+  /**
+   * Method to get all skaters
+   */
+  public function getSkaters(){
+    $errorMessage = __('No results');
+    if($this -> request -> is('post')){
+      //print_r($this -> request);
+      // return false;
+      $conditions = array('CONCAT(Skater.firstname," ",Skater.lastname) LIKE' => '%'.$this->request->data['name'].'%');
+      $fields = array('id','CONCAT(Skater.firstname," ",Skater.lastname) AS name');
+      if(!empty($this->request->data['notIn'])){
+        $notIn['NOT']['Skater.id'] = $this->request->data['notIn'];
+        $conditions = array_merge($conditions,$notIn);
+      }
+      //print_r($conditions);
+      //print_r($this->request->query);
+      try{
+        $Skaters = $this -> Skater -> find('all', array('conditions'=>$conditions));
+        if(empty($Skaters)){
+          $Skaters = $errorMessage;
+        }
+        $this -> set('results',$Skaters);
       } catch(Exception $e){
         $this -> set('results',$errorMessage);
       }

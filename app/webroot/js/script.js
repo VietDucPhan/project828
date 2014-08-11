@@ -2,7 +2,7 @@ $('document').ready(function(){
   var flag = false;
   //show loading
   function showLoading(id){
-    $(id).html('loading...');
+    $('#'+id).html('loading...');
   }
   //show brands
   function getCompanies (){
@@ -68,6 +68,56 @@ $('document').ready(function(){
       catch(e){
         html = content;
         $("#searchVideoPartPanel").html(html);
+      }
+    });
+  }
+  //get video part
+  function getContentAddSearch(dropDownPanelID){
+    $('#'+dropDownPanelID).addClass('f-dropdown open').css('left',0);
+    var searchContentName = $('#'+dropDownPanelID+'-searchInput').val();
+    var notIn = [];
+    var $i = 0;
+    $('.'+dropDownPanelID+"-notIn").each(function() {
+        notIn[$i++] = $(this).val();
+    });
+    //console.log(searchContentName);
+    $.ajax({
+      type:"post",
+      url:"/ajax/"+dropDownPanelID,
+      data:{name:searchContentName,notIn:notIn}
+    }).done(function(content){
+      var html = '';
+      try {
+        //console.log(content);
+        
+        var result = JSON.parse(content);
+        
+        window.result = result;
+        var count = result.length;
+        var name;
+        var id;
+        $.each(result, function (key, data) {
+          $.each(data, function(key, value){
+            $.each(value, function(k, v){
+              console.log(k);
+              switch(k){
+                case 'firstname':
+                var name = v;
+                break;
+                case 'id':
+                var id = v;
+                break;
+                
+              }
+            });
+          });
+          html += '<li><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + name + id + '</strong></div><a data-value="' + id + '" class="addButton addVideo button radius" href="#">add</a></li>';
+        });
+        $("#"+dropDownPanelID).html(html);
+      }
+      catch(e){
+        html = content;
+        $("#"+dropDownPanelID).html(html);
       }
     });
   }
@@ -138,6 +188,12 @@ $('document').ready(function(){
   $('#SkaterSponsor').keyup(function(){
     showLoading("#searchCompanyPanel");
     getCompanies();
+  });
+  //search content
+  $('.ajaxContentAddSearch').keyup(function(){
+    var dropdownPanelId = $(this).data('dropdown');
+    showLoading(dropdownPanelId);
+    getContentAddSearch(dropdownPanelId);
   });
   $('#searchCompany').click(function(){
     showLoading("#searchCompanyPanel");
