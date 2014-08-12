@@ -29,13 +29,8 @@ App::uses('AppModel', 'Model');
  *
  * @package       app.Model
  */
-class Company extends AppModel {
+class VideoPostImage extends AppModel {
   //Table name
-  public $name = 'companies';
-  public $hasOne = array(
-    'CompanyPostImage' => array(
-      'className' => 'CompanyPostImage',
-      'foreignKey' => 'is_owned_by_company'
-    )
-  );
+  public $name = 'video_post_images';
+  
 }

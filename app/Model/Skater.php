@@ -32,6 +32,12 @@ App::uses('AppModel', 'Model');
 class Skater extends AppModel {
   //Table name
   public $name = 'skaters';
+  public $hasOne = array(
+    'SkaterPostImage' => array(
+      'className' => 'SkaterPostImage',
+      'foreignKey' => 'is_owned_by_skater'
+    )
+  );
   public $validate = array(
     'alias' => array(
       'alias-rule-1' => array(

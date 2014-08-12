@@ -1,1 +1,3 @@
-<?php echo json_encode($results); ?>
+<?php 
+//print_r($results);
+echo json_encode($results); ?>
