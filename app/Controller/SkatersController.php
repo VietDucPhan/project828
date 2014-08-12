@@ -58,7 +58,7 @@ class SkatersController extends AppController {
       $this -> request -> data['Skater']['alias'] = $this -> Utility -> stringUrlSafe($alias);
       $this -> Skater -> set($this -> request -> data);
       if($this -> Skater -> validates()){
-        if(!empty($this -> request -> data['Skater']['profile_image'])){
+        if(!empty($this -> request -> data['Skater']['profile_image']['name'])){
           $image = $this -> request -> data['Skater']['profile_image'];
           if($url_img = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'))){
             $postImageData = array();

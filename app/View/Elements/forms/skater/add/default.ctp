@@ -41,25 +41,25 @@
     Sponsors
   </div>
   <div class="detail_post_container">
-  <div id="sponsorship" class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-    <ul id="sponsorshipContainer" class="clearfix">
-    </ul>
-  </div>
-  <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-    <div class="row collapse">
-        <div class="small-10 columns">
-          <?php echo $this -> Form -> input('sponsor', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchCompanyPanel','autocomplete' => 'off')); ?>
-          <ul id="searchCompanyPanel" class="" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
-            
-          </ul>
+    <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
+      <ul id="getCompanies-notIn" class="clearfix notIn">
+      </ul>
+    </div>
+    <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
+      <div class="row collapse">
+          <div class="small-10 columns">
+            <?php echo $this -> Form -> input('sponsor', array('label' => false, 'div' => false, 'class' => 'dropdown ajaxContentAddSearch', 'data-dropdown' => 'getCompanies', 'data-controller'=>'Skater', 'data-action'=>'sponsors','autocomplete' => 'off','id'=>'getCompanies-searchInput')); ?>
+            <ul id="getCompanies" class="searchPanel" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
+              
+            </ul>
+          
+          </div>
+          <div class="small-2 columns">
+            <a href="#" id="searchCompany" class="button postfix"><?php echo __('Search'); ?></a>
+          </div>
+        </div>
         
-        </div>
-        <div class="small-2 columns">
-          <a href="#" id="searchCompany" class="button postfix"><?php echo __('Search'); ?></a>
-        </div>
-      </div>
-      
-  </div>
+    </div>
   </div>
 </div>
 <div class="large-12 medium-12 small-12 columns shadow content_container">
@@ -67,25 +67,25 @@
     Video parts
   </div>
   <div class="detail_post_container">
-  <div id="videoPart" class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-    <ul id="videoPartContainer" class="clearfix">
-    </ul>
-  </div>
-  <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-    <div class="row collapse">
-        <div class="small-10 columns">
-          <?php echo $this -> Form -> input('videoPart', array('label' => false, 'div' => false, 'data-dropdown' => "getCompanies", 'class' => 'dropdown', 'data-dropdown' => 'searchVideoPartPanel','autocomplete' => 'off')); ?>
-          <ul id="searchVideoPartPanel" class="" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
-            
-          </ul>
+    <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
+      <ul id="getVideos-notIn" class="clearfix notIn">
+      </ul>
+    </div>
+    <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
+      <div class="row collapse">
+          <div class="small-10 columns">
+            <?php echo $this -> Form -> input('video', array('label' => false, 'div' => false, 'class' => 'dropdown ajaxContentAddSearch', 'data-dropdown' => 'getVideos', 'data-controller'=>'Skater', 'data-action'=>'videos','autocomplete' => 'off','id'=>'getVideos-searchInput')); ?>
+            <ul id="getVideos" class="searchPanel" data-dropdown-content style="position: absolute;left: -99999px;top: 35px;">
+              
+            </ul>
+          
+          </div>
+          <div class="small-2 columns">
+            <a href="#" id="searchCompany" class="button postfix"><?php echo __('Search'); ?></a>
+          </div>
+        </div>
         
-        </div>
-        <div class="small-2 columns">
-          <a href="#" id="searchCompany" class="button postfix"><?php echo __('Search'); ?></a>
-        </div>
-      </div>
-      
-  </div>
+    </div>
   </div>
 </div>
 <div class="large-12 medium-12 small-12 columns">

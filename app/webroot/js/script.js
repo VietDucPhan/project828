@@ -72,11 +72,12 @@ $('document').ready(function(){
     });
   }
   //get video part
-  function getContentAddSearch(dropDownPanelID){
+  function getContentAddSearch(dropDownPanelID,controller,action){
     $('#'+dropDownPanelID).addClass('f-dropdown open').css('left',0);
     var searchContentName = $('#'+dropDownPanelID+'-searchInput').val();
     var notIn = [];
     var $i = 0;
+    //console.log(dropDownPanelID);
     $('.'+dropDownPanelID+"-notIn").each(function() {
         notIn[$i++] = $(this).val();
     });
@@ -99,19 +100,19 @@ $('document').ready(function(){
         $.each(result, function (key, data) {
           $.each(data, function(key, value){
             $.each(value, function(k, v){
-              console.log(k);
+              //console.log(k);
               switch(k){
-                case 'firstname':
-                var name = v;
+                case 'name':
+                name = v;
                 break;
                 case 'id':
-                var id = v;
+                id = v;
                 break;
                 
               }
             });
           });
-          html += '<li><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + name + id + '</strong></div><a data-value="' + id + '" class="addButton addVideo button radius" href="#">add</a></li>';
+          html += '<li><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>' + name+ '</strong></div><a data-controller="'+controller+'" data-action="'+action+'" data-goto="'+dropDownPanelID+'-notIn'+'" data-value="' + id + '" data-name="' + name + '" class="addButton button radius" href="#">add</a></li>';
         });
         $("#"+dropDownPanelID).html(html);
       }
@@ -122,33 +123,30 @@ $('document').ready(function(){
     });
   }
   //add sponsor
-  function addSponsor(e){
+  function addToNotIn(e){
     flag = true;
     var val = $(e).data('value');
-    $result = window.resultCompany;
-    
-    var html = '<li id="sponsor-'+$result[val].Company.id+'"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+$result[val].Company.name+'</strong></div><input class="notIn" type="hidden" name="data[Skater][sponsors][]" value="'+$result[val].Company.id+'" /><span data-removeid="'+$result[val].Company.id+'" class="close_x removeButton">×</span></li>';
-    $('#li-sponsor-'+val).fadeOut('fast');
-    $('#sponsorshipContainer').append(html).promise().done(function(){
+    var name = $(e).data('name');
+    var gotoNotIn = $(e).data('goto');
+    var controller = $(e).data('controller');
+    var action = $(e).data('action');
+    //console.log(gotoNotIn);
+    var html = '<li><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+name+'</strong></div><input class="'+gotoNotIn+'" type="hidden" name="data['+controller+']['+action+'][]" value="'+val+'" /><span class="close_x removeButton">×</span></li>';
+    $(e).parent().fadeOut('fast');
+    $('#'+gotoNotIn).append(html).promise().done(function(){
       flag = false;
     });
     //console.log(window.resultCompany);
     //console.log(val);
   }
-  //add video
-  function addVideo(e){
-    flag = true;
-    var val = $(e).data('value');
-    var result = window.resultVideo;
-    
-    var html = '<li id="video-'+result[val].Video.id+'"><div class="imgContainer"><img src="http://www.rankopedia.com/CandidatePix/58763.gif" /></div><div class="name"><strong>'+result[val].Video.name+'</strong></div><input class="notInVideo" type="hidden" name="data[Skater][videos][]" value="'+result[val].Video.id+'" /><span data-removeid="'+result[val].Video.id+'" class="close_x removeButton">×</span></li>';
-    $('#li-video-'+val).fadeOut('fast');
-    $('#videoPartContainer').append(html).promise().done(function(){
-      flag = false;
-    });
-    //console.log(window.resultCompany);
-    //console.log(val);
-  }
+  //add sponsor
+  $(document).on('click','.addButton',function(){
+    event.preventDefault();
+    if(flag){
+      return;
+    }
+    addToNotIn(this);
+  });
   //remove sponsor
   function removeButton(e){
     var idRemove = $(e).data('removeid');
@@ -156,48 +154,18 @@ $('document').ready(function(){
       $(this).remove();
     });;
   }
-  //add sponsor
-  $(document).on('click','.addCompany',function(){
-    event.preventDefault();
-    if(flag){
-      return;
-    }
-    addSponsor(this);
-  });
-  
-  //add sponsor
-  $(document).on('click','.addVideo',function(){
-    event.preventDefault();
-    if(flag){
-      return;
-    }
-    addVideo(this);
-  });
   
   //remove sponsor
   $(document).on('click','.removeButton',function(){
     event.preventDefault();
     removeButton(this);
   });
-  //search video
-  $('#SkaterVideoPart').keyup(function(){
-    showLoading("#searchVideoPartPanel");
-    getVideos();
-  });
-  //search company
-  $('#SkaterSponsor').keyup(function(){
-    showLoading("#searchCompanyPanel");
-    getCompanies();
-  });
   //search content
   $('.ajaxContentAddSearch').keyup(function(){
     var dropdownPanelId = $(this).data('dropdown');
+    var action = $(this).data('action');
+    var controller = $(this).data('controller');
     showLoading(dropdownPanelId);
-    getContentAddSearch(dropdownPanelId);
-  });
-  $('#searchCompany').click(function(){
-    showLoading("#searchCompanyPanel");
-    getCompanies();
-    event.preventDefault();
+    getContentAddSearch(dropdownPanelId,controller,action);
   });
 });

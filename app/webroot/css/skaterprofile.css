@@ -5796,44 +5796,44 @@ body .close_x {
   font-size: 1.5rem;
   top: 0;
   right: 0; }
-body #searchCompanyPanel, body #searchVideoPartPanel {
+body .searchPanel {
   max-width: 100%;
   padding: 5px; }
-  body #searchCompanyPanel li, body #searchVideoPartPanel li {
+  body .searchPanel li {
     height: 45px;
     position: relative;
     overflow: hidden; }
-    body #searchCompanyPanel li .name, body #searchVideoPartPanel li .name {
+    body .searchPanel li .name {
       float: left;
       margin: 14px 0 0 10px; }
-    body #searchCompanyPanel li .addButton, body #searchVideoPartPanel li .addButton {
+    body .searchPanel li .addButton {
       position: absolute;
       top: 7px;
       right: 10px;
       margin: 0; }
-    body #searchCompanyPanel li .imgContainer, body #searchVideoPartPanel li .imgContainer {
+    body .searchPanel li .imgContainer {
       float: left;
       height: 45px;
       width: 45px;
       line-height: 45px;
       text-align: center; }
-      body #searchCompanyPanel li .imgContainer img, body #searchVideoPartPanel li .imgContainer img {
-        display: inline-block;
-        max-width: 45px;
-        max-height: 45px;
-        vertical-align: middle; }
-  body #searchCompanyPanel .logoSponsor, body #searchVideoPartPanel .logoSponsor {
+      body .searchPanel li .imgContainer img {
+        display: inline-block !important;
+        max-width: 45px !important;
+        max-height: 45px !important;
+        vertical-align: middle !important; }
+  body .searchPanel .logoSponsor {
     text-align: left; }
-  body #searchCompanyPanel .nameSponsor, body #searchVideoPartPanel .nameSponsor {
+  body .searchPanel .nameSponsor {
     text-align: left;
     padding: 0.9375rem; }
-  body #searchCompanyPanel .addButtonSponsor, body #searchVideoPartPanel .addButtonSponsor {
+  body .searchPanel .addButtonSponsor {
     text-align: right;
     padding: 0.9375rem; }
-  body #searchCompanyPanel a, body #searchVideoPartPanel a {
+  body .searchPanel a {
     color: white;
     display: inline; }
-  body #searchCompanyPanel img, body #searchVideoPartPanel img {
+  body .searchPanel img {
     margin-bottom: 0;
     max-width: 66px;
     display: inline; }
@@ -5870,24 +5870,24 @@ body .mainContent .content_container {
       margin-bottom: 5px;
       display: block;
       width: 100%; }
-    body .mainContent .content_container .detail_post_container #sponsorshipContainer, body .mainContent .content_container .detail_post_container #videoPartContainer {
+    body .mainContent .content_container .detail_post_container .notIn {
       list-style-type: none;
       margin: 0; }
-      body .mainContent .content_container .detail_post_container #sponsorshipContainer li, body .mainContent .content_container .detail_post_container #videoPartContainer li {
+      body .mainContent .content_container .detail_post_container .notIn li {
         text-align: left;
         position: relative;
         vertical-align: top; }
-        body .mainContent .content_container .detail_post_container #sponsorshipContainer li .name, body .mainContent .content_container .detail_post_container #videoPartContainer li .name {
+        body .mainContent .content_container .detail_post_container .notIn li .name {
           margin-left: 10px;
           display: inline;
           position: absolute;
           top: 0; }
-        body .mainContent .content_container .detail_post_container #sponsorshipContainer li .imgContainer, body .mainContent .content_container .detail_post_container #videoPartContainer li .imgContainer {
+        body .mainContent .content_container .detail_post_container .notIn li .imgContainer {
           width: 66px;
           height: 66px;
           overflow: hidden;
           display: inline; }
-          body .mainContent .content_container .detail_post_container #sponsorshipContainer li .imgContainer img, body .mainContent .content_container .detail_post_container #videoPartContainer li .imgContainer img {
+          body .mainContent .content_container .detail_post_container .notIn li .imgContainer img {
             max-width: 66px;
             display: inline; }
   body .mainContent .content_container .detail_poster_container {

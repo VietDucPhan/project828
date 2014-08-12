@@ -92,7 +92,7 @@ class AjaxController extends AppController {
       //print_r($conditions);
       //print_r($this->request->query);
       try{
-        $Skaters = $this -> Skater -> find('all', array('conditions'=>$conditions));
+        $Skaters = $this -> Skater -> find('all', array('conditions'=>$conditions,'fields'=>$fields));
         if(empty($Skaters)){
           $Skaters = $errorMessage;
         }

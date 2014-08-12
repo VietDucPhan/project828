@@ -17,7 +17,7 @@ body{
     top:0;
     right:0;
   }
-  #searchCompanyPanel, #searchVideoPartPanel{
+  .searchPanel{
     max-width:100%;
     padding:5px;
     li{
@@ -41,10 +41,10 @@ body{
         line-height: 45px;
         text-align: center;
         img{
-          display: inline-block;
-          max-width: 45px;
-          max-height: 45px;
-          vertical-align: middle;
+          display: inline-block !important;
+          max-width: 45px !important;
+          max-height: 45px !important;
+          vertical-align: middle !important;
         }
       }
     }
@@ -128,7 +128,7 @@ body{
             display:block;
             width:100%;
           }
-          #sponsorshipContainer,#videoPartContainer{
+          .notIn{
             list-style-type:none;
             margin:0;
             li{
