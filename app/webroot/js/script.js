@@ -23,7 +23,6 @@ $('document').ready(function(){
       var html = '';
       try {
         //console.log(content);
-        
         var result = JSON.parse(content);
         
         window.result = result;
@@ -31,11 +30,9 @@ $('document').ready(function(){
         var name;
         var id;
         var url;
-        console.log(content);
         $.each(result, function (key, data) {
           $.each(data, function(key, value){
             $.each(value, function(k, v){
-              //console.log(k);
               switch(k){
                 case 'name':
                   name = v;

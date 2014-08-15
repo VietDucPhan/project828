@@ -32,5 +32,4 @@ App::uses('AppModel', 'Model');
 class CompanyPostImage extends AppModel {
   //Table name
   public $name = 'company_post_images';
-  public $hasOne = 'Company';
 }

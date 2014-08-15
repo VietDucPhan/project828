@@ -16,6 +16,8 @@ class CompaniesController extends AppController {
    * Method to add more company to database
    */
   public function add(){
-    
+    if($this -> request -> is('post')){
+      print_r($this->request->data);
+    }
   }
 }

@@ -5,7 +5,7 @@ App::uses('AppController', 'Controller');
  * Class for ajax request
  */
 class AjaxController extends AppController {
-
+  public $noImage = 'http://colombo.vn/EStore/Market/skins/Colombo/images/no-image-news.gif';
   /**
    * Method to authorize access
    */
@@ -26,7 +26,17 @@ class AjaxController extends AppController {
       //print_r($this -> request);
       // return false;
       $conditions = array('Company.name LIKE' => '%'.$this->request->data['name'].'%');
-      $fields = array('Company.id','Company.name','Company.created_date','CompanyPostImage.url');
+      $fields = array('Company.id','Company.name',"IFNULL(CompanyPostImage.url,'$this->noImage') AS url");
+      $joins = array(
+        array(
+          'table' => 'company_post_images',
+          'alias' => 'CompanyPostImage',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'Company.profile_img_id = CompanyPostImage.id',
+          )
+        )
+       );
       if(!empty($this->request->data['notIn'])){
         $notIn['NOT']['Company.id'] = $this->request->data['notIn'];
         $conditions = array_merge($conditions,$notIn);
@@ -34,21 +44,11 @@ class AjaxController extends AppController {
       //print_r($conditions);
       //print_r($this->request->query);
       try{
-        $companies = $this -> Company -> find('all', array('conditions'=>$conditions,'fields'=>$fields));
+        $companies = $this -> Company -> find('all', array('conditions'=>$conditions,'fields'=>$fields,'joins'=>$joins));
         if(empty($companies)){
-          $results = $errorMessage;
-        } else {//rearrange the outcome
-          $results = array();
-          foreach($companies as $company){
-            $company['Company']['url'] = 'http://colombo.vn/EStore/Market/skins/Colombo/images/no-image-news.gif';
-            if(!empty($company['CompanyPostImage']['url'])){
-              $company['Company']['url'] = $company['CompanyPostImage']['url'];
-            }
-            unset($company['CompanyPostImage']);
-            $results[] = $company;
-          }
-        }
-        $this -> set('results',$results);
+          $companies = $errorMessage;
+        } 
+        $this -> set('results',$companies);
       } catch(Exception $e){
         $this -> set('results',$errorMessage);
       }
@@ -65,7 +65,17 @@ class AjaxController extends AppController {
       //print_r($this -> request);
       // return false;
       $conditions = array('Video.name LIKE' => '%'.$this->request->data['name'].'%');
-      $fields = array('Video.id','Video.name','VideoPostImage.url');
+      $fields = array('Video.id','Video.name',"IFNULL(VideoPostImage.url,'$this->noImage') AS url");
+      $joins = array(
+        array(
+          'table' => 'video_post_images',
+          'alias' => 'VideoPostImage',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'Video.profile_img_id = VideoPostImage.id',
+          )
+        )
+       );
       if(!empty($this->request->data['notIn'])){
         $notIn['NOT']['Video.id'] = $this->request->data['notIn'];
         $conditions = array_merge($conditions,$notIn);
@@ -73,21 +83,11 @@ class AjaxController extends AppController {
       //print_r($conditions);
       //print_r($this->request->query);
       try{
-        $videos = $this -> Video -> find('all', array('conditions'=>$conditions,'fields'=>$fields));
+        $videos = $this -> Video -> find('all', array('conditions'=>$conditions,'fields'=>$fields,'joins'=>$joins));
         if(empty($videos)){
-          $results = $errorMessage;
-        } else {//rearrange the outcome
-          $results = array();
-          foreach($videos as $video){
-            $video['Video']['url'] = 'http://colombo.vn/EStore/Market/skins/Colombo/images/no-image-news.gif';
-            if(!empty($video['VideoPostImage']['url'])){
-              $video['Video']['url'] = $video['VideoPostImage']['url'];
-            }
-            unset($video['VideoPostImage']);
-            $results[] = $video;
-          }
-        }
-        $this -> set('results',$results);
+          $videos = $errorMessage;
+        } 
+        $this -> set('results',$videos);
       } catch(Exception $e){
         $this -> set('results',$errorMessage);
       }
@@ -104,7 +104,17 @@ class AjaxController extends AppController {
       //print_r($this -> request);
       // return false;
       $conditions = array('CONCAT(Skater.firstname," ",Skater.lastname) LIKE' => '%'.$this->request->data['name'].'%');
-      $fields = array('Skater.id','CONCAT(Skater.firstname," ",Skater.lastname) AS name','SkaterPostImage.url');
+      $fields = array('Skater.id','Skater.name',"IFNULL(SkaterPostImage.url,'$this->noImage') AS url");
+      $joins = array(
+        array(
+          'table' => 'skater_post_images',
+          'alias' => 'SkaterPostImage',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'Skater.profile_img = SkaterPostImage.id',
+          )
+        )
+       );
       if(!empty($this->request->data['notIn'])){
         $notIn['NOT']['Skater.id'] = $this->request->data['notIn'];
         $conditions = array_merge($conditions,$notIn);
@@ -112,21 +122,11 @@ class AjaxController extends AppController {
       //print_r($conditions);
       //print_r($this->request->query);
       try{
-        $skaters = $this -> Skater -> find('all', array('conditions'=>$conditions,'fields'=>$fields));
+        $skaters = $this -> Skater -> find('all', array('conditions'=>$conditions,'joins'=>$joins,'fields'=>$fields));
         if(empty($skaters)){
-          $results = $errorMessage;
-        } else {//rearrange the outcome
-          $results = array();
-          foreach($skaters as $skater){
-            $skater['Skater']['url'] = 'http://colombo.vn/EStore/Market/skins/Colombo/images/no-image-news.gif';
-            if(!empty($skater['SkaterPostImage']['url'])){
-              $skater['Skater']['url'] = $skater['SkaterPostImage']['url'];
-            }
-            unset($skater['SkaterPostImage']);
-            $results[] = $skater;
-          }
-        }
-        $this -> set('results',$results);
+          $skaters = $errorMessage;
+        } 
+        $this -> set('results',$skaters);
       } catch(Exception $e){
         $this -> set('results',$errorMessage);
       }

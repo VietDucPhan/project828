@@ -32,7 +32,7 @@ App::uses('AppModel', 'Model');
 class Video extends AppModel {
   //Table name
   public $name = 'videos';
-  public $hasOne = array(
+  public $hasMany = array(
     'VideoPostImage' => array(
       'className' => 'VideoPostImage',
       'foreignKey' => 'is_owned_by_video'

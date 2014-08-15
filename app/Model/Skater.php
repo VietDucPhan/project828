@@ -32,11 +32,14 @@ App::uses('AppModel', 'Model');
 class Skater extends AppModel {
   //Table name
   public $name = 'skaters';
-  public $hasOne = array(
-    'SkaterPostImage' => array(
+  public $hasMany = array(
+    'Task' => array(
       'className' => 'SkaterPostImage',
       'foreignKey' => 'is_owned_by_skater'
     )
+  );
+  public $virtualFields = array(
+    'name' => 'CONCAT(Skater.firstname," ",Skater.lastname)',
   );
   public $validate = array(
     'alias' => array(

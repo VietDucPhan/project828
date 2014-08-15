@@ -32,7 +32,7 @@ App::uses('AppModel', 'Model');
 class Company extends AppModel {
   //Table name
   public $name = 'companies';
-  public $hasOne = array(
+  public $hasMany = array(
     'CompanyPostImage' => array(
       'className' => 'CompanyPostImage',
       'foreignKey' => 'is_owned_by_company'
