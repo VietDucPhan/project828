@@ -16,9 +16,8 @@
         <small class="error"><?php echo __('Please enter the company launched year'); ?></small>
       </div>
       <div class="large-6 medium-6 small-12 columns">
-        <?php echo $this -> Form -> input('closed_year', array('type'=>'date','required'=>'required','label' => 'Closed year', 'dateFormat' => 'Y','minYear' => date('Y') - 50,'maxYear' => date('Y'),'empty'=>'Still operated, leave empty', 'default'=>'', 'div' => false ));
+        <?php echo $this -> Form -> input('closed_year', array('type'=>'date','label' => 'Closed year', 'dateFormat' => 'Y','minYear' => date('Y') - 50,'maxYear' => date('Y'),'empty'=>'Still operated, leave empty', 'default'=>'', 'div' => false ));
  ?>
-        <small class="error"><?php echo __('Please enter the company closed year'); ?></small>
       </div>
       </div>
     </div>

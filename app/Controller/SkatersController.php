@@ -63,7 +63,7 @@ class SkatersController extends AppController {
           if($url_img = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'))){
             $postImageData = array();
             $postImageData['SkaterPostImage']['url'] = $url_img;
-            $postImageData['SkaterPostImage']['is_owned_by_skater'] = null;
+            $postImageData['SkaterPostImage']['is_owned_by_skater'] = 0;
             $postImageData['SkaterPostImage']['posted_by_skater'] = $isCreatedBy;
             $postImageData['SkaterPostImage']['created_date'] = $this -> Utility -> dateToSql();
             if($this -> SkaterPostImage -> save($postImageData)){

@@ -29,23 +29,7 @@ App::uses('AppModel', 'Model');
  *
  * @package       app.Model
  */
-class Company extends AppModel {
+class CompanyVideo extends AppModel {
   //Table name
-  public $name = 'companies';
-  public $hasMany = array(
-    'CompanyPostImage' => array(
-      'className' => 'CompanyPostImage',
-      'foreignKey' => 'is_owned_by_company'
-    )
-  );
-  public $validate = array(
-    'alias' => array(
-      'alias-rule-1' => array(
-        'rule' => 'isUnique',
-        'required' => true,
-        'allowEmpty' => false,
-        'message' => 'this company already exist'
-      )
-    ),
-  );
+  public $name = 'company_videos';
 }

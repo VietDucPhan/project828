@@ -47,7 +47,7 @@ class Skater extends AppModel {
         'rule' => 'isUnique',
         'required' => true,
         'allowEmpty' => false,
-        'message' => 'this skater is already exist'
+        'message' => 'this skater already exist'
       )
     ),
     'firstname' => array(
