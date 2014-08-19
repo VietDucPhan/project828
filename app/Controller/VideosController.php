@@ -2,7 +2,7 @@
 //import Controller Class
 App::uses('AppController', 'Controller');
 
-class CompaniesController extends AppController {
+class VideosController extends AppController {
 
   /**
    * Method to authorize access
