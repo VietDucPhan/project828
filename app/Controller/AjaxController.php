@@ -65,7 +65,7 @@ class AjaxController extends AppController {
       //print_r($this -> request);
       // return false;
       $conditions = array('Video.name LIKE' => '%'.$this->request->data['name'].'%');
-      $fields = array('Video.id','Video.name',"IFNULL(VideoPostImage.url,'$this->noImage') AS url");
+      $fields = array('Video.id','Video.name',"IFNULL(VideoPostImage.img_url,'$this->noImage') AS url");
       $joins = array(
         array(
           'table' => 'video_post_images',

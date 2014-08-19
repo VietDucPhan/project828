@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 19, 2014 at 07:47 AM
+-- Generation Time: Aug 19, 2014 at 02:58 PM
 -- Server version: 5.1.41-community-log
 -- PHP Version: 5.4.16
 
@@ -257,7 +257,10 @@ DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  `alias` varchar(150) NOT NULL,
   `profile_img_id` int(11) unsigned DEFAULT NULL,
+  `released_date` year(4) DEFAULT NULL,
+  `running_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
@@ -265,9 +268,9 @@ CREATE TABLE IF NOT EXISTS `videos` (
 -- Dumping data for table `videos`
 --
 
-INSERT INTO `videos` (`id`, `name`, `profile_img_id`) VALUES
-(1, 'Fully flared', 1),
-(2, 'Dirty Head', 2);
+INSERT INTO `videos` (`id`, `name`, `alias`, `profile_img_id`, `released_date`, `running_time`) VALUES
+(1, 'Fully flared', 'fully_flared', 1, 0000, NULL),
+(2, 'Dirty Head', 'dirty_head', 2, 0000, NULL);
 
 -- --------------------------------------------------------
 
@@ -279,7 +282,7 @@ DROP TABLE IF EXISTS `video_post_images`;
 CREATE TABLE IF NOT EXISTS `video_post_images` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `desc` text,
-  `url` varchar(255) NOT NULL,
+  `img_url` varchar(255) NOT NULL,
   `is_owned_by_video` int(11) unsigned NOT NULL,
   `posted_by_skater` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -290,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `video_post_images` (
 -- Dumping data for table `video_post_images`
 --
 
-INSERT INTO `video_post_images` (`id`, `desc`, `url`, `is_owned_by_video`, `posted_by_skater`, `created_date`) VALUES
+INSERT INTO `video_post_images` (`id`, `desc`, `img_url`, `is_owned_by_video`, `posted_by_skater`, `created_date`) VALUES
 (1, NULL, 'https://skaterprofile.s3.amazonaws.com/324ef046287cc0f3f6f2a3f09a7f8e41a6d3de16_a6e6ea6c1efe5352b8ceba94451aad9792aec7b6.png', 1, NULL, '0000-00-00 00:00:00');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

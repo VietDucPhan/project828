@@ -38,4 +38,13 @@ class Video extends AppModel {
       'foreignKey' => 'is_owned_by_video'
     )
   );
+  public $validate = array(
+    'alias' => array(
+      'alias-rule-2' => array(
+        'rule' => 'isUnique',
+        'required' => true,
+        'message' => 'This movie already exist'
+      )
+    )
+  );
 }
