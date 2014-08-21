@@ -14,7 +14,6 @@ class UtilityComponent extends Component {
    */
   public function file_get_contents_curl($url) {
     $ch = curl_init();
-    
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -32,40 +31,63 @@ class UtilityComponent extends Component {
    * @return array on success, false otherwise
    */
   public function getMetatags($url) {
-    $metaTags = array();
+    $metaTags = array(
+      'og' => array('description'=>'')
+    );
     if(!$html = $this->file_get_contents_curl($url)){
       return false;
     }
     //parsing begins here:
     $doc = new DOMDocument();
     @$doc->loadHTML($html);
+    $nodes = $doc->getElementsByTagName('title');
+
+    //get and display what you need:
+    $title = $nodes->item(0)->nodeValue;
     $metas = $doc->getElementsByTagName('meta');
     
     for ($i = 0; $i < $metas->length; $i++){
       $meta = $metas->item($i);
       switch ($meta -> getAttribute('property')) {
         case 'og:site_name':
-          $metaTags['meta_tags']['site_name'] = $meta->getAttribute('content');
+          $metaTags['og']['site_name'] = utf8_decode($meta->getAttribute('content'));
           break;
         case 'og:description':
-          $metaTags['meta_tags']['description'] = $meta->getAttribute('content');
+          $metaTags['og']['description'] = utf8_decode($meta->getAttribute('content'));
           break;
         case 'og:title':
-          $metaTags['meta_tags']['title'] = $meta->getAttribute('content');
+          $metaTags['og']['title'] = utf8_decode($meta->getAttribute('content'));
           break;
         case 'og:type':
-          $metaTags['meta_tags']['type'] = $meta->getAttribute('content');
+          $metaTags['og']['type'] = $meta->getAttribute('content');
           break;
         case 'og:url':
-          $metaTags['meta_tags']['url'] = $meta->getAttribute('content');
+          $metaTags['og']['url'] = $meta->getAttribute('content');
           break;
         case 'og:image':
-          $metaTags['meta_tags']['image'] = $meta->getAttribute('content');
+          $metaTags['og']['image'] = $meta->getAttribute('content');
           break;
         case 'og:video':
-          $metaTags['meta_tags']['video'] = $meta->getAttribute('content');
+          $metaTags['og']['video'] = $meta->getAttribute('content');
           break;
       }
+    }
+    if(empty($metaTags['og']['site_name'])){
+      $metaTags['og']['site_name'] = $title;
+    }
+    switch (strtolower($metaTags['og']['site_name'])) {
+      case 'youtube':
+        parse_str( parse_url( $metaTags['og']['url'], PHP_URL_QUERY ), $my_array_of_vars );
+        $metaTags['og']['embed'] = '<div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns"><div class="flex-video"><iframe src="//www.youtube.com/embed/'.$my_array_of_vars['v'].'" frameborder="0" allowfullscreen></iframe></div></div>';
+        break;
+        
+      case 'vimeo':
+        $vimeoId = (int) substr(parse_url($metaTags['og']['url'], PHP_URL_PATH), 1);
+        $metaTags['og']['embed'] = '<div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns"><div class="flex-video"><iframe src="//player.vimeo.com/video/'.$vimeoId.'" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>';
+        break;
+      default:
+        $metaTags['og']['embed'] = "<div class='large-9 medium-9 small-12 large-centered medium-centered small-centered columns'><img src='".$metaTags['og']['image']."'/></div>";
+        break;
     }
     return $metaTags;
   }

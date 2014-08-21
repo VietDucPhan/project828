@@ -102,13 +102,18 @@ $('document').ready(function(){
   }
   //get ajax metatags
   function getMetatags(link){
+    showLoading('parsed_link_container');
     $.ajax({
       type:"get",
       url:"/ajax/getMetatags",
       data:{link:link}
     }).done(function(content){
-       var result = JSON.parse(content);
-       console.log(result);
+      var result = JSON.parse(content);
+      var htmlContent = '<div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns"><h4>'+result.og.title+'</h4></div><div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns"><p>'+result.og.description+'</p></div>'+result.og.embed;
+      htmlContent += '<input type="hidden" name="data[Video][link_image]" value="'+result.og.image+'"/>';
+      $('#parsed_link_container').html(htmlContent);
+      $('#VideoName').val(result.og.title);
+      $('#VideoDesc').val(result.og.description);
     });
   }
   //remove sponsor

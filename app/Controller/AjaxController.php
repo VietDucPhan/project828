@@ -143,7 +143,6 @@ class AjaxController extends AppController {
     $url = $this->request -> query['link'];
     if($this -> request -> is('get')){
       $result = $this -> Utility -> getMetatags($url);
-      
     }
     
     $this -> set('results',$result);
