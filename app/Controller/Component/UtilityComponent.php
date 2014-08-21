@@ -8,6 +8,68 @@ use Aws\Common\Aws;
 class UtilityComponent extends Component {
   public $components = array('Session');
   /**
+   * public function get file content using curl
+   * @param string $url
+   * @return file content
+   */
+  public function file_get_contents_curl($url) {
+    $ch = curl_init();
+    
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+    
+    $data = curl_exec($ch);
+    curl_close($ch);
+    
+    return $data;
+  }
+  /**
+   * Get metatags from a link
+   * @param string $url 
+   * @return array on success, false otherwise
+   */
+  public function getMetatags($url) {
+    $metaTags = array();
+    if(!$html = $this->file_get_contents_curl($url)){
+      return false;
+    }
+    //parsing begins here:
+    $doc = new DOMDocument();
+    @$doc->loadHTML($html);
+    $metas = $doc->getElementsByTagName('meta');
+    
+    for ($i = 0; $i < $metas->length; $i++){
+      $meta = $metas->item($i);
+      switch ($meta -> getAttribute('property')) {
+        case 'og:site_name':
+          $metaTags['meta_tags']['site_name'] = $meta->getAttribute('content');
+          break;
+        case 'og:description':
+          $metaTags['meta_tags']['description'] = $meta->getAttribute('content');
+          break;
+        case 'og:title':
+          $metaTags['meta_tags']['title'] = $meta->getAttribute('content');
+          break;
+        case 'og:type':
+          $metaTags['meta_tags']['type'] = $meta->getAttribute('content');
+          break;
+        case 'og:url':
+          $metaTags['meta_tags']['url'] = $meta->getAttribute('content');
+          break;
+        case 'og:image':
+          $metaTags['meta_tags']['image'] = $meta->getAttribute('content');
+          break;
+        case 'og:video':
+          $metaTags['meta_tags']['video'] = $meta->getAttribute('content');
+          break;
+      }
+    }
+    return $metaTags;
+  }
+  /**
    * Create a random seed
    * @return int
    */

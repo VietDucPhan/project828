@@ -15,7 +15,7 @@ class AjaxController extends AppController {
     $this -> loadModel('Company');
     $this -> loadModel('Video');
     $this -> loadModel('Skater');
-    $this -> Auth -> allow('getCompanies','getVideos','getSkaters');
+    $this -> Auth -> allow('getCompanies','getVideos','getSkaters','getMetatags');
   }
   /**
    * Method to get all companies
@@ -133,5 +133,19 @@ class AjaxController extends AppController {
     } else {
       $this -> set('results',$errorMessage);
     }
+  }
+  
+  /**
+   * Method to get meta og tags
+   */
+  public function getMetatags(){
+    $result = array();
+    $url = $this->request -> query['link'];
+    if($this -> request -> is('get')){
+      $result = $this -> Utility -> getMetatags($url);
+      
+    }
+    
+    $this -> set('results',$result);
   }
 }

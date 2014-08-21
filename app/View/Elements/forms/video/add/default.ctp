@@ -5,8 +5,8 @@
   </div>
   <div class="detail_post_container">
     <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-        <?php echo $this -> Form -> input('link_url', array('label' => __('Link:'), 'div' => false)); ?>
-        <?php echo $this -> Form -> input('auto_get_detail', array('label' => __('Get link detail?'), 'div' => false,'type'=>'checkbox')); ?>
+        <?php echo $this -> Form -> input('link_url', array('label' => __('Link:'), 'div' => false,'class' => 'getMetatags')); ?>
+        <?php echo $this -> Form -> input('auto_get_detail', array('label' => __('Get link detail?'), 'div' => false,'type'=>'checkbox','class' => 'getLinkButton')); ?>
         <small class="error"><?php echo __('Please enter video\'s link'); ?></small>
       </div>
       <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">

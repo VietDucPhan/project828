@@ -4,6 +4,16 @@ $('document').ready(function(){
   function showLoading(id){
     $('#'+id).html('loading...');
   }
+  //get url
+  function isValidURL(url){
+    var RegExp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+ 
+    if(RegExp.test(url)){
+       return true;
+    }else{
+       return false;
+    }
+  }
   //get video part
   function getContentAddSearch(dropDownPanelID,controller,action){
     $('#'+dropDownPanelID).addClass('f-dropdown open').css('left',0);
@@ -90,7 +100,17 @@ $('document').ready(function(){
       $(this).remove();
     });;
   }
-  
+  //get ajax metatags
+  function getMetatags(link){
+    $.ajax({
+      type:"get",
+      url:"/ajax/getMetatags",
+      data:{link:link}
+    }).done(function(content){
+       var result = JSON.parse(content);
+       console.log(result);
+    });
+  }
   //remove sponsor
   $(document).on('click','.removeButton',function(){
     event.preventDefault();
@@ -103,5 +123,14 @@ $('document').ready(function(){
     var controller = $(this).data('controller');
     showLoading(dropdownPanelId);
     getContentAddSearch(dropdownPanelId,controller,action);
+  });
+  //parse link
+  $('.getMetatags').on('keyup', function(e){
+    var link = $(this).val();
+    if(e.keyCode == 86){
+      if(isValidURL(link)){
+        getMetatags(link);
+      }
+    }
   });
 });
