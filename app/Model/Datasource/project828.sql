@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 19, 2014 at 02:58 PM
--- Server version: 5.1.41-community-log
+-- Generation Time: Aug 25, 2014 at 09:55 AM
+-- Server version: 5.6.12-log
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -89,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `company_videos` (
   `is_created_by_skater` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `company_videos`
@@ -97,7 +97,15 @@ CREATE TABLE IF NOT EXISTS `company_videos` (
 
 INSERT INTO `company_videos` (`id`, `company_id`, `video_id`, `is_created_by_skater`, `created_date`) VALUES
 (1, 0, 1, NULL, '2014-08-18 13:22:05'),
-(2, 0, 2, NULL, '2014-08-18 13:22:05');
+(2, 0, 2, NULL, '2014-08-18 13:22:05'),
+(3, 6, 7, NULL, '2014-08-25 02:44:46'),
+(4, 1, 7, NULL, '2014-08-25 02:44:46'),
+(5, 1, 7, NULL, '2014-08-25 02:44:46'),
+(6, 1, 7, NULL, '2014-08-25 02:44:46'),
+(7, 6, 8, NULL, '2014-08-25 02:45:36'),
+(8, 1, 8, NULL, '2014-08-25 02:45:36'),
+(9, 6, 9, NULL, '2014-08-25 02:46:28'),
+(10, 1, 9, NULL, '2014-08-25 02:46:28');
 
 -- --------------------------------------------------------
 
@@ -204,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `skater_videos` (
   `is_created_by_skater` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `skater_videos`
@@ -214,7 +222,26 @@ INSERT INTO `skater_videos` (`id`, `video_id`, `skater_id`, `is_created_by_skate
 (2, 1, 6, NULL, '2014-08-09 04:22:30'),
 (3, 1, 7, NULL, '2014-08-09 06:04:00'),
 (4, 1, 11, NULL, '2014-08-12 04:59:27'),
-(5, 1, 3, NULL, '2014-08-18 12:52:56');
+(5, 1, 3, NULL, '2014-08-18 12:52:56'),
+(6, 9, 7, NULL, '2014-08-25 02:46:28'),
+(7, 9, 8, NULL, '2014-08-25 02:46:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tricks`
+--
+
+DROP TABLE IF EXISTS `tricks`;
+CREATE TABLE IF NOT EXISTS `tricks` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `is_created_by_skater` int(11) unsigned NOT NULL,
+  `is_invented_by_skater` int(11) unsigned NOT NULL,
+  `alias` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `alias` (`alias`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -256,21 +283,27 @@ INSERT INTO `users` (`id`, `email`, `password`, `block`, `sendEmail`, `registerD
 DROP TABLE IF EXISTS `videos`;
 CREATE TABLE IF NOT EXISTS `videos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `alias` varchar(150) NOT NULL,
+  `desc` text NOT NULL,
   `profile_img_id` int(11) unsigned DEFAULT NULL,
   `released_date` year(4) DEFAULT NULL,
   `running_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `videos`
 --
 
-INSERT INTO `videos` (`id`, `name`, `alias`, `profile_img_id`, `released_date`, `running_time`) VALUES
-(1, 'Fully flared', 'fully_flared', 1, 0000, NULL),
-(2, 'Dirty Head', 'dirty_head', 2, 0000, NULL);
+INSERT INTO `videos` (`id`, `name`, `alias`, `desc`, `profile_img_id`, `released_date`, `running_time`) VALUES
+(1, 'Fully flared', 'fully_flared', '', 1, 0000, NULL),
+(2, 'Dirty Head', 'dirty_head', '', 2, 0000, NULL),
+(3, 'Remote Control Alligator Prank', 'remote_control_alligator_prank', 'After the popularity of the 1st alligator prank we had to do it again. We hope you enjoy this video. Subscribe for more! http://www.youtube.com/user/pranks?s...', NULL, NULL, NULL),
+(6, 'DERO密室游戏大脱逃第22集', 'dero222', ' ', 4, NULL, NULL),
+(7, 'DERO密室游戏大脱逃第22集', 'dero22asdf', ' ', 5, NULL, NULL),
+(8, 'DERO密室游戏大脱逃第22集', 'dero2212', ' ', 6, NULL, NULL),
+(9, 'DERO密室游戏大脱逃第22集', 'dero22', ' ', 7, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -283,18 +316,24 @@ CREATE TABLE IF NOT EXISTS `video_post_images` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `desc` text,
   `img_url` varchar(255) NOT NULL,
+  `link_url` varchar(255) DEFAULT NULL,
   `is_owned_by_video` int(11) unsigned NOT NULL,
   `posted_by_skater` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `video_post_images`
 --
 
-INSERT INTO `video_post_images` (`id`, `desc`, `img_url`, `is_owned_by_video`, `posted_by_skater`, `created_date`) VALUES
-(1, NULL, 'https://skaterprofile.s3.amazonaws.com/324ef046287cc0f3f6f2a3f09a7f8e41a6d3de16_a6e6ea6c1efe5352b8ceba94451aad9792aec7b6.png', 1, NULL, '0000-00-00 00:00:00');
+INSERT INTO `video_post_images` (`id`, `desc`, `img_url`, `link_url`, `is_owned_by_video`, `posted_by_skater`, `created_date`) VALUES
+(1, NULL, 'https://skaterprofile.s3.amazonaws.com/324ef046287cc0f3f6f2a3f09a7f8e41a6d3de16_a6e6ea6c1efe5352b8ceba94451aad9792aec7b6.png', NULL, 1, NULL, '0000-00-00 00:00:00'),
+(3, NULL, 'https://i.ytimg.com/vi/cKJS74jrmaM/hqdefault.jpg', NULL, 0, NULL, '2014-08-25 02:15:25'),
+(4, NULL, 'https://i.ytimg.com/vi/cKJS74jrmaM/hqdefault.jpg', NULL, 0, NULL, '2014-08-25 02:18:00'),
+(5, ' ', 'https://skaterprofile.s3.amazonaws.com/edd61dfe2b24da3ab43c9484793d158c4845f791_ce6380a4624bfecf568bc52fdf51336cfcd1e2df.png', NULL, 7, NULL, '2014-08-25 02:44:46'),
+(6, ' ', 'https://skaterprofile.s3.amazonaws.com/2ca9c766a769bc90373bb9580b0bb0395ff951c4_96a635875cf37e807b13cbc9c09492714da9e23e.png', NULL, 8, NULL, '2014-08-25 02:45:36'),
+(7, ' ', 'https://skaterprofile.s3.amazonaws.com/7b3bc59c7059cc638f529a2976ac3ed131b2ae87_a38095284b266fae0f019187a03173b930f0e67d.png', NULL, 9, NULL, '2014-08-25 02:46:27');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

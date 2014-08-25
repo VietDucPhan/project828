@@ -102,7 +102,7 @@ class SkatersController extends AppController {
           }
           //set image belong to the skater just created
           if($url_img){
-            $this -> SkaterPostImage -> save(array('SkaterPostImage'=>array('is_owned_by_skater'=>$this -> Skater -> getInsertID())));
+            $this -> VideoPostImage -> save(array('VideoPostImage'=>array('is_owned_by_video'=>$this -> Video -> getInsertID())));
           }
         }
       } else {
