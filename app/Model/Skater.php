@@ -30,14 +30,6 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class Skater extends AppModel {
-  //Table name
-  public $name = 'skaters';
-  public $hasMany = array(
-    'Task' => array(
-      'className' => 'SkaterPostImage',
-      'foreignKey' => 'is_owned_by_skater'
-    )
-  );
   public $virtualFields = array(
     'name' => 'CONCAT(Skater.firstname," ",Skater.lastname)',
   );
@@ -45,8 +37,8 @@ class Skater extends AppModel {
     'alias' => array(
       'alias-rule-1' => array(
         'rule' => 'isUnique',
-        'required' => true,
         'allowEmpty' => false,
+        'required' => true,
         'message' => 'this skater already exist'
       )
     ),

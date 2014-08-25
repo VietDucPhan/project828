@@ -29,8 +29,5 @@ App::uses('AppModel', 'Model');
  *
  * @package       app.Model
  */
-class VideoPostImage extends AppModel {
-  //Table name
-  public $name = 'video_post_images';
-  
+class AllPostContent extends AppModel {
 }
