@@ -9,9 +9,8 @@ class SkatersController extends AppController {
    */
   public function beforeFilter() {
     parent::beforeFilter();
-    $this -> loadModel('SkaterSponsor');
-    $this -> loadModel('SkaterVideo');
     $this -> loadModel('AllPostContent');
+    $this -> loadModel('ContentSkaterRelation');
     $this -> Auth -> allow('profile','add');
   }
   
@@ -67,8 +66,8 @@ class SkatersController extends AppController {
         if(!empty($this -> request -> data['AllPostContent']['cover_photo']['name'])){
           
           $image = $this -> request -> data['AllPostContent']['cover_photo'];
-          
-          if($this -> request -> data['AllPostContent']['img_url'] = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'))){
+          //$this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png')
+          if($this -> request -> data['AllPostContent']['img_url'] = '/img/cake.power.gif'){
             
             if($this -> AllPostContent -> save($this -> request -> data) ){
               $this -> request -> data['Skater']['profile_img_id'] = $this -> AllPostContent -> getInsertID();
@@ -81,7 +80,16 @@ class SkatersController extends AppController {
         
         if($this -> Skater -> save($this -> request -> data)){
           
-          
+          $this -> request -> data['ContentSkaterRelation']['skater_id'] = $this -> Skater -> getInsertID();
+          $this -> request -> data['ContentSkaterRelation']['content_id'] = $this -> AllPostContent -> getInsertID();
+          if($this -> ContentSkaterRelation -> save($this -> request -> data)){
+            
+            $url = Router::url('/skater/'.$this -> request -> data['Skater']['alias'] ,true);
+            return $this -> redirect($url);
+          } else {
+            
+            return $this -> Session -> setFlash(__('There is error while trying to save skater and image'), 'alert/default', array('class' => 'alert'));
+          }
         } else {
           
           return $this -> Session -> setFlash(__('There is error while trying to save skater, Please try again.'), 'alert/default', array('class' => 'alert'));

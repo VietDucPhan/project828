@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 25, 2014 at 02:59 PM
+-- Generation Time: Aug 26, 2014 at 02:43 PM
 -- Server version: 5.1.41-community-log
 -- PHP Version: 5.4.16
 
@@ -30,7 +30,7 @@ USE `project828`;
 
 DROP TABLE IF EXISTS `all_post_contents`;
 CREATE TABLE IF NOT EXISTS `all_post_contents` (
-  `id` int(11) unsigned NOT NULL,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `desc` text,
   `img_url` varchar(255) DEFAULT NULL,
   `link_url` varchar(255) DEFAULT NULL,
@@ -39,7 +39,14 @@ CREATE TABLE IF NOT EXISTS `all_post_contents` (
   `is_added_by_skater` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `all_post_contents`
+--
+
+INSERT INTO `all_post_contents` (`id`, `desc`, `img_url`, `link_url`, `link_img_url`, `link_title`, `is_added_by_skater`, `created_date`) VALUES
+(1, NULL, '/img/cake.power.gif', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -103,6 +110,27 @@ INSERT INTO `company_videos` (`id`, `company_id`, `video_id`, `is_created_by_ska
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `content_skater_relations`
+--
+
+DROP TABLE IF EXISTS `content_skater_relations`;
+CREATE TABLE IF NOT EXISTS `content_skater_relations` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `skater_id` int(11) unsigned NOT NULL,
+  `content_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `content_skater_relations`
+--
+
+INSERT INTO `content_skater_relations` (`id`, `skater_id`, `content_id`) VALUES
+(1, 13, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `skaters`
 --
 
@@ -121,7 +149,7 @@ CREATE TABLE IF NOT EXISTS `skaters` (
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`alias`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
 
 --
 -- Dumping data for table `skaters`
@@ -135,7 +163,8 @@ INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `alias`, `bi
 (9, 'Ducdon', 'Viet', 'Phan', 'ducdon_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
 (10, 'Ducdona', 'Viet', 'Phan', 'ducdona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
 (11, 'Nyjah', '', 'Huston', 'nyjah_huston', NULL, NULL, 1, 0, NULL, '0000-00-00 00:00:00'),
-(12, 'Ducas', 'Viet', 'Phan', 'ducas_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00');
+(12, 'Ducas', 'Viet', 'Phan', 'ducas_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
+(13, 'Ducasdf', 'Viet', 'Phan', 'ducasdf_phan', NULL, 1, 0, 3, NULL, '2014-08-26 14:36:05');
 
 -- --------------------------------------------------------
 
