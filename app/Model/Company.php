@@ -32,12 +32,6 @@ App::uses('AppModel', 'Model');
 class Company extends AppModel {
   //Table name
   public $name = 'companies';
-  public $hasMany = array(
-    'CompanyPostImage' => array(
-      'className' => 'CompanyPostImage',
-      'foreignKey' => 'is_owned_by_company'
-    )
-  );
   public $validate = array(
     'alias' => array(
       'alias-rule-1' => array(

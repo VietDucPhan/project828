@@ -36,4 +36,37 @@ class SkaterSponsor extends AppModel {
             'foreignKey' => 'company_id'
         )
     );
+    
+    /**
+     * get sponsors of a skater
+     * @param int $id
+     * @return array
+     */
+    public function getAllSkaterSponsor($id){
+      $this -> unbindModel(array('belongsTo' => array('Company')));
+      $joins = array(
+        array(
+          'table' => 'companies',
+          'alias' => 'Company',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'SkaterSponsor.company_id = Company.id',
+          )
+        ),
+        array(
+          'table' => 'all_post_contents',
+          'alias' => 'ProfileImage',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'ProfileImage.id = Company.profile_img_id',
+          )
+        )
+      );
+      $fields = array("IFNULL(ProfileImage.img_url,'$this->noImage') AS profile_img","Company.name","Company.id","Company.alias","Company.launched_year","Company.closed_year");
+      $results = $this -> find('all',array('conditions'=>array('SkaterSponsor.skater_id'=>$id),
+                'joins'=>$joins,
+                'fields'=>$fields
+      ));
+      return $results;
+    }
 }

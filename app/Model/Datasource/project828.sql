@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 04, 2014 at 02:02 AM
--- Server version: 5.1.41-community-log
+-- Generation Time: Sep 04, 2014 at 09:22 AM
+-- Server version: 5.6.12-log
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -33,20 +33,22 @@ CREATE TABLE IF NOT EXISTS `all_post_contents` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `desc` text,
   `img_url` varchar(255) DEFAULT NULL,
+  `embed_url` varchar(255) NOT NULL,
   `link_url` varchar(255) DEFAULT NULL,
   `link_img_url` varchar(255) DEFAULT NULL,
   `link_title` varchar(255) DEFAULT NULL,
   `is_added_by_skater` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `all_post_contents`
 --
 
-INSERT INTO `all_post_contents` (`id`, `desc`, `img_url`, `link_url`, `link_img_url`, `link_title`, `is_added_by_skater`, `created_date`) VALUES
-(1, NULL, '/img/cake.power.gif', NULL, NULL, NULL, 4, '0000-00-00 00:00:00');
+INSERT INTO `all_post_contents` (`id`, `desc`, `img_url`, `embed_url`, `link_url`, `link_img_url`, `link_title`, `is_added_by_skater`, `created_date`) VALUES
+(1, NULL, '/img/cake.power.gif', '', NULL, NULL, NULL, 4, '0000-00-00 00:00:00'),
+(2, 'a normal insert of text', NULL, '//www.youtube.com/embed/cKJS74jrmaM?&end=94&autohide=1&fs=1&modestbranding=1&iv_load_policy=3&rel=0&showinfo=0&enablejsapi=1', 'https://www.youtube.com/watch?v=cKJS74jrmaM', 'https://i.ytimg.com/vi/cKJS74jrmaM/hqdefault.jpg', 'DERO密室游戏大脱逃第22集', 4, '2014-09-04 00:00:00');
 
 -- --------------------------------------------------------
 

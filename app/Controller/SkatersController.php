@@ -33,9 +33,10 @@ class SkatersController extends AppController {
         throw new Exception(__('Cannot find skater'));
       }
       
-      $SkaterSponsor = $this -> SkaterSponsor -> find('all',array('conditions'=>array('SkaterSponsor.skater_id'=>$Skater['Skater']['id'])));
+      $SkaterSponsor = $this -> SkaterSponsor -> getAllSkaterSponsor($Skater['Skater']['id']); //$this -> SkaterSponsor -> find('all',array('conditions'=>array('SkaterSponsor.skater_id'=>$Skater['Skater']['id'])));
       //get all contents were posted by this skater or other skaters to this skater
       $contentBelongToSkater = $this -> ContentSkaterRelation -> getContentBelongToSkater($Skater['Skater']['id']);
+      
       if($Skater['Skater']['stance'] == 0){
         $Skater['Skater']['stance'] = __('Regular');
       } else {
@@ -56,8 +57,10 @@ class SkatersController extends AppController {
           $Skater['Skater']['status'] = __('Just skater');
           break;
       }
+      //print_r($contentBelongToSkater);
       $this -> set('Skater',$Skater);
-      $this -> set('AllPost',count($contentBelongToSkater));
+      $this -> set('SkaterSponsors',$SkaterSponsor);
+      $this -> set('AllPostCount',count($contentBelongToSkater));
     }
     catch(Exception $e) {
       print_r($e);

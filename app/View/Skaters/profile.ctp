@@ -1,8 +1,7 @@
-<?php print_r($Skater); ?>
 <div class="large-8 columns">
   <div class="large-12 medium-12 small-12 columns shadow content_container">
     <div class="detail_poster_container row">
-      Information
+      Information <a href="#"><span class="right">edit</span></a>
     </div>
     <div class="detail_post_container">
       <p>
@@ -24,11 +23,25 @@
     </div>
     <div class="detail_post_container">
       <p>
-        Sponsors: Flip Skateboards, Volcom, Indy, Ricta, Mob Grip, Momentum Ride Shop, Bones Swiss, Converse, Loud Headphones
-
+        <?php if(!empty($SkaterSponsors)): ?>
+        <?php foreach($SkaterSponsors as $sponsor): ?>
+          <?php echo $sponsor['Company']['name']; ?>,
+        <?php endforeach; ?>
+        <?php else: ?>
+          <?php echo __('Don\'t have any sponsors') ?>
+        <?php endif; ?>
       </p>
     </div>
   </div>
+  <?php foreach($Skater['AllPostContent'] as $PostContent): ?>
+    <?php 
+    $Content[]['profile_img'] =  $Skater['ProfileImage']['img_url'];
+    $Content['AllPostContent'] = $PostContent;
+    $Content['Skater']['id'] = $Skater['Skater']['id'];
+    $Content['Skater']['alias'] = $Skater['Skater']['alias'];
+    echo $this->element("content/default",array('PostContent'=>$Content));
+    ?>
+  <?php endforeach; ?>
   
 </div>
 <div class="large-4 columns">
@@ -36,18 +49,21 @@
     <div class="large-12">
       <ul class="side-nav">
         <li>
+          <a><img alt="<?php echo $Skater['Skater']['name']; ?>" title="<?php echo $Skater['Skater']['name']; ?>" src="<?php echo $Skater['ProfileImage']['img_url']; ?>" /></a>
+        </li>
+        <li>
           <a href="#"><?php echo $Skater['Skater']['name']; ?></a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">All posts <span class="right"><?php echo sprintf(__('(%d)'),$AllPost) ?></span></a>
+          <a href="#">All posts <span class="right"><?php echo sprintf(__('(%d)'),$AllPostCount) ?></span></a>
         </li>
-        <li>
+        <!-- <li>
           <a href="#">Followers <span class="right">(200)</span></a>
         </li>
         <li>
           <a href="#">Following <span class="right">(158)</span></a>
-        </li>
+        </li> -->
         <li class="title">
           Accounts
         </li>
