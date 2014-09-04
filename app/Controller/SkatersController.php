@@ -3,13 +3,15 @@
 App::uses('AppController', 'Controller');
 
 class SkatersController extends AppController {
-
+  
+  public $noImage = 'http://colombo.vn/EStore/Market/skins/Colombo/images/no-image-news.gif';
   /**
    * Method to authorize access
    */
   public function beforeFilter() {
     parent::beforeFilter();
     $this -> loadModel('AllPostContent');
+    $this -> loadModel('SkaterSponsor');
     $this -> loadModel('ContentSkaterRelation');
     $this -> Auth -> allow('profile','add');
   }
@@ -17,32 +19,49 @@ class SkatersController extends AppController {
   /**
    * Method to show a skater profile
    */
-  public function profile($id = ''){
-    $url = Router::url('/',true);
-    if(!empty($id)){
-      $isOwned['isOwned'] = false;
-      $skaterData = $this -> Skater -> findById($id);
-      if(empty($skaterData)){
-        $this -> Session -> setFlash(__('Skater is not exist'), 'alert/default', array('class' => 'alert'));
-        return $this->redirect($url);
+  public function profile($alias = null){
+    try {
+      if(is_numeric($alias)){
+        if(!$skaterData = $this -> Skater -> find('first',array('conditions'=>array('Skater.id'=>$alias)))){
+          throw new Exception(__('This skater id does not exist'));
+        }
+        $url = Router::url('/skater/'.$skaterData['Skater']['alias'],true);
+        $this -> redirect($url);
       }
       
-      if($this -> Auth -> user('skater_id') === $id){
-        $isOwned['isOwned'] = true;
+      if(!$Skater = $this -> Skater -> find('first',array('conditions'=>array('Skater.alias'=>$alias)))){
+        throw new Exception(__('Cannot find skater'));
       }
-      //merge array toghether
-      $data = array_merge($skaterData,
-                          $isOwned
-                          );
-      //set data for view
-      $this -> set('skaterData',$data);
-    } elseif($this -> Auth -> user('id')) {//if user logedin redirect to their skater profile
-      if($skaterData = $this -> Skater -> findByIsOwnedBy($this -> Auth -> user ('id'))){
-        $url = Router::url(array('controller' => 'users','action' => 'profile', $skaterData['Skater']['id']),true);
+      
+      $SkaterSponsor = $this -> SkaterSponsor -> find('all',array('conditions'=>array('SkaterSponsor.skater_id'=>$Skater['Skater']['id'])));
+      //get all contents were posted by this skater or other skaters to this skater
+      $contentBelongToSkater = $this -> ContentSkaterRelation -> getContentBelongToSkater($Skater['Skater']['id']);
+      if($Skater['Skater']['stance'] == 0){
+        $Skater['Skater']['stance'] = __('Regular');
+      } else {
+        $Skater['Skater']['stance'] = __('Goofy');
       }
-      return $this -> redirect($url);
-    } else {//if not logedin user rediret them to homepage
-      return $this -> redirect($url);
+      
+      switch ($Skater['Skater']['status']) {
+        case 0:
+          $Skater['Skater']['status'] = __('Pro');
+          break;
+        case 1:
+          $Skater['Skater']['status'] = __('Am');
+          break;
+        case 2:
+          $Skater['Skater']['status'] = __('Flow');
+          break;
+        default:
+          $Skater['Skater']['status'] = __('Just skater');
+          break;
+      }
+      $this -> set('Skater',$Skater);
+      $this -> set('AllPost',count($contentBelongToSkater));
+    }
+    catch(Exception $e) {
+      print_r($e);
+      $this -> layout = 'error';
     }
   }
 

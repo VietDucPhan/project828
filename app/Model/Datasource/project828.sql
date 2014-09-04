@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Aug 26, 2014 at 02:43 PM
+-- Generation Time: Sep 04, 2014 at 02:02 AM
 -- Server version: 5.1.41-community-log
 -- PHP Version: 5.4.16
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `all_post_contents` (
 --
 
 INSERT INTO `all_post_contents` (`id`, `desc`, `img_url`, `link_url`, `link_img_url`, `link_title`, `is_added_by_skater`, `created_date`) VALUES
-(1, NULL, '/img/cake.power.gif', NULL, NULL, NULL, NULL, '0000-00-00 00:00:00');
+(1, NULL, '/img/cake.power.gif', NULL, NULL, NULL, 4, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `content_skater_relations` (
 --
 
 INSERT INTO `content_skater_relations` (`id`, `skater_id`, `content_id`) VALUES
-(1, 13, 1);
+(1, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -156,7 +156,7 @@ CREATE TABLE IF NOT EXISTS `skaters` (
 --
 
 INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `alias`, `birthdate`, `profile_img_id`, `stance`, `status`, `is_owned_by`, `created_date`) VALUES
-(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, 0, NULL, NULL, 15, '2014-07-29 08:57:31'),
+(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, 1, 0, 1, 15, '2014-07-29 08:57:31'),
 (6, 'Duca', '', 'Phan', 'duca_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
 (7, 'don', 'Viet', 'Phan', 'don_phan', NULL, 1, 0, 3, NULL, '0000-00-00 00:00:00'),
 (8, 'dona', 'Viet', 'Phan', 'dona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `skater_sponsors` (
 --
 
 INSERT INTO `skater_sponsors` (`id`, `company_id`, `skater_id`, `is_created_by_skater`, `created_date`) VALUES
-(2, 1, 6, NULL, '2014-08-09 04:22:30'),
+(2, 1, 4, NULL, '2014-08-09 04:22:30'),
 (3, 1, 7, NULL, '2014-08-09 06:04:00'),
 (4, 1, 11, NULL, '2014-08-12 04:59:27'),
 (5, 1, 12, NULL, '2014-08-15 15:03:52'),

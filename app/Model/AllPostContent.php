@@ -30,4 +30,10 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class AllPostContent extends AppModel {
+  public $belongsTo = array(
+        'Skater' => array(
+            'className' => 'Skater',
+            'foreignKey' => 'is_added_by_skater'
+        )
+    );
 }

@@ -30,4 +30,51 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class ContentSkaterRelation extends AppModel {
+  public $belongsTo = array(
+        'AllPostContent' => array(
+            'className' => 'AllPostContent',
+            'foreignKey' => 'content_id'
+        )
+    );
+  /**
+   * Get all contents that were post by skater or added to skater by another skater
+   * @param int $id skater id
+   * @return mixed array of data on success or false otherwise
+   */
+  public function getContentBelongToSkater($id){
+    $this -> unbindModel(array('belongsTo' => array('AllPostContent')));
+    $ContentSkaterRelationJoins = array(
+        array(
+          'table' => 'all_post_contents',
+          'alias' => 'AllPostContent',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'AllPostContent.id = ContentSkaterRelation.content_id',
+          )
+        ),
+        array(
+          'table' => 'skaters',
+          'alias' => 'Skater',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'AllPostContent.is_added_by_skater = Skater.id',
+          )
+        ),
+        array(
+          'table' => 'all_post_contents',
+          'alias' => 'profile',
+          'type' => 'LEFT',
+          'conditions' => array(
+            'Skater.profile_img_id = profile.id',
+          )
+        )
+       );
+       $fields = array('AllPostContent.id','AllPostContent.desc','AllPostContent.img_url','AllPostContent.link_url','AllPostContent.link_img_url','AllPostContent.link_title','AllPostContent.created_date','AllPostContent.is_added_by_skater','Skater.id','Skater.alias',"IFNULL(profile.img_url,'$this->noImage') AS profile_img");
+      $ContentSkaterRelation = $this -> find('all',array('conditions'=>array('ContentSkaterRelation.skater_id'=>$id),
+                'joins'=>$ContentSkaterRelationJoins,
+                'fields'=>$fields
+      ));
+      
+      return $ContentSkaterRelation;
+  }
 }

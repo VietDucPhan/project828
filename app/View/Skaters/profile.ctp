@@ -1,6 +1,4 @@
-<?php if($skaterData['isOwned']): ?>
-<?php print_r($skaterData); ?>
-<?php endif; ?>
+<?php print_r($Skater); ?>
 <div class="large-8 columns">
   <div class="large-12 medium-12 small-12 columns shadow content_container">
     <div class="detail_poster_container row">
@@ -9,13 +7,13 @@
     <div class="detail_post_container">
       <p>
 
-        Hometown: Hawthorne CA
+        Hometown: <?php //echo $skaterData['hometown']; ?>
         <br/>
-        Stance: Regular
+        Stance: <?php echo $Skater['Skater']['stance']; ?>
         <br/>
-        Age: 19
+        Age: <?php echo $Skater['Skater']['birthdate']; ?>
         <br/>
-        Status: Pro
+        Status: <?php echo $Skater['Skater']['status']; ?>
 
       </p>
     </div>
@@ -31,34 +29,24 @@
       </p>
     </div>
   </div>
-  <div class="large-12 medium-12 small-12 columns shadow content_container">
-
-    <div class="detail_post_container">
-      <img src="https://38.media.tumblr.com/88de432cf66d563265a2dfa0f36b2ab1/tumblr_n7gzircQjb1qh2ep7o1_500.jpg" />
-    </div>
-    <div class="description_container">
-      Ryan decenzo
-    </div>
-    <div class="detail_poster_container row">
-      <a href="#"> <img width="30" src="https://38.media.tumblr.com/88de432cf66d563265a2dfa0f36b2ab1/tumblr_n7gzircQjb1qh2ep7o1_500.jpg" /> </a>
-      <a href="#">Prod</a> is share a picture.
-    </div>
-
-  </div>
+  
 </div>
 <div class="large-4 columns">
   <div class="row session_right radius shadow">
     <div class="large-12">
       <ul class="side-nav">
         <li>
-          <a href="#"><?php echo $skaterData['Skater']['username']; ?></a>
+          <a href="#"><?php echo $Skater['Skater']['name']; ?></a>
         </li>
         <li class="divider"></li>
         <li>
-          <a href="#">Post</a>
+          <a href="#">All posts <span class="right"><?php echo sprintf(__('(%d)'),$AllPost) ?></span></a>
         </li>
         <li>
-          <a href="#">Followers</a>
+          <a href="#">Followers <span class="right">(200)</span></a>
+        </li>
+        <li>
+          <a href="#">Following <span class="right">(158)</span></a>
         </li>
         <li class="title">
           Accounts

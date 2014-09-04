@@ -33,6 +33,18 @@ class Skater extends AppModel {
   public $virtualFields = array(
     'name' => 'CONCAT(Skater.firstname," ",Skater.lastname)',
   );
+  public $hasMany = array(
+    'AllPostContent' => array(
+      'className' => 'AllPostContent',
+      'foreignKey' => 'is_added_by_skater'
+    )
+  );
+  public $belongsTo = array(
+    'ProfileImage' => array(
+      'className' => 'AllPostContent',
+      'foreignKey' => 'profile_img_id'
+    )
+  );
   public $validate = array(
     'alias' => array(
       'alias-rule-1' => array(

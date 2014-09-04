@@ -30,6 +30,10 @@ App::uses('AppModel', 'Model');
  * @package       app.Model
  */
 class SkaterSponsor extends AppModel {
-  //Table name
-  public $name = 'skater_sponsors';
+   public $belongsTo = array(
+        'Company' => array(
+            'className' => 'Company',
+            'foreignKey' => 'company_id'
+        )
+    );
 }
