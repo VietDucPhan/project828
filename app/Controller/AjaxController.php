@@ -15,7 +15,9 @@ class AjaxController extends AppController {
     $this -> loadModel('Company');
     $this -> loadModel('Video');
     $this -> loadModel('Skater');
-    $this -> Auth -> allow('getCompanies','getVideos','getSkaters','getMetatags');
+    $this -> loadModel('SkaterSponsor');
+    $this -> loadModel('Status');
+    $this -> Auth -> allow('getCompanies','getVideos','getSkaters','getMetatags','getEditInfoForm','getEditSponsorForm');
   }
   /**
    * Method to get all companies
@@ -150,7 +152,24 @@ class AjaxController extends AppController {
   /**
    * Method to get edit form of information
    */
-  public function getEditInfoForm(){
-    
+  public function getEditInfoForm($id = null){
+    if(is_null($id)){
+      throw new NotFoundException();
+    }
+    if(!$Skater = $this -> Skater -> find('first',array('conditions'=>array('Skater.id'=>$id)))){
+      throw new NotFoundException(__('Cannot find skater'));
+    }
+    $this -> request -> data = $Skater;
+    $this->set('Status',$this->Status->find('list',array('fields' => array('Status.id', 'Status.status_title_en'),)));
+    $this -> set('Skater',$Skater);
+  }
+  /**
+   * Method to edit sponsors
+   */
+  public function getEditSponsorForm($id = null){
+    if(is_null($id)){
+      throw new NotFoundException();
+    }
+    $this -> set('SkaterSponsor',$this -> SkaterSponsor -> getAllSkaterSponsor($id));
   }
 }

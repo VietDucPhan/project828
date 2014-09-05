@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 05, 2014 at 01:48 AM
--- Server version: 5.1.41-community-log
+-- Generation Time: Sep 05, 2014 at 09:07 AM
+-- Server version: 5.6.12-log
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -142,6 +142,7 @@ CREATE TABLE IF NOT EXISTS `skaters` (
   `firstname` varchar(14) DEFAULT NULL,
   `middlename` varchar(20) DEFAULT NULL,
   `lastname` varchar(15) DEFAULT NULL,
+  `nickname` varchar(100) DEFAULT NULL,
   `alias` varchar(30) NOT NULL,
   `birthdate` date DEFAULT NULL,
   `profile_img_id` int(11) unsigned DEFAULT NULL,
@@ -149,6 +150,7 @@ CREATE TABLE IF NOT EXISTS `skaters` (
   `status` tinyint(3) unsigned DEFAULT NULL,
   `is_owned_by` int(11) unsigned DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `allowed_publish_edit` tinyint(2) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`alias`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;
@@ -157,16 +159,16 @@ CREATE TABLE IF NOT EXISTS `skaters` (
 -- Dumping data for table `skaters`
 --
 
-INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `alias`, `birthdate`, `profile_img_id`, `stance`, `status`, `is_owned_by`, `created_date`) VALUES
-(4, 'Duc', NULL, 'Phan', 'Duc_Phan', NULL, 1, 0, 1, 15, '2014-07-29 08:57:31'),
-(6, 'Duca', '', 'Phan', 'duca_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
-(7, 'don', 'Viet', 'Phan', 'don_phan', NULL, 1, 0, 3, NULL, '0000-00-00 00:00:00'),
-(8, 'dona', 'Viet', 'Phan', 'dona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
-(9, 'Ducdon', 'Viet', 'Phan', 'ducdon_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
-(10, 'Ducdona', 'Viet', 'Phan', 'ducdona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
-(11, 'Nyjah', '', 'Huston', 'nyjah_huston', NULL, NULL, 1, 0, NULL, '0000-00-00 00:00:00'),
-(12, 'Ducas', 'Viet', 'Phan', 'ducas_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00'),
-(13, 'Ducasdf', 'Viet', 'Phan', 'ducasdf_phan', NULL, 1, 0, 3, NULL, '2014-08-26 14:36:05');
+INSERT INTO `skaters` (`id`, `firstname`, `middlename`, `lastname`, `nickname`, `alias`, `birthdate`, `profile_img_id`, `stance`, `status`, `is_owned_by`, `created_date`, `allowed_publish_edit`) VALUES
+(4, 'Duc323', 'fasdfasdf', 'Phan', '', 'Duc_Phan', '2014-12-04', 1, 0, 2, 15, '2014-07-29 08:57:31', 1),
+(6, 'Duca', '', 'Phan', NULL, 'duca_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00', 0),
+(7, 'don', 'Viet', 'Phan', NULL, 'don_phan', NULL, 1, 0, 3, NULL, '0000-00-00 00:00:00', 0),
+(8, 'dona', 'Viet', 'Phan', NULL, 'dona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00', 0),
+(9, 'Ducdon', 'Viet', 'Phan', NULL, 'ducdon_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00', 0),
+(10, 'Ducdona', 'Viet', 'Phan', NULL, 'ducdona_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00', 0),
+(11, 'Nyjah', '', 'Huston', NULL, 'nyjah_huston', NULL, NULL, 1, 0, NULL, '0000-00-00 00:00:00', 0),
+(12, 'Ducas', 'Viet', 'Phan', NULL, 'ducas_phan', NULL, NULL, 0, 3, NULL, '0000-00-00 00:00:00', 0),
+(13, 'Ducasdf', 'Viet', 'Phan', NULL, 'ducasdf_phan', NULL, 1, 0, 3, NULL, '2014-08-26 14:36:05', 0);
 
 -- --------------------------------------------------------
 
@@ -237,7 +239,15 @@ CREATE TABLE IF NOT EXISTS `statuses` (
   `status_title_en` varchar(100) NOT NULL,
   `status_alias_en` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `statuses`
+--
+
+INSERT INTO `statuses` (`id`, `status_title_en`, `status_alias_en`) VALUES
+(1, 'Professional Skater', 'professional_skater'),
+(2, 'Amature Skater', 'amature_skater');
 
 -- --------------------------------------------------------
 

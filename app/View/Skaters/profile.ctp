@@ -1,23 +1,23 @@
 <div class="large-8 columns">
   <div class="large-12 medium-12 small-12 columns shadow content_container">
     <div class="detail_poster_container row">
-      Information <span data-ajax="getEditInfoForm" data-appear-to-class="detail_post_container" class="right edit"><?php echo __('Edit'); ?></span>
+      Information <span data-ajax-href="<?php echo Router::url('/ajax/getEditInfoForm/'.$Skater['Skater']['id']); ?>" data-html-append-to="#edit_information" class="right edit"><?php echo __('Edit'); ?></span>
     </div>
-    <div class="detail_post_container">
+    <div id="edit_information" class="detail_post_container">
       <p>
         Stance: <?php echo $Skater['Skater']['stance']; ?>
         <br/>
         Age: <?php echo $Skater['Skater']['birthdate']; ?>
         <br/>
-        Status: <?php echo $Skater['Skater']['status']; ?>
+        Status: <?php echo $Skater['Status']['status_title_en']; ?>
       </p>
     </div>
   </div>
   <div class="large-12 medium-12 small-12 columns shadow content_container">
     <div class="detail_poster_container row">
-      Sponsors
+      Sponsors <span data-ajax-href="<?php echo Router::url('/ajax/getEditSponsorForm/'.$Skater['Skater']['id']); ?>" data-html-append-to="#edit_sponsors" class="right edit"><?php echo __('Edit'); ?></span>
     </div>
-    <div class="detail_post_container">
+    <div id="edit_sponsors" class="detail_post_container">
       <p>
         <?php if(!empty($SkaterSponsors)): ?>
         <?php foreach($SkaterSponsors as $sponsor): ?>

@@ -13,7 +13,8 @@ class SkatersController extends AppController {
     $this -> loadModel('AllPostContent');
     $this -> loadModel('SkaterSponsor');
     $this -> loadModel('ContentSkaterRelation');
-    $this -> Auth -> allow('profile','add');
+    $this -> loadModel('Status');
+    $this -> Auth -> allow('profile','add','edit');
   }
   
   /**
@@ -43,27 +44,12 @@ class SkatersController extends AppController {
         $Skater['Skater']['stance'] = __('Goofy');
       }
       
-      switch ($Skater['Skater']['status']) {
-        case 0:
-          $Skater['Skater']['status'] = __('Pro');
-          break;
-        case 1:
-          $Skater['Skater']['status'] = __('Am');
-          break;
-        case 2:
-          $Skater['Skater']['status'] = __('Flow');
-          break;
-        default:
-          $Skater['Skater']['status'] = __('Just skater');
-          break;
-      }
       //print_r($contentBelongToSkater);
       $this -> set('Skater',$Skater);
       $this -> set('SkaterSponsors',$SkaterSponsor);
       $this -> set('AllPostCount',count($contentBelongToSkater));
     }
     catch(Exception $e) {
-      print_r($e);
       $this -> layout = 'error';
     }
   }
@@ -73,6 +59,7 @@ class SkatersController extends AppController {
    */
   public function add(){
     $url = Router::url('/',true);
+    $this->set('Status',$this->Status->find('list',array('fields' => array('Status.id', 'Status.status_title_en'),)));
     if($this -> request -> is('post')){
       $firstname = $this -> request -> data['Skater']['firstname'];
       $middlename = $this -> request -> data['Skater']['middlename'];
@@ -122,5 +109,35 @@ class SkatersController extends AppController {
       }
     }
   }
+  
+  /**
+   * Method to edit skater information
+   */
+   public function edit($id = null){
+     if(is_null($id)){
+       throw new NotFoundException();
+     }
+     if($this -> request -> is('post') || $this -> request -> is('put')){
+       $conditions['Skater.id'] = $id;
+       if($this -> Auth -> user ('skater_id') != $id){
+         $conditions['Skater.allowed_publish_edit'] = 1;
+       }
+      
+       if(!$this -> Skater -> find('all',array('conditions' => $conditions))){
+         $url = Router::url('/skater/'.$id ,true);
+         $this->redirect($url);
+       }
+      
+      
+       $this -> request -> data['Skater']['id'] = $id;
+       //validate skater data, prepair to insert into database
+       if($this -> Skater -> save($this -> request -> data)){
+         $url = Router::url('/skater/'.$id ,true);
+         $this->redirect($url);
+       } else {
+         return $this -> Session -> setFlash($this -> Skater -> validationErrors, 'alert/default', array('class' => 'alert'));
+       }
+     }
+   }
 
 }

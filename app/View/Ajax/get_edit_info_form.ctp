@@ -1,0 +1,1 @@
+<?php echo $this->element('forms/skater/edit_information/default',array('Status'=>$Status)); ?>

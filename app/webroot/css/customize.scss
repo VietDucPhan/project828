@@ -2,6 +2,11 @@ body{
   a{
     text-decoration:none;
   }
+  span{
+    &.edit{
+      cursor:pointer;
+    }
+  }
   .backgroundColor{
     background:$topbar-bg-color;
   }

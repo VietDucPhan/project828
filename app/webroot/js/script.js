@@ -2,7 +2,9 @@ $('document').ready(function(){
   var flag = false;
   //show loading
   function showLoading(id){
-    $('#'+id).html('loading...');
+    var prevHtml = $(id).html();
+    $(id).html('loading...');
+    return prevHtml;
   }
   //get url
   function isValidURL(url){
@@ -137,5 +139,28 @@ $('document').ready(function(){
         getMetatags(link);
       }
     }
+  });
+  //get ajax metatags
+  function getForm(href,appendTo){
+    var prevHtml = showLoading(appendTo);
+    $.ajax({
+      type:"get",
+      url:href,
+      success: function(content){
+        $(appendTo).html(content);
+      },
+      error: function() {
+        $(appendTo).html(prevHtml);
+      }
+    });
+  }
+  $(document).on('click','.reload',function(){
+    event.preventDefault();
+    location.reload();
+  });
+  $('.edit').click(function(){
+    var href = $(this).data('ajax-href');
+    var appendTo = $(this).data('html-append-to');
+    getForm(href,appendTo);
   });
 });

@@ -43,11 +43,16 @@ class Skater extends AppModel {
     'ProfileImage' => array(
       'className' => 'AllPostContent',
       'foreignKey' => 'profile_img_id'
+    ),
+    'Status' => array(
+      'className' => 'Status',
+      'foreignKey' => 'status'
     )
   );
   public $validate = array(
     'alias' => array(
       'alias-rule-1' => array(
+        'on' => 'create',
         'rule' => 'isUnique',
         'allowEmpty' => false,
         'required' => true,

@@ -5,14 +5,14 @@
   </div>
   <div class="detail_post_container">
       <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-        <?php echo $this -> Form -> input('firstname', array('label' => __('First name:'), 'required' => 'required', 'div' => false, 'data-options' => 'disable_for_touch:true', 'class' => 'has-tip', ' data-tooltip', 'title' => __('What is your first name?'))); ?>
+        <?php echo $this -> Form -> input('firstname', array('label' => __('First name:'), 'required' => 'required', 'div' => false,  'title' => __('What is your first name?'))); ?>
         <small class="error"><?php echo __('Please enter your first name'); ?></small>
       </div>
       <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-        <?php echo $this -> Form -> input('middlename', array('label' => __('Middle name:'), 'required' => false, 'div' => false, 'data-options' => 'disable_for_touch:true', 'class' => 'has-tip', ' data-tooltip', 'title' => __('What is your middle name?'))); ?>
+        <?php echo $this -> Form -> input('middlename', array('label' => __('Middle name:'), 'required' => false, 'div' => false,  'title' => __('What is your middle name?'))); ?>
       </div>
       <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
-        <?php echo $this -> Form -> input('lastname', array('label' => __('Last name:'), 'required' => 'required', 'div' => false, 'data-options' => 'disable_for_touch:true', 'class' => 'has-tip', ' data-tooltip', 'title' => __('What is your last name?'))); ?>
+        <?php echo $this -> Form -> input('lastname', array('label' => __('Last name:'), 'required' => 'required', 'div' => false,  'title' => __('What is your last name?'))); ?>
         <small class="error"><?php echo __('Please enter your last name'); ?></small>
       </div>
     <div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns">
@@ -24,8 +24,7 @@
         <small class="error"><?php echo __('Please enter your last name'); ?></small>
       </div>
       <div class="large-6 medium-6 small-12 columns">
-        <?php $options = array(__('Pro'), __('Am'), __('Flow'), __('Just skate'));
-        echo $this -> Form -> input('status', array('options' => $options, 'default' => 3, 'label' => __('Status:'), 'required' => 'required', 'div' => false));
+        <?php echo $this -> Form -> input('status', array('options' => $Status, 'default' => 3, 'label' => __('Status:'), 'required' => 'required', 'div' => false));
  ?>
         <small class="error"><?php echo __('Please enter your last name'); ?></small>
       </div>
