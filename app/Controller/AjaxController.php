@@ -147,4 +147,10 @@ class AjaxController extends AppController {
     
     $this -> set('results',$result);
   }
+  /**
+   * Method to get edit form of information
+   */
+  public function getEditInfoForm(){
+    
+  }
 }

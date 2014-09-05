@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 04, 2014 at 09:22 AM
--- Server version: 5.6.12-log
+-- Generation Time: Sep 05, 2014 at 01:48 AM
+-- Server version: 5.1.41-community-log
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -224,6 +224,20 @@ INSERT INTO `skater_videos` (`id`, `video_id`, `skater_id`, `is_created_by_skate
 (5, 1, 3, NULL, '2014-08-18 12:52:56'),
 (6, 9, 7, NULL, '2014-08-25 02:46:28'),
 (7, 9, 8, NULL, '2014-08-25 02:46:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `statuses`
+--
+
+DROP TABLE IF EXISTS `statuses`;
+CREATE TABLE IF NOT EXISTS `statuses` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `status_title_en` varchar(100) NOT NULL,
+  `status_alias_en` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

@@ -7,6 +7,6 @@
   </div>
   <div class="detail_poster_container row">
     <a href="<?php echo Router::url('/skater/'.$PostContent['Skater']['id']); ?>"><img width="30" src="<?php echo $PostContent[0]['profile_img']; ?>" /></a> 
-    <a href="<?php echo Router::url('/skater/'.$PostContent['Skater']['id']); ?>"><?php echo $PostContent['Skater']['alias']; ?></a> is share a picture.
+    <a href="<?php echo Router::url('/skater/'.$PostContent['Skater']['id']); ?>"><?php echo $PostContent['Skater']['alias']; ?></a>
   </div>
 </div>

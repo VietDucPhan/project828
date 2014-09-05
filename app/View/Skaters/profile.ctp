@@ -1,19 +1,15 @@
 <div class="large-8 columns">
   <div class="large-12 medium-12 small-12 columns shadow content_container">
     <div class="detail_poster_container row">
-      Information <a href="#"><span class="right">edit</span></a>
+      Information <span data-ajax="getEditInfoForm" data-appear-to-class="detail_post_container" class="right edit"><?php echo __('Edit'); ?></span>
     </div>
     <div class="detail_post_container">
       <p>
-
-        Hometown: <?php //echo $skaterData['hometown']; ?>
-        <br/>
         Stance: <?php echo $Skater['Skater']['stance']; ?>
         <br/>
         Age: <?php echo $Skater['Skater']['birthdate']; ?>
         <br/>
         Status: <?php echo $Skater['Skater']['status']; ?>
-
       </p>
     </div>
   </div>
