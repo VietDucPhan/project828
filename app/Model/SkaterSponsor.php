@@ -62,7 +62,8 @@ class SkaterSponsor extends AppModel {
           )
         )
       );
-      $fields = array("IFNULL(ProfileImage.img_url,'$this->noImage') AS profile_img","Company.name","Company.id","Company.alias","Company.launched_year","Company.closed_year");
+      $fields = array("Company.name","Company.id","Company.alias","Company.launched_year","Company.closed_year",'SkaterSponsor.logo');
+      $this->virtualFields['logo'] = "IFNULL(ProfileImage.img_url,'$this->noImage')";
       $results = $this -> find('all',array('conditions'=>array('SkaterSponsor.skater_id'=>$id),
                 'joins'=>$joins,
                 'fields'=>$fields

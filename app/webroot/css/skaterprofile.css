@@ -1,3 +1,4 @@
+@import url(icons/foundation-icons.css);
 /*! normalize.css v3.0.1 | MIT License | git.io/normalize */
 /**
  * 1. Set default font family to sans-serif.
@@ -5808,7 +5809,7 @@ body .searchPanel {
     body .searchPanel li .name {
       float: left;
       margin: 14px 0 0 10px; }
-    body .searchPanel li .addButton {
+    body .searchPanel li .add-sponsor {
       position: absolute;
       top: 7px;
       right: 10px;
@@ -5892,6 +5893,12 @@ body .mainContent .content_container {
           body .mainContent .content_container .detail_post_container .notIn li .imgContainer img {
             max-width: 66px;
             display: inline; }
+    body .mainContent .content_container .detail_post_container #sponsor_containment .button {
+      padding: 4px 8px; }
+  body .mainContent .content_container .post-controller ul {
+    margin-bottom: 0; }
+    body .mainContent .content_container .post-controller ul li a:hover {
+      color: #444444; }
   body .mainContent .content_container .detail_poster_container {
     padding: 0.9375rem;
     background: #f2f2f2; }

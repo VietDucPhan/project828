@@ -14,7 +14,7 @@ class SkatersController extends AppController {
     $this -> loadModel('SkaterSponsor');
     $this -> loadModel('ContentSkaterRelation');
     $this -> loadModel('Status');
-    $this -> Auth -> allow('profile','add','edit');
+    $this -> Auth -> allow('profile','add','edit','addVideo');
   }
   
   /**
@@ -36,7 +36,7 @@ class SkatersController extends AppController {
       
       $SkaterSponsor = $this -> SkaterSponsor -> getAllSkaterSponsor($Skater['Skater']['id']); //$this -> SkaterSponsor -> find('all',array('conditions'=>array('SkaterSponsor.skater_id'=>$Skater['Skater']['id'])));
       //get all contents were posted by this skater or other skaters to this skater
-      $contentBelongToSkater = $this -> ContentSkaterRelation -> getContentBelongToSkater($Skater['Skater']['id']);
+      $contentBelongToSkater = $this -> Skater -> getContentBelongToSkater($Skater['Skater']['id']);
       
       if($Skater['Skater']['stance'] == 0){
         $Skater['Skater']['stance'] = __('Regular');
@@ -44,12 +44,14 @@ class SkatersController extends AppController {
         $Skater['Skater']['stance'] = __('Goofy');
       }
       
-      //print_r($contentBelongToSkater);
+      //print_r($result);
       $this -> set('Skater',$Skater);
       $this -> set('SkaterSponsors',$SkaterSponsor);
       $this -> set('AllPostCount',count($contentBelongToSkater));
+      //print_r($contentBelongToSkater);
     }
     catch(Exception $e) {
+      //return print_r($e->getMessage());
       $this -> layout = 'error';
     }
   }
@@ -75,8 +77,8 @@ class SkatersController extends AppController {
         if(!empty($this -> request -> data['AllPostContent']['cover_photo']['name'])){
           
           $image = $this -> request -> data['AllPostContent']['cover_photo'];
-          //$this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png')
-          if($this -> request -> data['AllPostContent']['img_url'] = '/img/cake.power.gif'){
+          $img_url = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'));
+          if($this -> request -> data['AllPostContent']['img_url'] = $img_url){
             
             if($this -> AllPostContent -> save($this -> request -> data) ){
               $this -> request -> data['Skater']['profile_img_id'] = $this -> AllPostContent -> getInsertID();
@@ -139,5 +141,47 @@ class SkatersController extends AppController {
        }
      }
    }
+   
+   /**
+    * Method to add video
+    */
+   public function addVideo(){
+     if($this -> request -> is('post')){
+       if($og = $this -> Utility -> getMetatags($this -> request -> data['AllPostContent']['video_link'])){
+         //return print_r($og);
+         //get video image
+         
+         
+         if(!empty($this -> request -> data['AllPostContent']['img_url']['name'])){
+           $image = $this -> request -> data['AllPostContent']['img_url'];
+           if(!$this -> request -> data['AllPostContent']['img_url'] = $this -> Utility -> upload($image['name'],$image['tmp_name'],$image['size'],array('jpg','png'))){
+             $this -> request -> data['AllPostContent']['img_url'] = $og['og']['image'];
+           }
+         } else {
+           $this -> request -> data['AllPostContent']['img_url'] = $og['og']['image'];
+         }
+         
+         //get video desc
+         if(empty($this -> request -> data['AllPostContent']['desc'])){
+           $this -> request -> data['AllPostContent']['desc'] = $og['og']['description'];
+         }
+
+         $this -> request -> data['AllPostContent']['video_embed'] = $og['og']['embed'];
+         $this -> request -> data['AllPostContent']['video_title'] = $og['og']['title'];
+         $this -> request -> data['AllPostContent']['is_added_by_skater'] = 0;
+         $this -> request -> data['AllPostContent']['content_type'] = 2;
+         $this -> request -> data['AllPostContent']['created_date'] = $this -> Utility -> dateToSql();
+         
+         if($this -> AllPostContent -> save($this -> request -> data)){
+           $this -> request -> data['ContentSkaterRelation']['content_id'] = $this -> AllPostContent -> getInsertID();
+           if($this -> ContentSkaterRelation -> save($this -> request -> data)){
+             $url = Router::url('/skater/'.$this -> request -> data['ContentSkaterRelation']['skater_id'] ,true);
+             return $this -> redirect($url);
+           }
+         }
+       }
+     }
+   }
+   
 
 }

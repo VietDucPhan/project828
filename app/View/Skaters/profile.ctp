@@ -1,4 +1,22 @@
+<?php //print_r($Skater) ?>
 <div class="large-8 columns">
+  <div class="large-12 medium-12 small-12 columns shadow content_container">
+    <div class="detail_poster_container post-controller row">
+      <ul class="inline-list">
+        <li><a data-reveal-id="add_video_popup" href="#"><i class="fi-video"></i> add a video</a></li>
+        <li>|</li>
+        <li><a data-reveal-id="add_photo_popup" href="#"><i class="fi-photo"></i> add a photo</a></li>
+      </ul>
+      <div id="add_video_popup" class="reveal-modal tiny" data-reveal>
+        <?php echo $this->element('forms/skater/add_video/default',array('skater_id'=>$Skater['Skater']['id']));  ?>
+        <a class="close-reveal-modal">×</a>
+      </div>
+      <div id="add_photo_popup" class="reveal-modal tiny" data-reveal>
+        <a class="close-reveal-modal">×</a>
+      </div>
+    </div>
+  </div>
+  
   <div class="large-12 medium-12 small-12 columns shadow content_container">
     <div class="detail_poster_container row">
       Information <span data-ajax-href="<?php echo Router::url('/ajax/getEditInfoForm/'.$Skater['Skater']['id']); ?>" data-html-append-to="#edit_information" class="right edit"><?php echo __('Edit'); ?></span>

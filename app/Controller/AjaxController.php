@@ -17,36 +17,38 @@ class AjaxController extends AppController {
     $this -> loadModel('Skater');
     $this -> loadModel('SkaterSponsor');
     $this -> loadModel('Status');
-    $this -> Auth -> allow('getCompanies','getVideos','getSkaters','getMetatags','getEditInfoForm','getEditSponsorForm');
+    $this -> Auth -> allow('getCompanies','getVideos','getSkaters','getMetatags','getEditInfoForm','getEditSponsorForm','addSponsor','removeSponsor');
   }
   /**
    * Method to get all companies
    */
   public function getCompanies(){
     $errorMessage = __('No results');
+    
     if($this -> request -> is('post')){
       //print_r($this -> request);
       // return false;
-      $conditions = array('Company.name LIKE' => '%'.$this->request->data['name'].'%');
-      $fields = array('Company.id','Company.name',"IFNULL(CompanyPostImage.url,'$this->noImage') AS url");
+      $notIn = $this -> SkaterSponsor -> find('list',array('conditions'=>array('SkaterSponsor.skater_id'=>$this->request->data['id']),
+                  'fields'=>array('SkaterSponsor.company_id')));
+      $conditions = array('Company.name LIKE' => '%'.$this->request->data['name'].'%',
+            'NOT' => array('Company.id'=>$notIn));
+      $fields = array('Company.id','Company.name','Company.logo');
       $joins = array(
         array(
-          'table' => 'company_post_images',
-          'alias' => 'CompanyPostImage',
+          'table' => 'all_post_contents',
+          'alias' => 'logo',
           'type' => 'LEFT',
           'conditions' => array(
-            'Company.profile_img_id = CompanyPostImage.id',
+            'Company.profile_img_id = logo.id',
           )
         )
        );
-      if(!empty($this->request->data['notIn'])){
-        $notIn['NOT']['Company.id'] = $this->request->data['notIn'];
-        $conditions = array_merge($conditions,$notIn);
-      }
       //print_r($conditions);
       //print_r($this->request->query);
       try{
+        $this -> Company -> virtualFields['logo'] = "IFNULL(`logo`.`img_url`,'$this->noImage')";
         $companies = $this -> Company -> find('all', array('conditions'=>$conditions,'fields'=>$fields,'joins'=>$joins));
+        
         if(empty($companies)){
           $companies = $errorMessage;
         } 
@@ -170,6 +172,43 @@ class AjaxController extends AppController {
     if(is_null($id)){
       throw new NotFoundException();
     }
-    $this -> set('SkaterSponsor',$this -> SkaterSponsor -> getAllSkaterSponsor($id));
+    $this -> set('skaterid',$id);
+    $this -> set('SkaterSponsors',$this -> SkaterSponsor -> getAllSkaterSponsor($id));
+  }
+  /**
+   * add sponsor
+   */
+  public function addSponsor(){
+    
+    if($this -> request -> is('post')){
+      //echo $this -> SkaterSponsor -> find('count',array('conditions'=>array('SkaterSponsor.skater_id'=>$this -> request -> data['id'],'SkaterSponsor.company_id'=>$this -> request -> data['sponsor'])));
+      if($this -> SkaterSponsor -> find('count',array('conditions'=>array('SkaterSponsor.skater_id'=>$this -> request -> data['id'],'SkaterSponsor.company_id'=>$this -> request -> data['sponsor']))) === 0){
+        
+        if($this -> SkaterSponsor -> save(array('SkaterSponsor'=>array('company_id'=>$this -> request -> data['sponsor'],'skater_id'=>$this -> request -> data['id'])))){
+          $Comapny = $this -> Company -> find('first',array('conditions'=>array('Company.id'=>$this -> request -> data['sponsor'])));
+          return $this -> set('result',array('succeed'=>true, 'html'=>'<div class="row"><div class="large-9 medium-9 small-9 columns">'.$Comapny['Company']['name'].'</div><div class="large-3 medium-3 small-3 columns"><span class="remove-sponsor button radius" data-id="'.$this -> request -> data['id'].'" data-sponsor="'.$this -> request -> data['sponsor'].'" href="'.Router::url('/ajax/removeSponsor/'.$this -> request -> data['id'].'/'.$this -> request -> data['sponsor']).'">delete</span></div></div>'));
+        } else {
+          return $this -> set('result',array('succeed'=>false));
+        }
+        
+      } else {
+        return $this -> set('result',array('succeed'=>false));
+      }
+    }
+    return $this -> set('result',array('succeed'=>false));
+  }
+  /**
+   * Method remove skater sponsor 
+   * @param int $skater_id
+   * @param int $company_id
+   */
+  public function removeSponsor($skater_id,$company_id){
+    $result = false;
+    if($this -> request -> is('get')){
+      if($this -> SkaterSponsor -> deleteAll(array('skater_id'=>$skater_id,'company_id'=>$company_id),false)){
+        $result = true;
+      }
+    }
+    return $this -> set('result',$result);
   }
 }

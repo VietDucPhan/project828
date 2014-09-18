@@ -3,8 +3,8 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 05, 2014 at 09:07 AM
--- Server version: 5.6.12-log
+-- Generation Time: Sep 18, 2014 at 04:24 PM
+-- Server version: 5.1.41-community-log
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -31,24 +31,24 @@ USE `project828`;
 DROP TABLE IF EXISTS `all_post_contents`;
 CREATE TABLE IF NOT EXISTS `all_post_contents` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `desc` text,
+  `desc` varchar(200) DEFAULT NULL,
   `img_url` varchar(255) DEFAULT NULL,
-  `embed_url` varchar(255) NOT NULL,
-  `link_url` varchar(255) DEFAULT NULL,
-  `link_img_url` varchar(255) DEFAULT NULL,
-  `link_title` varchar(255) DEFAULT NULL,
+  `video_title` varchar(255) DEFAULT NULL,
+  `video_embed` varchar(255) DEFAULT NULL,
+  `video_link_url` varchar(255) DEFAULT NULL,
+  `content_type` int(11) NOT NULL DEFAULT '1',
   `is_added_by_skater` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `all_post_contents`
 --
 
-INSERT INTO `all_post_contents` (`id`, `desc`, `img_url`, `embed_url`, `link_url`, `link_img_url`, `link_title`, `is_added_by_skater`, `created_date`) VALUES
-(1, NULL, '/img/cake.power.gif', '', NULL, NULL, NULL, 4, '0000-00-00 00:00:00'),
-(2, 'a normal insert of text', NULL, '//www.youtube.com/embed/cKJS74jrmaM?&end=94&autohide=1&fs=1&modestbranding=1&iv_load_policy=3&rel=0&showinfo=0&enablejsapi=1', 'https://www.youtube.com/watch?v=cKJS74jrmaM', 'https://i.ytimg.com/vi/cKJS74jrmaM/hqdefault.jpg', 'DERO密室游戏大脱逃第22集', 4, '2014-09-04 00:00:00');
+INSERT INTO `all_post_contents` (`id`, `desc`, `img_url`, `video_title`, `video_embed`, `video_link_url`, `content_type`, `is_added_by_skater`, `created_date`) VALUES
+(1, NULL, '/img/cake.power.gif', NULL, NULL, '', 0, 4, '0000-00-00 00:00:00'),
+(3, 'http://www.stinemusiclessons.com http://www.youtube.com/user/GuitarSongsChannel http://www.guitarzoom.com http://www.elevaterockschool.com This video shows t...', 'https://i.ytimg.com/vi/TzNiTas7RnY/hqdefault.jpg', 'Guitar Lesson - Night Moves by Bob Seger', '<iframe src="//www.youtube.com/embed/TzNiTas7RnY" frameborder="0" allowfullscreen></iframe>', NULL, 2, 0, '2014-09-18 16:18:22');
 
 -- --------------------------------------------------------
 
@@ -121,14 +121,15 @@ CREATE TABLE IF NOT EXISTS `content_skater_relations` (
   `skater_id` int(11) unsigned NOT NULL,
   `content_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `content_skater_relations`
 --
 
 INSERT INTO `content_skater_relations` (`id`, `skater_id`, `content_id`) VALUES
-(1, 4, 1);
+(1, 4, 1),
+(2, 4, 0);
 
 -- --------------------------------------------------------
 
@@ -184,20 +185,20 @@ CREATE TABLE IF NOT EXISTS `skater_sponsors` (
   `is_created_by_skater` int(11) DEFAULT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=27 ;
 
 --
 -- Dumping data for table `skater_sponsors`
 --
 
 INSERT INTO `skater_sponsors` (`id`, `company_id`, `skater_id`, `is_created_by_skater`, `created_date`) VALUES
-(2, 1, 4, NULL, '2014-08-09 04:22:30'),
+(26, 1, 4, NULL, '0000-00-00 00:00:00'),
 (3, 1, 7, NULL, '2014-08-09 06:04:00'),
 (4, 1, 11, NULL, '2014-08-12 04:59:27'),
 (5, 1, 12, NULL, '2014-08-15 15:03:52'),
 (10, 6, 7, NULL, '2014-08-18 13:22:05'),
 (11, 6, 6, NULL, '2014-08-18 13:22:05'),
-(12, 6, 4, NULL, '2014-08-18 13:22:05');
+(25, 2, 4, NULL, '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 

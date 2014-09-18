@@ -78,15 +78,16 @@ class UtilityComponent extends Component {
     switch (strtolower($metaTags['og']['site_name'])) {
       case 'youtube':
         parse_str( parse_url( $metaTags['og']['url'], PHP_URL_QUERY ), $my_array_of_vars );
-        $metaTags['og']['embed'] = '<div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns"><div class="flex-video"><iframe src="//www.youtube.com/embed/'.$my_array_of_vars['v'].'" frameborder="0" allowfullscreen></iframe></div></div>';
+        $metaTags['og']['embed'] = '<iframe src="//www.youtube.com/embed/'.$my_array_of_vars['v'].'" frameborder="0" allowfullscreen></iframe>';
         break;
         
       case 'vimeo':
         $vimeoId = (int) substr(parse_url($metaTags['og']['url'], PHP_URL_PATH), 1);
-        $metaTags['og']['embed'] = '<div class="large-9 medium-9 small-12 large-centered medium-centered small-centered columns"><div class="flex-video"><iframe src="//player.vimeo.com/video/'.$vimeoId.'" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>';
+        $metaTags['og']['embed'] = '<iframe src="//player.vimeo.com/video/'.$vimeoId.'" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
         break;
       default:
-        $metaTags['og']['embed'] = "<div class='large-9 medium-9 small-12 large-centered medium-centered small-centered columns'><img src='".$metaTags['og']['image']."'/></div>";
+        // $metaTags['og']['embed'] = "<div class='large-9 medium-9 small-12 large-centered medium-centered small-centered columns'><img src='".$metaTags['og']['image']."'/></div>";
+        $metaTags = false;
         break;
     }
     return $metaTags;

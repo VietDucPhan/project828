@@ -17,31 +17,25 @@ $('document').ready(function(){
     }
   }
   //get video part
-  function getContentAddSearch(dropDownPanelID,controller,action){
-    $('#'+dropDownPanelID).addClass('f-dropdown open').css('left',0);
-    var searchContentName = $('#'+dropDownPanelID+'-searchInput').val();
-    var notIn = [];
+  function getContentAddSearch(dropDownPanelID){
+    $('#'+dropDownPanelID).addClass('f-dropdown').css({left:0,top:'35px'});
+    var searchContentName = $('#'+dropDownPanelID+'-search-input').val();
+    var skaterid = $('#'+dropDownPanelID+'-search-input').data('id');
     var $i = 0;
-    //console.log(dropDownPanelID);
-    $('.'+dropDownPanelID+"-notIn").each(function() {
-        notIn[$i++] = $(this).val();
-    });
     //console.log(searchContentName);
     $.ajax({
       type:"post",
       url:"/ajax/"+dropDownPanelID,
-      data:{name:searchContentName,notIn:notIn}
+      data:{name:searchContentName,id:skaterid}
     }).done(function(content){
       var html = '';
       try {
         //console.log(content);
         var result = JSON.parse(content);
-        
-        window.result = result;
         var count = result.length;
         var name;
         var id;
-        var url;
+        var logo;
         $.each(result, function (key, data) {
           $.each(data, function(key, value){
             $.each(value, function(k, v){
@@ -52,14 +46,14 @@ $('document').ready(function(){
                 case 'id':
                   id = v;
                   break;
-                case 'url':
-                  url = v;
+                case 'logo':
+                  logo = v;
                   break;
                 
               }
             });
           });
-          html += '<li><div class="imgContainer"><img src="'+url+'" /></div><div class="name"><strong>' + name+ '</strong></div><a data-controller="'+controller+'" data-action="'+action+'" data-goto="'+dropDownPanelID+'-notIn'+'" data-value="' + id + '" data-name="' + name + '" data-url="'+url+'" class="addButton button radius" href="#">add</a></li>';
+          html += '<li><div class="imgContainer"><img src="'+logo+'" /></div><div class="name"><strong>' + name+ '</strong></div><a data-id="'+skaterid+'" data-sponsor="'+id+'" class="add-sponsor button radius" href="#">add</a></li>';
         });
         $("#"+dropDownPanelID).html(html);
       }
@@ -70,30 +64,34 @@ $('document').ready(function(){
     });
   }
   //add sponsor
-  function addToNotIn(e){
+  function addsponsor(e){
     flag = true;
-    var val = $(e).data('value');
-    var name = $(e).data('name');
-    var gotoNotIn = $(e).data('goto');
-    var controller = $(e).data('controller');
-    var action = $(e).data('action');
-    var url = $(e).data('url');
+    var id = $(e).data('id');
+    var sponsor = $(e).data('sponsor');
     //console.log(gotoNotIn);
-    var html = '<li><div class="imgContainer"><img src="'+url+'" /></div><div class="name"><strong>'+name+'</strong></div><input class="'+gotoNotIn+'" type="hidden" name="data['+controller+']['+action+'][]" value="'+val+'" /><span class="close_x removeButton">×</span></li>';
-    $(e).parent().fadeOut('fast');
-    $('#'+gotoNotIn).append(html).promise().done(function(){
-      flag = false;
+    $.ajax({
+      type:"post",
+      url:"/ajax/addSponsor",
+      data:{id:id,sponsor:sponsor}
+    }).done(function(content){
+      console.log(content);
+      var result = JSON.parse(content);
+      if(result.succeed == true){
+        $('#sponsor_containment').append(result.html);
+        $(e).parent().remove();
+      }
     });
+    flag = false;
     //console.log(window.resultCompany);
     //console.log(val);
   }
   //add sponsor
-  $(document).on('click','.addButton',function(){
+  $(document).on('click','.add-sponsor',function(){
     event.preventDefault();
     if(flag){
       return;
     }
-    addToNotIn(this);
+    addsponsor(this);
   });
   //remove sponsor
   function removeButton(e){
@@ -102,6 +100,23 @@ $('document').ready(function(){
       $(this).remove();
     });;
   }
+  function removeSponsor(e){
+    var href = $(e).data('href');
+    $.ajax({
+      type:'get',
+      url:href
+    }).done(function(content){
+      if(content){
+        $(e).parent().parent().remove();
+      } else {
+        alert('There was an error please try again latter');
+      }
+    });
+  }
+  $(document).on('click','.remove-sponsor',function(e){
+    e.preventDefault();
+    removeSponsor(this);
+  });
   //get ajax metatags
   function getMetatags(link){
     showLoading('parsed_link_container');
@@ -124,12 +139,11 @@ $('document').ready(function(){
     removeButton(this);
   });
   //search content
-  $('.ajaxContentAddSearch').keyup(function(){
+  $(document).on('keyup','.ajax-search-data',function(){
     var dropdownPanelId = $(this).data('dropdown');
-    var action = $(this).data('action');
-    var controller = $(this).data('controller');
-    showLoading(dropdownPanelId);
-    getContentAddSearch(dropdownPanelId,controller,action);
+    //console.log(dropdownPanelId);
+    showLoading('#'+dropdownPanelId);
+    getContentAddSearch(dropdownPanelId);
   });
   //parse link
   $('.getMetatags').on('keyup', function(e){
@@ -154,6 +168,10 @@ $('document').ready(function(){
       }
     });
   }
+  $(document).on('click','.ajax-reactivate',function(){
+    event.preventDefault();
+    $(document).foundation();
+  });
   $(document).on('click','.reload',function(){
     event.preventDefault();
     location.reload();
